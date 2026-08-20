@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { Mail, ArrowUpRight, Send, CheckCircle, ArrowRight, Star, Sparkles, BookOpen, Presentation } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
+import { AUDIENCE } from '../data/audienceStats';
 
 const interests = ['Sponsorship', 'Affiliate', 'Guest Post', 'Other'];
 
 const reachOut = [
-  { Icon: Star, label: 'Sponsorships', desc: 'Get your product in front of 129k+ engineers.' },
+  { Icon: Star, label: 'Sponsorships', desc: `Get your product in front of ${AUDIENCE.combinedLabel} engineers.` },
   { Icon: Sparkles, label: 'Affiliate Marketing', desc: 'Performance partnerships that fit the audience.' },
   { Icon: BookOpen, label: 'Guest Posts', desc: 'Share technical insights on Decoding AI Magazine.' },
 ];

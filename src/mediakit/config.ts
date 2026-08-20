@@ -8,9 +8,3 @@ export const SITE = {
     '/media/logo-final-02-4d87c666.webp',
 };
 
-export const LINKS = {
-  linkedin: 'https://www.linkedin.com/in/pauliusztin/',
-  substack: 'https://www.decodingai.com/',
-  x: 'https://x.com/pauliusztin_',
-  github: 'https://github.com/iusztinpaul',
-};

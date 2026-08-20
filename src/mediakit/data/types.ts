@@ -6,7 +6,6 @@
 // same shape from a published Google Sheet so updates need no redeploy.
 // ---------------------------------------------------------------------------
 
-export type ViewKey = string; // a year like "2025" / "2026", or "lifetime"
 
 export interface FollowerPoint {
   /** ISO-ish date label shown on the x-axis, e.g. "2025-01-15". */

@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import type { Dataset } from '../mediakit/data/types';
 import { yearHasData } from '../mediakit/data/types';
 import { loadDataset } from '../mediakit/data/load';
+import { AUDIENCE } from '../data/audienceStats';
 import { computeKpis, resolveView, viewOptions, LIFETIME } from '../mediakit/data/view';
 import { SITE } from '../mediakit/config';
 import LinkedInSection from '../mediakit/components/LinkedInSection';
@@ -33,7 +34,7 @@ function defaultViewKey(dataset: Dataset): string {
 
 const perks = [
   'A senior, technical audience of AI & data engineers',
-  '129k+ combined audience across platforms',
+  `${AUDIENCE.combinedLabel} combined audience across platforms`,
   'Millions of monthly impressions and views',
 ];
 
@@ -189,7 +190,7 @@ export default function MediaKit() {
         <ScrollReveal className="relative max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Sponsorship</Eyebrow>
           <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
-          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of 129k+ AI &amp; data engineers.</p>
+          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {AUDIENCE.combinedLabel} AI &amp; data engineers.</p>
           <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
             {perks.map((perk) => (
               <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">

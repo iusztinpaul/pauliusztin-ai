@@ -1749,8 +1749,8 @@ export const SNAPSHOT: Dataset = {
       "ytd": true,
       "linkedin": {
         "startFollowers": 86939,
-        "endFollowers": 110304,
-        "growthPct": 26.87516534581718,
+        "endFollowers": 110546,
+        "growthPct": 27.15352143456907,
         "followers": [
           {
             "date": "2026-01-15",
@@ -1954,7 +1954,7 @@ export const SNAPSHOT: Dataset = {
           },
           {
             "month": "Mar",
-            "impressions": 1318895,
+            "impressions": 371241,
             "engagements": 12330
           },
           {
@@ -1973,7 +1973,7 @@ export const SNAPSHOT: Dataset = {
             "engagements": 22492
           }
         ],
-        "totalImpressions": 3900000,
+        "totalImpressions": 2955000,
         "totalEngagements": 111047
       },
       "substack": {

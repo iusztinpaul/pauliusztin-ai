@@ -19,7 +19,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchDataset } from '../src/mediakit/data/sheet.ts';
 
-const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'mediakit', 'data', 'snapshot.ts');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const OUT = join(ROOT, 'src', 'mediakit', 'data', 'snapshot.ts');
+const STATS_OUT = join(ROOT, 'src', 'data', 'audienceStats.ts');
+
+/** 154_546 -> "154k+", matching how the Media Kit KPIs round. */
+const plusK = (n: number) => (n >= 1000 ? `${Math.floor(n / 1000)}k+` : String(n));
 
 try {
   const dataset = await fetchDataset();
@@ -36,9 +41,37 @@ try {
 
   writeFileSync(OUT, body);
 
+  // Headline audience figures quoted across the site (hero, navbar, CTAs).
+  // Generated so they track the sheet instead of drifting as hand-typed strings.
+  const latest = dataset.years.at(-1)!;
+  const linkedin = latest.linkedin.endFollowers;
+  const substack = latest.substack.totalSubscribers;
+  const combined = linkedin + substack;
+  writeFileSync(
+    STATS_OUT,
+    "// AUTO-GENERATED from the published Media Kit sheet by scripts/fetch-mediakit.ts.\n" +
+      "// Do not edit by hand — runs on build (prebuild) or `npm run fetch:mediakit`.\n" +
+      "// The audience figures quoted in copy across the site.\n" +
+      "export const AUDIENCE = {\n" +
+      `  /** Latest LinkedIn followers, e.g. ${linkedin.toLocaleString('en-US')}. */\n` +
+      `  linkedin: ${linkedin},\n` +
+      `  /** Latest Substack subscribers. */\n` +
+      `  substack: ${substack},\n` +
+      `  /** Both platforms combined. */\n` +
+      `  combined: ${combined},\n` +
+      `  /** "${plusK(combined)}" — for inline copy. */\n` +
+      `  combinedLabel: '${plusK(combined)}',\n` +
+      `  /** "${plusK(substack)}" — compact, for the navbar button. */\n` +
+      `  substackLabel: '${plusK(substack)}',\n` +
+      `  /** "${substack.toLocaleString('en-US')}+" — long form, for sentences. */\n` +
+      `  substackLabelFull: '${substack.toLocaleString('en-US')}+',\n` +
+      "} as const;\n",
+  );
+
   const years = dataset.years.map((y) => y.year).join(', ');
   const loc = dataset.years.at(-1)?.substack.location.length ?? 0;
   console.log(`[media-kit] baked snapshot: years ${years}, ${loc} countries, updated ${dataset.lastUpdated}`);
+  console.log(`[media-kit] baked audience stats: ${plusK(combined)} combined (LI ${linkedin.toLocaleString('en-US')} + SS ${substack.toLocaleString('en-US')})`);
 } catch (err) {
   console.warn(`[media-kit] could not refresh the snapshot (${(err as Error).message}); keeping the committed one`);
 }

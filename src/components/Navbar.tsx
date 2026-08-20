@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { AUDIENCE } from '../data/audienceStats';
 import Wordmark from './Wordmark';
 
 const navLinks = [
@@ -58,7 +59,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="btn btn-primary text-sm px-5 py-2.5"
           >
-            Join 40k+ Subscribers
+            Join {AUDIENCE.substackLabel} Subscribers
           </a>
         </div>
 
@@ -100,7 +101,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="btn btn-primary text-sm px-5 py-2.5 mt-1 self-start"
             >
-              Join 40k+ Subscribers
+              Join {AUDIENCE.substackLabel} Subscribers
             </a>
           </div>
         </>

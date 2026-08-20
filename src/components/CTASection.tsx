@@ -1,6 +1,7 @@
 import { ScrollReveal } from './PageTransition';
 import Eyebrow from './Eyebrow';
 import SubscribeForm from './SubscribeForm';
+import { AUDIENCE } from '../data/audienceStats';
 
 const DAI_LOGO =
   '/media/logo-final-02-4d87c666.webp';
@@ -28,7 +29,7 @@ export default function CTASection() {
         </div>
 
         <p className="text-brand-grey text-lg leading-relaxed max-w-xl">
-          Join 40,000+ engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
+          Join {AUDIENCE.substackLabelFull} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
         </p>
 
         <SubscribeForm />

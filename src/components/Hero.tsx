@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ScrollReveal } from './PageTransition';
+import { AUDIENCE } from '../data/audienceStats';
 import Eyebrow from './Eyebrow';
 
 // Squarespace serves this at 2041px; cap it to ~1000px (covers the 416px @2x
@@ -9,7 +10,7 @@ const AVATAR =
   '/media/professional-avatar-image-full-edited-2-47269356.webp';
 
 const stats = [
-  { value: '129k+', label: 'Audience' },
+  { value: AUDIENCE.combinedLabel, label: 'Audience' },
   { value: '#1', label: 'Bestselling author' },
   { value: '10+ yrs', label: 'Shipping AI' },
   { value: '20+', label: 'Apps shipped' },
