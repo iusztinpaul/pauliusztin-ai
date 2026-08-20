@@ -1,14 +1,17 @@
 // ---------------------------------------------------------------------------
 // Data model for the media kit.
 //
-// Everything the site renders comes from a `Dataset`. The snapshot in
-// `snapshot.ts` is the bundled fallback; `load.ts` can instead hydrate this
-// same shape from a published Google Sheet so updates need no redeploy.
+// One fixed period — currently 1 Aug 2025 to 31 Jul 2026 — not a set of years.
+// The sheet owns the dates (meta.period_start / period_end); nothing here
+// assumes a calendar year, so moving the window is a sheet edit.
+//
+// Everything the site renders comes from a `Dataset`. snapshot.ts is the
+// bundled fallback, baked from the same sheet at build time; load.ts hydrates
+// this shape live so updates need no redeploy.
 // ---------------------------------------------------------------------------
 
-
 export interface FollowerPoint {
-  /** ISO-ish date label shown on the x-axis, e.g. "2025-01-15". */
+  /** ISO date of the week end, e.g. "2026-07-31". */
   date: string;
   /** Cumulative NEW followers gained since the start of the period. */
   newFollowers: number;
@@ -20,13 +23,13 @@ export interface DemographicItem {
 }
 
 export interface MonthlyLinkedIn {
-  month: string; // "Jan" ... "Dec"
+  month: string; // "Aug" ... "Jul"
   impressions: number;
   engagements: number;
 }
 
 export interface TrafficPoint {
-  month: string; // "Jan" ... "Dec"
+  month: string; // "Aug" ... "Jul"
   traffic: number;
 }
 
@@ -41,22 +44,18 @@ export interface LocationItem {
 }
 
 /**
- * Current global audience snapshot (decoupled from the year toggle — location
- * is a "where are my readers now" snapshot, not a per-year total). Generated
- * from a Substack CSV by scripts/build-audience-location.mjs.
+ * Where the readers are *now* — a current snapshot, deliberately not tied to
+ * the period. Demographics work the same way: nobody asks what the audience's
+ * seniority mix was last August.
  */
 export interface AudienceLocation {
-  /** ISO date the snapshot was exported. */
-  updated: string;
-  /** Total subscribers across all countries (incl. ones the map can't draw). */
-  total: number;
   /** Number of countries with subscribers. */
   countries: number;
   /** Per-country breakdown, sorted by count desc. */
   items: LocationItem[];
 }
 
-export interface LinkedInYear {
+export interface LinkedInStats {
   startFollowers: number;
   endFollowers: number;
   growthPct: number;
@@ -68,45 +67,40 @@ export interface LinkedInYear {
   monthly: MonthlyLinkedIn[];
   totalImpressions: number;
   totalEngagements: number;
+  /** The figure shown as the KPI; falls back to endFollowers when unset. */
+  headlineAudience: number;
 }
 
-export interface SubstackYear {
+export interface SubstackStats {
   startFollowers: number;
   endFollowers: number;
   growthPct: number;
   followers: FollowerPoint[];
   traffic: TrafficPoint[];
   totalTraffic: number;
-  totalSubscribers: number;
   location: LocationItem[];
-}
-
-export interface YearData {
-  year: string; // "2025", "2026"
-  /** True when the period only covers part of the year (e.g. 2026 mid-year). */
-  ytd: boolean;
-  /** Last covered month for a YTD period, e.g. "Jun". */
-  through?: string;
-  linkedin: LinkedInYear;
-  substack: SubstackYear;
+  /** Subscribers is a different population from followers — see the sheet. */
+  headlineAudience: number;
 }
 
 export interface Dataset {
-  /** Human date the numbers were last refreshed. */
+  /** Human date the numbers were last refreshed, e.g. "August 2026". */
   lastUpdated: string;
-  /** Years present, oldest → newest. */
-  years: YearData[];
+  /** ISO period bounds from the sheet, used for the header label. */
+  periodStart: string;
+  periodEnd: string;
+  linkedin: LinkedInStats;
+  substack: SubstackStats;
 }
 
-/** A LinkedIn year carries data when it has a follower curve or demographics. */
-export function linkedInHasData(li: LinkedInYear): boolean {
+export function linkedInHasData(li: LinkedInStats): boolean {
   return li.followers.length > 0 || li.jobTitle.length > 0 || li.totalImpressions > 0;
 }
 
-export function substackHasData(ss: SubstackYear): boolean {
-  return ss.followers.length > 0 || ss.traffic.length > 0 || ss.totalSubscribers > 0;
+export function substackHasData(ss: SubstackStats): boolean {
+  return ss.followers.length > 0 || ss.traffic.length > 0 || ss.headlineAudience > 0;
 }
 
-export function yearHasData(y: YearData): boolean {
-  return linkedInHasData(y.linkedin) || substackHasData(y.substack);
+export function datasetHasData(d: Dataset): boolean {
+  return linkedInHasData(d.linkedin) || substackHasData(d.substack);
 }

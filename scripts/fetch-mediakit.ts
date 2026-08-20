@@ -28,7 +28,9 @@ const plusK = (n: number) => (n >= 1000 ? `${Math.floor(n / 1000)}k+` : String(n
 
 try {
   const dataset = await fetchDataset();
-  if (!dataset.years.length) throw new Error('sheet returned no years');
+  if (!dataset.linkedin.followers.length && !dataset.substack.followers.length) {
+    throw new Error('sheet returned no data');
+  }
 
   const body =
     "// AUTO-GENERATED from the published Media Kit sheet by scripts/fetch-mediakit.ts.\n" +
@@ -43,9 +45,9 @@ try {
 
   // Headline audience figures quoted across the site (hero, navbar, CTAs).
   // Generated so they track the sheet instead of drifting as hand-typed strings.
-  const latest = dataset.years.at(-1)!;
-  const linkedin = latest.linkedin.endFollowers;
-  const substack = latest.substack.totalSubscribers;
+  // Mirrors audienceOf(): the sheet's headline figure, else the period end.
+  const linkedin = dataset.linkedin.headlineAudience || dataset.linkedin.endFollowers;
+  const substack = dataset.substack.headlineAudience || dataset.substack.endFollowers;
   const combined = linkedin + substack;
   writeFileSync(
     STATS_OUT,
@@ -68,9 +70,8 @@ try {
       "} as const;\n",
   );
 
-  const years = dataset.years.map((y) => y.year).join(', ');
-  const loc = dataset.years.at(-1)?.substack.location.length ?? 0;
-  console.log(`[media-kit] baked snapshot: years ${years}, ${loc} countries, updated ${dataset.lastUpdated}`);
+  const loc = dataset.substack.location.length;
+  console.log(`[media-kit] baked snapshot: ${dataset.periodStart} → ${dataset.periodEnd}, ${loc} countries, updated ${dataset.lastUpdated}`);
   console.log(`[media-kit] baked audience stats: ${plusK(combined)} combined (LI ${linkedin.toLocaleString('en-US')} + SS ${substack.toLocaleString('en-US')})`);
 } catch (err) {
   console.warn(`[media-kit] could not refresh the snapshot (${(err as Error).message}); keeping the committed one`);

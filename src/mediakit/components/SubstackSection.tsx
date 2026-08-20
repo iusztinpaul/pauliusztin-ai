@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { SITE } from '../config';
-import type { AudienceLocation, SubstackYear } from '../data/types';
+import type { AudienceLocation, SubstackStats } from '../data/types';
 import ChartCard from './ChartCard';
 import EmptyState from './EmptyState';
 import GrowthChart from './charts/GrowthChart';
@@ -11,17 +11,16 @@ import Reveal from './Reveal';
 import SectionHeader from './SectionHeader';
 
 interface SubstackSectionProps {
-  data: SubstackYear;
+  data: SubstackStats;
   hasData: boolean;
-  year: string;
-  partial: boolean;
+  /** e.g. "Aug 2025 – Jul 2026" — the window every figure describes. */
+  period: string;
 }
 
 const compactTotal = (n: number) =>
   n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}k` : `${n}`;
 
-export default function SubstackSection({ data, hasData, year, partial }: SubstackSectionProps) {
-  const periodLabel = partial ? `${year} YTD` : year;
+export default function SubstackSection({ data, hasData, period }: SubstackSectionProps) {
 
   // Location rides along with the dataset — live from the sheet, or from the
   // snapshot baked off that same sheet at build time when it is unreachable.
@@ -45,7 +44,7 @@ export default function SubstackSection({ data, hasData, year, partial }: Substa
 
         {!hasData ? (
           <div className="mt-10">
-            <EmptyState year={year} />
+            <EmptyState period={period} />
           </div>
         ) : (
           <>
@@ -60,7 +59,7 @@ export default function SubstackSection({ data, hasData, year, partial }: Substa
                     endFollowers={data.endFollowers}
                     growthPct={data.growthPct}
                     unitLabel="followers"
-                    periodLabel={periodLabel}
+                    periodLabel={period}
                     gradientId="ss-growth"
                   />
                 </ChartCard>
