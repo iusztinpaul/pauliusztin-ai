@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-brand-black3 text-brand-white antialiased;
+    line-height: 1.5;
+    font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  /* ---- Brand gradient helpers ---- */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #d5342a, #e58925);
+  }
+  .gradient-bg { background: linear-gradient(135deg, #d5342a, #e58925); }
+  .gradient-bg-warm { background: linear-gradient(135deg, #e8ba00, #e58925, #d5342a); }
+  .dark-gradient-bg { background: linear-gradient(180deg, #131314, #232527, #414042); }
+
+  /* ---- Eyebrow kicker ---- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--brand-red, #d5342a);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 2px;
+    background: linear-gradient(90deg, #d5342a, #e58925);
+    border-radius: 2px;
+  }
+  .eyebrow--center { justify-content: center; }
+  .eyebrow--center::before { display: none; }
+
+  /* ---- Warm radial glow ---- */
+  .warm-glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.5;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(213,52,42,0.55), rgba(229,137,37,0.18) 55%, transparent 72%);
+  }
+
+  /* ---- Gradient hairline ---- */
+  .gradient-hairline {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #d5342a, #e58925, transparent);
+  }
+
+  /* ---- Cards ---- */
+  .card {
+    @apply bg-brand-black2 rounded-2xl border;
+    border-color: rgba(65, 64, 66, 0.3);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .card-hover:hover {
+    border-color: rgba(213, 52, 42, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 22px 48px -16px rgba(213, 52, 42, 0.18);
+  }
+
+  /* ---- Buttons ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #d5342a, #e58925);
+    color: #fff;
+    box-shadow: 0 10px 30px -10px rgba(213, 52, 42, 0.5);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.05) saturate(1.05);
+    box-shadow: 0 14px 36px -8px rgba(213, 52, 42, 0.6);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-red {
+    background: #d5342a;
+    color: #fff;
+    box-shadow: 0 10px 30px -12px rgba(213, 52, 42, 0.45);
+  }
+  .btn-red:hover { background: #b70000; transform: translateY(-1px); }
+  .btn-red:active { transform: scale(0.97); }
+  .btn-ghost-red {
+    border: 1px solid rgba(213, 52, 42, 0.55);
+    color: #d5342a;
+    background: transparent;
+  }
+  .btn-ghost-red:hover { border-color: #d5342a; background: rgba(213, 52, 42, 0.08); }
+  .btn-ghost {
+    border: 1px solid rgba(65, 64, 66, 0.6);
+    color: var(--brand-white, #fff);
+    background: transparent;
+  }
+  .btn-ghost:hover { border-color: rgba(213, 52, 42, 0.6); color: #d5342a; }
+  .btn-outline-red {
+    border: 2px solid #d5342a;
+    color: #d5342a;
+    background: transparent;
+  }
+  .btn-outline-red:hover { background: #d5342a; color: #fff; }
+
+  /* ---- Page header band ---- */
+  .page-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 18rem;
+    overflow: hidden;
+    padding: 5.5rem 0 4rem;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #d5342a, #e58925);
+    opacity: 0.8;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
+  }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(19,19,20,0.35), rgba(19,19,20,0.72));
+  }
+
+  /* ---- Name wordmark ---- */
+  .wordmark {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    font-size: 1.18rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    color: var(--brand-white, #fff);
+  }
+  .wordmark__mark { flex-shrink: 0; margin-bottom: 0.04em; }
+  .wordmark__ai {
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(135deg, #d5342a, #e58925);
+  }
+  .wordmark__caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.05em;
+    margin-left: 1px;
+    vertical-align: -0.12em;
+    background: linear-gradient(180deg, #d5342a, #e58925);
+    animation: caretBlink 0.9s steps(1) infinite;
+  }
+
+  /* ---- Tags / chips ---- */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: 9999px;
+    border: 1px solid;
+  }
+  .code-chip {
+    font-family: ui-monospace, monospace;
+    background: rgba(229,137,37,0.08);
+    border: 1px dashed rgba(229,137,37,0.4);
+    color: #e58925;
+    padding: 0.15rem 0.55rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .code-chip:hover { background: rgba(229,137,37,0.16); }
+
+  .section-spacing { @apply py-24; }
+}
+
+@keyframes caretBlink { 50% { opacity: 0; } }
+
+::selection { background: rgba(213,52,42,0.35); color: #fff; }

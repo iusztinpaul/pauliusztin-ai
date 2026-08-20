@@ -1,0 +1,208 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import type { Dataset } from '../mediakit/data/types';
+import { yearHasData } from '../mediakit/data/types';
+import { loadDataset } from '../mediakit/data/load';
+import { computeKpis, resolveView, viewOptions, LIFETIME } from '../mediakit/data/view';
+import { SITE } from '../mediakit/config';
+import LinkedInSection from '../mediakit/components/LinkedInSection';
+import SubstackSection from '../mediakit/components/SubstackSection';
+import CountUp from '../mediakit/components/CountUp';
+import { ScrollReveal } from '../components/PageTransition';
+import Eyebrow from '../components/Eyebrow';
+import { LinkedInIcon } from '../components/BrandIcons';
+
+const compactStat = (n: number): string => {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1000).toFixed(n >= 100_000 ? 0 : 1)}k`;
+  return `${n}`;
+};
+
+function defaultViewKey(dataset: Dataset): string {
+  // Default to the most recent *shown* year that has data, falling back to
+  // Lifetime — so the initial selection is always one of the visible options
+  // even once older years get archived out of the toggle.
+  const shownYears = viewOptions(dataset).filter((o) => o.key !== LIFETIME).map((o) => o.key);
+  const newestWithData = [...shownYears].reverse().find((key) => {
+    const y = dataset.years.find((yr) => yr.year === key);
+    return !!y && yearHasData(y);
+  });
+  return newestWithData ?? LIFETIME;
+}
+
+const perks = [
+  'A senior, technical audience of AI & data engineers',
+  '129k+ combined audience across platforms',
+  'Millions of monthly impressions and views',
+];
+
+export default function MediaKit() {
+  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [viewKey, setViewKey] = useState('');
+  const [platform, setPlatform] = useState('linkedin');
+  const chartsRef = useRef<HTMLElement>(null);
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const pendingScrollRef = useRef(false);
+
+  const changePlatform = (key: string) => {
+    if (key === platform) return;
+    pendingScrollRef.current = true;
+    setPlatform(key);
+  };
+
+  const changeView = (key: string) => {
+    if (key === viewKey) return;
+    pendingScrollRef.current = true;
+    setViewKey(key);
+  };
+
+  // Bring the start of the graphs just below the sticky controls after a
+  // platform or year switch. This runs AFTER the new section renders —
+  // scrolling synchronously in the click handler breaks on mobile, where the
+  // section's height change reflows the page mid-scroll and cancels the scroll.
+  useEffect(() => {
+    if (!pendingScrollRef.current) return;
+    pendingScrollRef.current = false;
+    const el = chartsRef.current;
+    if (!el) return;
+    const navH = window.matchMedia('(min-width: 768px)').matches ? 68 : 56;
+    const controlsH = controlsRef.current?.offsetHeight ?? 0;
+    const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - navH - controlsH - 12);
+    window.scrollTo({ top, behavior: 'smooth' });
+  }, [platform, viewKey]);
+
+  useEffect(() => {
+    let alive = true;
+    loadDataset().then((ds) => {
+      if (!alive) return;
+      setDataset(ds);
+      setViewKey(defaultViewKey(ds));
+    });
+    return () => { alive = false; };
+  }, []);
+
+  const options = useMemo(() => (dataset ? viewOptions(dataset) : []), [dataset]);
+  const view = useMemo(() => (dataset && viewKey ? resolveView(dataset, viewKey) : null), [dataset, viewKey]);
+  const kpis = useMemo(() => (view ? computeKpis(view) : []), [view]);
+
+  if (!dataset || !view) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-black1 border-t-brand-orange" />
+      </div>
+    );
+  }
+
+  const li = view.data.linkedin;
+  const ss = view.data.substack;
+  const tabs = [
+    { key: 'linkedin', name: 'LinkedIn', icon: <LinkedInIcon size={18} className="shrink-0" />, stat: view.hasLinkedIn ? `${compactStat(li.endFollowers)} followers` : 'No data yet' },
+    { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(ss.totalSubscribers)} subscribers` : 'No data yet' },
+  ];
+
+  return (
+    <div className="pt-24">
+      <section className="page-header">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-4">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">Media Kit</h1>
+          <p className="text-xl text-white/80">Audience, growth &amp; reach across platforms.</p>
+        </div>
+      </section>
+
+      {/* KPI hero */}
+      <section className="pt-12 pb-8">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* A closed year is done, not "updated" — only a live period carries a date.
+              Lifetime counts as live: buildLifetime flattens ytd to false, but it
+              aggregates the in-progress year. */}
+          <p className="text-center text-sm text-brand-grey mb-8">
+            {view.label} · {view.partial || view.key === LIFETIME ? `updated ${dataset.lastUpdated}` : 'final'}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {kpis.map((k, i) => (
+              <ScrollReveal key={`${viewKey}-${k.label}`} delay={i * 80}>
+                <div className="card card-hover h-full p-5 text-center md:text-left">
+                  <p className="text-3xl md:text-4xl font-extrabold gradient-text leading-none">
+                    {k.raw !== undefined && k.format ? <CountUp value={k.raw} format={k.format} /> : k.value}
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-brand-grey">{k.label}</p>
+                  {k.sub && <p className="mt-0.5 text-xs text-brand-grey font-semibold">{k.sub}</p>}
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Controls — platform + year */}
+      <div ref={controlsRef} className="sticky top-[56px] md:top-[68px] z-30 bg-brand-black3 md:bg-brand-black3/90 md:backdrop-blur-md border-y border-brand-black1/30">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex gap-3">
+            {tabs.map((t) => {
+              const on = platform === t.key;
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => changePlatform(t.key)}
+                  className={`px-3.5 py-2 rounded-xl border flex items-center gap-2.5 transition-colors ${on ? 'gradient-bg text-white border-transparent' : 'bg-brand-black2 border-brand-black1/50 text-brand-grey hover:text-brand-white hover:border-brand-black1'}`}
+                >
+                  {t.icon}
+                  <span className="flex flex-col items-start leading-tight text-left">
+                    <span className="text-[13px] font-semibold">{t.name}</span>
+                    <span className={`text-[11px] font-normal whitespace-nowrap ${on ? 'text-white/80' : 'text-brand-black1'}`}>{t.stat}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="inline-flex gap-1 p-1 rounded-full bg-brand-black2 border border-brand-black1/50">
+            {options.map((o) => (
+              <button
+                key={o.key}
+                onClick={() => changeView(o.key)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${viewKey === o.key ? 'bg-brand-white text-brand-black3' : 'text-brand-grey hover:text-brand-white'}`}
+              >
+                {o.key === LIFETIME ? 'Lifetime' : o.key}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Your charts — recharts sections, already on-brand */}
+      <section ref={chartsRef} className="pb-8" key={`${platform}-${viewKey}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          {platform === 'linkedin' ? (
+            <LinkedInSection data={li} hasData={view.hasLinkedIn} year={view.data.year} partial={view.partial} />
+          ) : (
+            <SubstackSection data={ss} hasData={view.hasSubstack} year={view.data.year} partial={view.partial} />
+          )}
+        </div>
+      </section>
+
+      {/* Sponsor CTA — matches the site CTA band */}
+      <section className="py-24 relative overflow-hidden mt-8">
+        <div className="absolute inset-0 bg-brand-black2" />
+        <div className="absolute top-0 left-0 right-0 gradient-hairline opacity-70" />
+        <div className="warm-glow" style={{ width: 420, height: 420, top: -120, left: '50%', transform: 'translateX(-50%)', opacity: 0.35 }} />
+        <ScrollReveal className="relative max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
+          <Eyebrow center>Sponsorship</Eyebrow>
+          <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
+          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of 129k+ AI &amp; data engineers.</p>
+          <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
+            {perks.map((perk) => (
+              <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full gradient-bg" />
+                {perk}
+              </li>
+            ))}
+          </ul>
+          <Link to="/contact" className="btn btn-primary px-8 py-3.5">
+            Get in touch<ArrowRight size={16} />
+          </Link>
+        </ScrollReveal>
+      </section>
+    </div>
+  );
+}
