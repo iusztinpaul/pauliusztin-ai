@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { asset } from '../lib/asset';
 import {
   ArrowRight, Code, Database, Layers, Cpu, Rocket, GitBranch,
   BookOpen, Terminal, Play, CheckCircle, Star, Mail, Sparkles,
@@ -9,7 +10,7 @@ import { ScrollReveal } from '../components/PageTransition';
 type Level = 'All' | 'Beginner' | 'Intermediate' | 'Advanced';
 
 const FLAGSHIP_IMG =
-  '/media/dark-bckg-option-1-f184cbae.webp';
+  asset('/media/dark-bckg-option-1-f184cbae.webp');
 
 const freeCourses = [
   { title: 'Agent Engineering Guide', level: 'Beginner' as const, description: "A 6-day email course on the critical design mistakes that silently break agentic systems. Learn to evaluate agent behavior, optimize planning loops, and architect systems that are reliable and production-ready.", link: 'https://email-course.towardsai.net/?ref=b3ab31&utm_source=decodingai&utm_medium=partner&utm_campaign=agent_engineering' },

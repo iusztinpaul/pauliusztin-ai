@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
+import { asset } from '../lib/asset';
 import { ArrowRight } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 
 const AVATAR =
-  '/media/professional-avatar-image-full-edited-2-47269356.webp';
+  asset('/media/professional-avatar-image-full-edited-2-47269356.webp');
 const DAI_LOGO =
-  '/media/logo-final-02-96e549da.webp';
+  asset('/media/logo-final-02-96e549da.webp');
 
 export default function About() {
   return (

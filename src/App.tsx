@@ -16,8 +16,10 @@ const MediaKit = lazy(() => import('./pages/MediaKit'));
 const Contact = lazy(() => import('./pages/Contact'));
 
 function App() {
+  // Vite's base only rewrites asset URLs; the router has to be told separately
+  // or every route 404s under a subpath.
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-brand-black3 flex flex-col">
         <Navbar />
         <main className="flex-1">

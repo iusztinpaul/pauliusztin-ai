@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { asset } from '../lib/asset';
 import { ExternalLink, BookOpen, Star, Sparkles, Copy, Check } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { TestimonialCard } from '../components/Testimonials';
 
-const BOOK_COVER = '/Handbook.png';
+const BOOK_COVER = asset('/Handbook.png');
 const BOOK_BANNER =
-  '/media/book-page-amazon-best-seller-banner-7-010de00f.webp';
+  asset('/media/book-page-amazon-best-seller-banner-7-010de00f.webp');
 
 const bookTestimonials = [
   { name: 'Akshit Bhalla', role: 'Product Data Scientist at Tesla', quote: "Exploring large language models (LLMs) and retrieval augmented generation (RAG)? I recently got my hands on LLM Engineer's Handbook by Paul Iusztin and Maxime Labonne, and I've been hooked ever since it arrived!" },
