@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { asset } from '../lib/asset';
 import { ArrowRight } from 'lucide-react';
 import { ScrollReveal } from './PageTransition';
 import { AUDIENCE } from '../data/audienceStats';
@@ -7,7 +8,7 @@ import Eyebrow from './Eyebrow';
 // Squarespace serves this at 2041px; cap it to ~1000px (covers the 416px @2x
 // display) so the hero isn't decoding a 2 MP image on every mobile load.
 const AVATAR =
-  '/media/professional-avatar-image-full-edited-2-47269356.webp';
+  asset('/media/professional-avatar-image-full-edited-2-47269356.webp');
 
 const stats = [
   { value: AUDIENCE.combinedLabel, label: 'Audience' },

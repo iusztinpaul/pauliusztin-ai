@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { asset } from '../lib/asset';
 import { ExternalLink } from 'lucide-react';
 import LogoBanner from '../components/LogoBanner';
 import Testimonials from '../components/Testimonials';
@@ -16,9 +17,9 @@ import {
 } from '../data/articles';
 
 const DAI_LOGO =
-  '/media/logo-final-02-d508b7da.webp';
+  asset('/media/logo-final-02-d508b7da.webp');
 const MAG_LOGO =
-  '/media/logo-final-02-d91e8005.webp';
+  asset('/media/logo-final-02-d91e8005.webp');
 
 export default function AIMagazine() {
   const [mode, setMode] = useState<ArticleMode>('latest');

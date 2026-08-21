@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { asset } from '../lib/asset';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { ScrollReveal } from './PageTransition';
 
@@ -6,7 +7,7 @@ const works = [
   {
     title: 'The Decoding AI Magazine',
     description: 'Real-world guides. From PoC purgatory to shipping AI products that work.',
-    image: '/media/home-page-a1710bff.webp',
+    image: asset('/media/home-page-a1710bff.webp'),
     to: '/aimagazine',
     cta: 'Find Out More',
     external: false,
@@ -14,7 +15,7 @@ const works = [
   {
     title: "LLM Engineer's Handbook",
     description: 'Master the art of engineering LLMs from concept to production.',
-    image: '/media/llm-engineer-s-handbook-1-06b8cc0f.webp',
+    image: asset('/media/llm-engineer-s-handbook-1-06b8cc0f.webp'),
     to: '/book',
     cta: 'Read More',
     external: false,
@@ -22,7 +23,7 @@ const works = [
   {
     title: 'Agent Engineering Course',
     description: 'From prompting models to engineering agents.',
-    image: '/media/brown-nova-tools-workflow-afc26156.webp',
+    image: asset('/media/brown-nova-tools-workflow-afc26156.webp'),
     to: 'https://course.pauliusztin.ai',
     cta: 'Go to Course',
     external: true,

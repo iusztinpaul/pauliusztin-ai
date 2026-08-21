@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { asset } from '../lib/asset';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ScrollReveal } from './PageTransition';
 import Eyebrow from './Eyebrow';
@@ -11,14 +12,14 @@ export interface Testimonial {
 }
 
 const testimonials: Testimonial[] = [
-  { name: 'Maxime Labonne', avatar: '/media/image-71aaad83.webp', quote: "Working with Paul on the LLM Engineer's Handbook showed me his unique ability to bridge the gap between theoretical AI and modern AI Engineering best practices." },
-  { name: 'Louis-Francois Bouchard', avatar: '/media/image-1-cf4811c9.webp', quote: "Paul is one of the rare people who truly understands both the technical depth of AI and how to teach it in a way that's engaging and actually clicks." },
-  { name: 'Maria Vechtomova', avatar: '/media/image-3-8d57f883.webp', quote: "Paul doesn't just talk about AI - he builds it, and when he talks, it's worth listening." },
-  { name: 'Eduardo Ordax', avatar: '/media/image-4-43e4dbb6.webp', quote: "If you are serious about building with AI and leave the hype behind, Paul is one of those folks you should follow." },
-  { name: 'Pau Labarta Bajo', avatar: '/media/image-5-68ba361e.webp', quote: "If it's decodable, Paul will decode it for you." },
-  { name: 'Miguel Otero Pedrido', avatar: '/media/image-6-c5273804.webp', quote: "In a world where most just talk about AI, Paul actually builds it. A true AI engineer, who shows how to create AI systems that actually work." },
-  { name: 'Hugo Bowne-Anderson', avatar: '/media/image-7-3bc46df6.webp', quote: "Decoding AI is an invaluable resource for technical builders to stay up to date in such a rapidly moving space: bookmark it!" },
-  { name: 'Shaw Talebi', avatar: '/media/image-8-3f2ec23b.webp', quote: "I've learned a lot from Paul. He's my go-to guy when it comes to MLOps." },
+  { name: 'Maxime Labonne', avatar: asset('/media/image-71aaad83.webp'), quote: "Working with Paul on the LLM Engineer's Handbook showed me his unique ability to bridge the gap between theoretical AI and modern AI Engineering best practices." },
+  { name: 'Louis-Francois Bouchard', avatar: asset('/media/image-1-cf4811c9.webp'), quote: "Paul is one of the rare people who truly understands both the technical depth of AI and how to teach it in a way that's engaging and actually clicks." },
+  { name: 'Maria Vechtomova', avatar: asset('/media/image-3-8d57f883.webp'), quote: "Paul doesn't just talk about AI - he builds it, and when he talks, it's worth listening." },
+  { name: 'Eduardo Ordax', avatar: asset('/media/image-4-43e4dbb6.webp'), quote: "If you are serious about building with AI and leave the hype behind, Paul is one of those folks you should follow." },
+  { name: 'Pau Labarta Bajo', avatar: asset('/media/image-5-68ba361e.webp'), quote: "If it's decodable, Paul will decode it for you." },
+  { name: 'Miguel Otero Pedrido', avatar: asset('/media/image-6-c5273804.webp'), quote: "In a world where most just talk about AI, Paul actually builds it. A true AI engineer, who shows how to create AI systems that actually work." },
+  { name: 'Hugo Bowne-Anderson', avatar: asset('/media/image-7-3bc46df6.webp'), quote: "Decoding AI is an invaluable resource for technical builders to stay up to date in such a rapidly moving space: bookmark it!" },
+  { name: 'Shaw Talebi', avatar: asset('/media/image-8-3f2ec23b.webp'), quote: "I've learned a lot from Paul. He's my go-to guy when it comes to MLOps." },
 ];
 
 const QUOTE_PATH =

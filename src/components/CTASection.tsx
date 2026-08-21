@@ -1,10 +1,11 @@
 import { ScrollReveal } from './PageTransition';
+import { asset } from '../lib/asset';
 import Eyebrow from './Eyebrow';
 import SubscribeForm from './SubscribeForm';
 import { AUDIENCE } from '../data/audienceStats';
 
 const DAI_LOGO =
-  '/media/logo-final-02-4d87c666.webp';
+  asset('/media/logo-final-02-4d87c666.webp');
 
 export default function CTASection() {
   return (
