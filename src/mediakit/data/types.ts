@@ -84,6 +84,20 @@ export interface SubstackStats {
   traffic: TrafficPoint[];
   totalTraffic: number;
   location: LocationItem[];
+  /**
+   * From a reader survey, NOT from platform analytics like LinkedIn's — a
+   * self-selected sample rather than a census. `surveyResponses` is what makes
+   * that legible on the page, so the panel states it rather than presenting
+   * these next to LinkedIn's figures as though they were the same kind of
+   * measurement. Company is by *type* here (Solo Founder, Non-Tech Enterprise),
+   * not by headcount.
+   */
+  jobTitle: DemographicItem[];
+  seniority: DemographicItem[];
+  industry: DemographicItem[];
+  companyType: DemographicItem[];
+  /** Number of survey responses behind the four charts above; 0 when unknown. */
+  surveyResponses: number;
 }
 
 /**
