@@ -24,8 +24,23 @@ export default function SubscribeForm({ buttonLabel = 'Subscribe' }: { buttonLab
     e.preventDefault();
     if (!email.trim()) return;
     // Popup blockers can veto window.open even on a click; fall back to this tab.
-    const opened = window.open(target, '_blank', 'noopener,noreferrer');
-    if (!opened) window.location.href = target;
+    //
+    // 'noopener' must NOT go in the features string: the spec says window.open
+    // returns null whenever it is set, so a successful open is indistinguishable
+    // from a blocked one and the fallback fires every time — opening the tab AND
+    // navigating this one to the same page. Sever the reference instead.
+    const opened = window.open(target, '_blank');
+    if (!opened) {
+      window.location.href = target;
+    } else {
+      // What rel="noopener" would have done, minus the null return value.
+      try {
+        opened.opener = null;
+      } catch {
+        // Some engines refuse this cross-origin. Harmless: the destination is
+        // our own Substack, and failing here must not break the handoff.
+      }
+    }
     setHandedOff(true);
   };
 
