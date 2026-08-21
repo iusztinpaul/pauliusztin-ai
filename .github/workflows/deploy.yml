@@ -7,6 +7,24 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Nothing on the site fetches Substack at load time — the browser cannot read
+  # /feed, which sends no Access-Control-Allow-Origin. So prebuild fetches the
+  # feed here, where there is no browser to enforce it, and bakes the result
+  # into src/data/*Articles.ts. Same for the audience figures in
+  # src/data/audienceStats.ts. Both are frozen until the next build, which is
+  # what this schedule is for.
+  #
+  # Wednesday 15:00 UTC: Decoding AI publishes Tuesday mornings, so this picks
+  # up each new issue about a day later.
+  #
+  # (The Media Kit page is unaffected either way: it reads the published sheet
+  # in the browser on every visit.)
+  #
+  # NOTE: GitHub disables scheduled workflows after 60 days with no repo
+  # activity, silently, and may drop or delay a run under load. Weekly means a
+  # missed run costs a full week — workflow_dispatch below reruns it by hand.
+  schedule:
+    - cron: '0 15 * * 3'
   workflow_dispatch:
 
 permissions:

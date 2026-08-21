@@ -175,11 +175,40 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
   };
 }
 
-/** The dataset exactly as the sheet describes it. Throws if any tab fails. */
-export async function fetchDataset(): Promise<Dataset> {
+export interface SheetResult {
+  /** Assembled from whatever came back. Fields behind a failed tab are empty. */
+  data: Dataset;
+  /** Tab names that could not be read, e.g. ['ss_location']. Empty on success. */
+  failed: string[];
+}
+
+/**
+ * The dataset as the sheet describes it, plus which tabs could not be read.
+ *
+ * Deliberately does NOT throw on a partial read, and deliberately does not
+ * substitute anything itself — that is fallback policy, and it differs by
+ * caller: the page patches the gaps from the snapshot and carries on, while
+ * the bake script refuses to write a snapshot built from a partial read.
+ *
+ * Previously this was Promise.all, so a single unreadable tab rejected the lot
+ * and dropped all nine to the snapshot with only a console warning. That is a
+ * bad failure here: the page still renders completely and plausibly, just with
+ * build-time numbers, so nothing looks wrong. Nine published tabs and gids that
+ * have already churned once make it a question of when, not if.
+ */
+export async function fetchDataset(): Promise<SheetResult> {
   const tabNames = Object.keys(TAB_GIDS);
-  const fetched = await Promise.all(tabNames.map(fetchTab));
+  const settled = await Promise.allSettled(tabNames.map(fetchTab));
   const tabs: Record<string, Row[]> = {};
-  tabNames.forEach((name, i) => (tabs[name] = fetched[i]));
-  return assemble(tabs);
+  const failed: string[] = [];
+  settled.forEach((result, i) => {
+    const name = tabNames[i];
+    if (result.status === 'fulfilled') {
+      tabs[name] = result.value;
+    } else {
+      tabs[name] = [];
+      failed.push(name);
+    }
+  });
+  return { data: assemble(tabs), failed };
 }

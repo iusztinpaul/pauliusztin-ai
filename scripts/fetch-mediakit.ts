@@ -28,7 +28,14 @@ const STATS_OUT = join(ROOT, 'src', 'data', 'audienceStats.ts');
 const plusK = (n: number) => (n >= 1000 ? `${Math.floor(n / 1000)}k+` : String(n));
 
 try {
-  const dataset = await fetchDataset();
+  const { data: dataset, failed } = await fetchDataset();
+  // The page can serve a partial read by patching the gaps from the snapshot.
+  // Baking one cannot: it would write those patched-in values back as the new
+  // snapshot, quietly promoting stale data to the fallback everything else
+  // depends on. Better to keep the committed one and say why.
+  if (failed.length) {
+    throw new Error(`unreadable tab(s): ${failed.join(', ')}`);
+  }
   if (!datasetIsSound(dataset)) {
     const zeroed = [
       dataset.linkedin.followers.some((p) => p.added > 0) ? null : 'linkedin',
