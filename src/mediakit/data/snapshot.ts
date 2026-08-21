@@ -1746,7 +1746,96 @@ export const SNAPSHOT: Dataset = {
         "atlasName": "Djibouti",
         "count": 1
       }
-    ]
+    ],
+    "jobTitle": [
+      {
+        "label": "Solutions Arch.",
+        "pct": 15
+      },
+      {
+        "label": "AI Eng.",
+        "pct": 11
+      },
+      {
+        "label": "Student",
+        "pct": 11
+      },
+      {
+        "label": "Technical Staff",
+        "pct": 9
+      },
+      {
+        "label": "Data Eng.",
+        "pct": 7
+      }
+    ],
+    "seniority": [
+      {
+        "label": "Staff / Principal",
+        "pct": 31
+      },
+      {
+        "label": "Mid",
+        "pct": 17
+      },
+      {
+        "label": "Senior",
+        "pct": 15
+      },
+      {
+        "label": "Manager / Dir.",
+        "pct": 13
+      },
+      {
+        "label": "Junior",
+        "pct": 7
+      }
+    ],
+    "industry": [
+      {
+        "label": "Fin. Services",
+        "pct": 15
+      },
+      {
+        "label": "E-comm. & Retail",
+        "pct": 13
+      },
+      {
+        "label": "Software & SaaS",
+        "pct": 11
+      },
+      {
+        "label": "Prof. Services",
+        "pct": 9
+      },
+      {
+        "label": "Health & Life Sci.",
+        "pct": 7
+      }
+    ],
+    "companyType": [
+      {
+        "label": "Solo / Freelance",
+        "pct": 19
+      },
+      {
+        "label": "Non-Tech Ent.",
+        "pct": 17
+      },
+      {
+        "label": "Large Tech Ent.",
+        "pct": 15
+      },
+      {
+        "label": "Scaleup",
+        "pct": 13
+      },
+      {
+        "label": "Startup",
+        "pct": 13
+      }
+    ],
+    "surveyResponses": 0
   },
   "current": {
     "linkedin": 110389,

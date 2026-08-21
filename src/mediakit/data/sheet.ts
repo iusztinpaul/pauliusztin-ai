@@ -36,6 +36,7 @@ const TAB_GIDS: Record<string, string> = {
   ss_subscribers: '787757660',
   ss_traffic: '1986229077',
   ss_location: '693403476',
+  ss_demographics: '490418416',
 };
 type Row = Record<string, string | number | null>;
 
@@ -85,12 +86,25 @@ const num = (v: string | number | null | undefined): number => {
 };
 const str = (v: string | number | null | undefined): string => (v == null ? '' : String(v).trim());
 
-const DEMO_KEYS: Record<string, keyof Pick<LinkedInStats, 'jobTitle' | 'seniority' | 'industry' | 'companySize'>> = {
+const DEMO_KEYS: Record<string, string> = {
   job_title: 'jobTitle',
   seniority: 'seniority',
   industry: 'industry',
   company_size: 'companySize',
+  company_type: 'companyType',
 };
+
+/** chart/label/pct rows -> buckets. Unknown chart names are ignored. */
+function demographics(rows: Row[]): Record<string, DemographicItem[]> {
+  const out: Record<string, DemographicItem[]> = {
+    jobTitle: [], seniority: [], industry: [], companySize: [], companyType: [],
+  };
+  rows.forEach((r) => {
+    const key = DEMO_KEYS[str(r.chart).toLowerCase().replace(/\s+/g, '_')];
+    if (key) out[key].push({ label: str(r.label), pct: num(r.pct) });
+  });
+  return out;
+}
 
 /** summary is a metric/value table; read it into a lookup. */
 function metrics(rows: Row[]): Record<string, number> {
@@ -104,23 +118,18 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
   tabs.meta.forEach((r) => { const k = str(r.key); if (k) meta[k] = str(r.value); });
   const m = metrics(tabs.summary);
 
-  const demographics: Record<string, DemographicItem[]> = {
-    jobTitle: [], seniority: [], industry: [], companySize: [],
-  };
-  tabs.li_demographics.forEach((r) => {
-    const key = DEMO_KEYS[str(r.chart).toLowerCase().replace(/\s+/g, '_')];
-    if (key) demographics[key].push({ label: str(r.label), pct: num(r.pct) });
-  });
+  const li = demographics(tabs.li_demographics);
+  const ss = demographics(tabs.ss_demographics);
 
   const linkedin: LinkedInStats = {
     startFollowers: m.li_start_followers ?? 0,
     endFollowers: m.li_end_followers ?? 0,
     growthPct: m.li_growth_pct ?? 0,
     followers: tabs.li_followers.map((r) => ({ date: str(r.date), added: num(r.new_followers) })),
-    jobTitle: demographics.jobTitle,
-    seniority: demographics.seniority,
-    industry: demographics.industry,
-    companySize: demographics.companySize,
+    jobTitle: li.jobTitle,
+    seniority: li.seniority,
+    industry: li.industry,
+    companySize: li.companySize,
     monthly: tabs.li_monthly.map((r) => ({
       month: str(r.month), impressions: num(r.impressions), engagements: num(r.engagements),
     })),
@@ -143,6 +152,11 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
       // Shades the choropleth and fills the hover tooltip; absent → pct is used.
       count: num(r.count) || undefined,
     })),
+    jobTitle: ss.jobTitle,
+    seniority: ss.seniority,
+    industry: ss.industry,
+    companyType: ss.companyType,
+    surveyResponses: m.ss_survey_responses ?? 0,
   };
 
   return {
