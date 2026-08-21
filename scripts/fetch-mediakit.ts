@@ -18,6 +18,7 @@ import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchDataset } from '../src/mediakit/data/sheet.ts';
+import { datasetIsSound } from '../src/mediakit/data/types.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'src', 'mediakit', 'data', 'snapshot.ts');
@@ -28,8 +29,12 @@ const plusK = (n: number) => (n >= 1000 ? `${Math.floor(n / 1000)}k+` : String(n
 
 try {
   const dataset = await fetchDataset();
-  if (!dataset.linkedin.followers.length && !dataset.substack.followers.length) {
-    throw new Error('sheet returned no data');
+  if (!datasetIsSound(dataset)) {
+    const zeroed = [
+      dataset.linkedin.followers.some((p) => p.added > 0) ? null : 'linkedin',
+      dataset.substack.subscribers.some((p) => p.added > 0) ? null : 'substack',
+    ].filter(Boolean);
+    throw new Error(`zeroed series: ${zeroed.join(', ')}`);
   }
 
   const body =
@@ -45,9 +50,11 @@ try {
 
   // Headline audience figures quoted across the site (hero, navbar, CTAs).
   // Generated so they track the sheet instead of drifting as hand-typed strings.
-  // Mirrors audienceOf(): the sheet's headline figure, else the period end.
-  const linkedin = dataset.linkedin.headlineAudience || dataset.linkedin.endFollowers;
-  const substack = dataset.substack.headlineAudience || dataset.substack.endFollowers;
+  //
+  // These are the sheet's *present-day* figures, not the media kit's period-end
+  // ones: "join 44k+ subscribers" is a claim about today, and the two diverge
+  // as soon as the window closes.
+  const { linkedin, substack } = dataset.current;
   const combined = linkedin + substack;
   writeFileSync(
     STATS_OUT,

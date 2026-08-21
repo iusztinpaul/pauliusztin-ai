@@ -33,7 +33,7 @@ const TAB_GIDS: Record<string, string> = {
   li_followers: '1217194287',
   li_monthly: '221210840',
   li_demographics: '811091259',
-  ss_followers: '1280245988',
+  ss_subscribers: '1280245988',
   ss_traffic: '2013769470',
   ss_location: '752342125',
 };
@@ -116,7 +116,7 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
     startFollowers: m.li_start_followers ?? 0,
     endFollowers: m.li_end_followers ?? 0,
     growthPct: m.li_growth_pct ?? 0,
-    followers: tabs.li_followers.map((r) => ({ date: str(r.date), newFollowers: num(r.new_followers) })),
+    followers: tabs.li_followers.map((r) => ({ date: str(r.date), added: num(r.new_followers) })),
     jobTitle: demographics.jobTitle,
     seniority: demographics.seniority,
     industry: demographics.industry,
@@ -126,14 +126,13 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
     })),
     totalImpressions: m.li_total_impressions ?? 0,
     totalEngagements: m.li_total_engagements ?? 0,
-    headlineAudience: m.li_followers_kpi ?? 0,
   };
 
   const substack: SubstackStats = {
-    startFollowers: m.ss_start_followers ?? 0,
-    endFollowers: m.ss_end_followers ?? 0,
+    startSubscribers: m.ss_start_subscribers ?? 0,
+    endSubscribers: m.ss_end_subscribers ?? 0,
     growthPct: m.ss_growth_pct ?? 0,
-    followers: tabs.ss_followers.map((r) => ({ date: str(r.date), newFollowers: num(r.new_followers) })),
+    subscribers: tabs.ss_subscribers.map((r) => ({ date: str(r.date), added: num(r.new_subscribers) })),
     traffic: tabs.ss_traffic.map((r) => ({ month: str(r.month), traffic: num(r.traffic) })),
     totalTraffic: m.ss_total_traffic ?? 0,
     // Where the readers are now — a snapshot, not a figure for the period.
@@ -144,7 +143,6 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
       // Shades the choropleth and fills the hover tooltip; absent → pct is used.
       count: num(r.count) || undefined,
     })),
-    headlineAudience: m.ss_subscribers ?? 0,
   };
 
   return {
@@ -153,6 +151,13 @@ export function assemble(tabs: Record<string, Row[]>): Dataset {
     periodEnd: meta.period_end ?? '',
     linkedin,
     substack,
+    // Today's figures, for copy elsewhere on the site. They drift past the
+    // period end, so they are entered by hand rather than derived — falling
+    // back to the period end keeps the site sane if the cells are blank.
+    current: {
+      linkedin: m.li_current_followers || linkedin.endFollowers,
+      substack: m.ss_current_subscribers || substack.endSubscribers,
+    },
   };
 }
 

@@ -26,12 +26,7 @@ export default function SubstackSection({ data, hasData, period }: SubstackSecti
   // snapshot baked off that same sheet at build time when it is unreachable.
   const audience: AudienceLocation = useMemo(() => {
     const items = [...data.location].sort((a, b) => (b.count ?? b.pct) - (a.count ?? a.pct));
-    return {
-      updated: '',
-      total: items.reduce((sum, i) => sum + (i.count ?? 0), 0),
-      countries: items.length,
-      items,
-    };
+    return { countries: items.length, items };
   }, [data.location]);
 
   return (
@@ -54,11 +49,11 @@ export default function SubstackSection({ data, hasData, period }: SubstackSecti
               <Reveal>
                 <ChartCard>
                   <GrowthChart
-                    points={data.followers}
-                    startFollowers={data.startFollowers}
-                    endFollowers={data.endFollowers}
+                    points={data.subscribers}
+                    startValue={data.startSubscribers}
+                    endValue={data.endSubscribers}
                     growthPct={data.growthPct}
-                    unitLabel="followers"
+                    unitLabel="subscribers"
                     periodLabel={period}
                     gradientId="ss-growth"
                   />

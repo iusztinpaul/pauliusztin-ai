@@ -16,211 +16,211 @@ export const SNAPSHOT: Dataset = {
     "followers": [
       {
         "date": "2025-08-08",
-        "newFollowers": 750
+        "added": 750
       },
       {
         "date": "2025-08-15",
-        "newFollowers": 1805
+        "added": 1805
       },
       {
         "date": "2025-08-22",
-        "newFollowers": 3409
+        "added": 3409
       },
       {
         "date": "2025-08-29",
-        "newFollowers": 4773
+        "added": 4773
       },
       {
         "date": "2025-09-05",
-        "newFollowers": 5457
+        "added": 5457
       },
       {
         "date": "2025-09-12",
-        "newFollowers": 6662
+        "added": 6662
       },
       {
         "date": "2025-09-19",
-        "newFollowers": 7597
+        "added": 7597
       },
       {
         "date": "2025-09-26",
-        "newFollowers": 8850
+        "added": 8850
       },
       {
         "date": "2025-10-03",
-        "newFollowers": 9656
+        "added": 9656
       },
       {
         "date": "2025-10-10",
-        "newFollowers": 10291
+        "added": 10291
       },
       {
         "date": "2025-10-17",
-        "newFollowers": 11186
+        "added": 11186
       },
       {
         "date": "2025-10-24",
-        "newFollowers": 13092
+        "added": 13092
       },
       {
         "date": "2025-10-31",
-        "newFollowers": 13708
+        "added": 13708
       },
       {
         "date": "2025-11-07",
-        "newFollowers": 14656
+        "added": 14656
       },
       {
         "date": "2025-11-14",
-        "newFollowers": 15567
+        "added": 15567
       },
       {
         "date": "2025-11-21",
-        "newFollowers": 16345
+        "added": 16345
       },
       {
         "date": "2025-11-28",
-        "newFollowers": 16978
+        "added": 16978
       },
       {
         "date": "2025-12-05",
-        "newFollowers": 17379
+        "added": 17379
       },
       {
         "date": "2025-12-12",
-        "newFollowers": 18201
+        "added": 18201
       },
       {
         "date": "2025-12-19",
-        "newFollowers": 18582
+        "added": 18582
       },
       {
         "date": "2025-12-26",
-        "newFollowers": 19505
+        "added": 19505
       },
       {
         "date": "2026-01-02",
-        "newFollowers": 20471
+        "added": 20471
       },
       {
         "date": "2026-01-09",
-        "newFollowers": 21342
+        "added": 21342
       },
       {
         "date": "2026-01-16",
-        "newFollowers": 22132
+        "added": 22132
       },
       {
         "date": "2026-01-23",
-        "newFollowers": 22634
+        "added": 22634
       },
       {
         "date": "2026-01-30",
-        "newFollowers": 23699
+        "added": 23699
       },
       {
         "date": "2026-02-06",
-        "newFollowers": 24527
+        "added": 24527
       },
       {
         "date": "2026-02-13",
-        "newFollowers": 25529
+        "added": 25529
       },
       {
         "date": "2026-02-20",
-        "newFollowers": 27287
+        "added": 27287
       },
       {
         "date": "2026-02-27",
-        "newFollowers": 28032
+        "added": 28032
       },
       {
         "date": "2026-03-06",
-        "newFollowers": 28859
+        "added": 28859
       },
       {
         "date": "2026-03-13",
-        "newFollowers": 29387
+        "added": 29387
       },
       {
         "date": "2026-03-20",
-        "newFollowers": 30836
+        "added": 30836
       },
       {
         "date": "2026-03-27",
-        "newFollowers": 31326
+        "added": 31326
       },
       {
         "date": "2026-04-03",
-        "newFollowers": 31860
+        "added": 31860
       },
       {
         "date": "2026-04-10",
-        "newFollowers": 32533
+        "added": 32533
       },
       {
         "date": "2026-04-17",
-        "newFollowers": 33196
+        "added": 33196
       },
       {
         "date": "2026-04-24",
-        "newFollowers": 34082
+        "added": 34082
       },
       {
         "date": "2026-05-01",
-        "newFollowers": 34756
+        "added": 34756
       },
       {
         "date": "2026-05-08",
-        "newFollowers": 35862
+        "added": 35862
       },
       {
         "date": "2026-05-15",
-        "newFollowers": 36839
+        "added": 36839
       },
       {
         "date": "2026-05-22",
-        "newFollowers": 37845
+        "added": 37845
       },
       {
         "date": "2026-05-29",
-        "newFollowers": 38903
+        "added": 38903
       },
       {
         "date": "2026-06-05",
-        "newFollowers": 39981
+        "added": 39981
       },
       {
         "date": "2026-06-12",
-        "newFollowers": 40914
+        "added": 40914
       },
       {
         "date": "2026-06-19",
-        "newFollowers": 41969
+        "added": 41969
       },
       {
         "date": "2026-06-26",
-        "newFollowers": 43093
+        "added": 43093
       },
       {
         "date": "2026-07-03",
-        "newFollowers": 44237
+        "added": 44237
       },
       {
         "date": "2026-07-10",
-        "newFollowers": 45778
+        "added": 45778
       },
       {
         "date": "2026-07-17",
-        "newFollowers": 46771
+        "added": 46771
       },
       {
         "date": "2026-07-24",
-        "newFollowers": 47753
+        "added": 47753
       },
       {
         "date": "2026-07-31",
-        "newFollowers": 48754
+        "added": 48754
       }
     ],
     "jobTitle": [
@@ -295,19 +295,19 @@ export const SNAPSHOT: Dataset = {
         "pct": 23
       },
       {
-        "label": "1k–5k EEs",
+        "label": "1k\u20135k EEs",
         "pct": 10
       },
       {
-        "label": "11–50 EEs",
+        "label": "11\u201350 EEs",
         "pct": 10
       },
       {
-        "label": "51–200 EEs",
+        "label": "51\u2013200 EEs",
         "pct": 9
       },
       {
-        "label": "1–10 EEs",
+        "label": "1\u201310 EEs",
         "pct": 8
       }
     ],
@@ -374,221 +374,220 @@ export const SNAPSHOT: Dataset = {
       }
     ],
     "totalImpressions": 7254039,
-    "totalEngagements": 244442,
-    "headlineAudience": 0
+    "totalEngagements": 244442
   },
   "substack": {
-    "startFollowers": 35412,
-    "endFollowers": 53584,
-    "growthPct": 51.3,
-    "followers": [
+    "startSubscribers": 27495,
+    "endSubscribers": 43033,
+    "growthPct": 56.5,
+    "subscribers": [
       {
         "date": "2025-08-08",
-        "newFollowers": 531
+        "added": 429
       },
       {
         "date": "2025-08-15",
-        "newFollowers": 1033
+        "added": 793
       },
       {
         "date": "2025-08-22",
-        "newFollowers": 1619
+        "added": 1229
       },
       {
         "date": "2025-08-29",
-        "newFollowers": 2315
+        "added": 1709
       },
       {
         "date": "2025-09-05",
-        "newFollowers": 2994
+        "added": 2182
       },
       {
         "date": "2025-09-12",
-        "newFollowers": 3615
+        "added": 2611
       },
       {
         "date": "2025-09-19",
-        "newFollowers": 4120
+        "added": 2953
       },
       {
         "date": "2025-09-26",
-        "newFollowers": 4763
+        "added": 3507
       },
       {
         "date": "2025-10-03",
-        "newFollowers": 5251
+        "added": 3940
       },
       {
         "date": "2025-10-10",
-        "newFollowers": 5542
+        "added": 4172
       },
       {
         "date": "2025-10-17",
-        "newFollowers": 5799
+        "added": 4394
       },
       {
         "date": "2025-10-24",
-        "newFollowers": 6184
+        "added": 4688
       },
       {
         "date": "2025-10-31",
-        "newFollowers": 6644
+        "added": 5048
       },
       {
         "date": "2025-11-07",
-        "newFollowers": 6996
+        "added": 5374
       },
       {
         "date": "2025-11-14",
-        "newFollowers": 7325
+        "added": 5594
       },
       {
         "date": "2025-11-21",
-        "newFollowers": 7669
+        "added": 5870
       },
       {
         "date": "2025-11-28",
-        "newFollowers": 7933
+        "added": 6147
       },
       {
         "date": "2025-12-05",
-        "newFollowers": 8273
+        "added": 6436
       },
       {
         "date": "2025-12-12",
-        "newFollowers": 8520
+        "added": 6654
       },
       {
         "date": "2025-12-19",
-        "newFollowers": 8851
+        "added": 6926
       },
       {
         "date": "2025-12-26",
-        "newFollowers": 9202
+        "added": 7237
       },
       {
         "date": "2026-01-02",
-        "newFollowers": 9759
+        "added": 7621
       },
       {
         "date": "2026-01-09",
-        "newFollowers": 10080
+        "added": 7858
       },
       {
         "date": "2026-01-16",
-        "newFollowers": 10345
+        "added": 8066
       },
       {
         "date": "2026-01-23",
-        "newFollowers": 10572
+        "added": 8249
       },
       {
         "date": "2026-01-30",
-        "newFollowers": 10768
+        "added": 8442
       },
       {
         "date": "2026-02-06",
-        "newFollowers": 11053
+        "added": 8654
       },
       {
         "date": "2026-02-13",
-        "newFollowers": 11364
+        "added": 8848
       },
       {
         "date": "2026-02-20",
-        "newFollowers": 11666
+        "added": 9093
       },
       {
         "date": "2026-02-27",
-        "newFollowers": 11873
+        "added": 9268
       },
       {
         "date": "2026-03-06",
-        "newFollowers": 12035
+        "added": 9440
       },
       {
         "date": "2026-03-13",
-        "newFollowers": 12219
+        "added": 9627
       },
       {
         "date": "2026-03-20",
-        "newFollowers": 12418
+        "added": 9813
       },
       {
         "date": "2026-03-27",
-        "newFollowers": 12857
+        "added": 10223
       },
       {
         "date": "2026-04-03",
-        "newFollowers": 13159
+        "added": 10490
       },
       {
         "date": "2026-04-10",
-        "newFollowers": 13539
+        "added": 10851
       },
       {
         "date": "2026-04-17",
-        "newFollowers": 13706
+        "added": 11169
       },
       {
         "date": "2026-04-24",
-        "newFollowers": 13935
+        "added": 11420
       },
       {
         "date": "2026-05-01",
-        "newFollowers": 14147
+        "added": 11608
       },
       {
         "date": "2026-05-08",
-        "newFollowers": 14341
+        "added": 11827
       },
       {
         "date": "2026-05-15",
-        "newFollowers": 14576
+        "added": 12042
       },
       {
         "date": "2026-05-22",
-        "newFollowers": 14917
+        "added": 12356
       },
       {
         "date": "2026-05-29",
-        "newFollowers": 15166
+        "added": 12580
       },
       {
         "date": "2026-06-05",
-        "newFollowers": 15541
+        "added": 12945
       },
       {
         "date": "2026-06-12",
-        "newFollowers": 15905
+        "added": 13255
       },
       {
         "date": "2026-06-19",
-        "newFollowers": 16318
+        "added": 13596
       },
       {
         "date": "2026-06-26",
-        "newFollowers": 16706
+        "added": 13992
       },
       {
         "date": "2026-07-03",
-        "newFollowers": 16959
+        "added": 14290
       },
       {
         "date": "2026-07-10",
-        "newFollowers": 17129
+        "added": 14497
       },
       {
         "date": "2026-07-17",
-        "newFollowers": 17434
+        "added": 14806
       },
       {
         "date": "2026-07-24",
-        "newFollowers": 17763
+        "added": 15136
       },
       {
         "date": "2026-07-31",
-        "newFollowers": 18172
+        "added": 15538
       }
     ],
     "traffic": [
@@ -740,7 +739,7 @@ export const SNAPSHOT: Dataset = {
         "count": 449
       },
       {
-        "country": "Türkiye",
+        "country": "T\u00fcrkiye",
         "pct": 1,
         "atlasName": "Turkey",
         "count": 423
@@ -1106,9 +1105,9 @@ export const SNAPSHOT: Dataset = {
         "count": 32
       },
       {
-        "country": "Côte d’Ivoire",
+        "country": "C\u00f4te d\u2019Ivoire",
         "pct": 0.1,
-        "atlasName": "Côte d'Ivoire",
+        "atlasName": "C\u00f4te d'Ivoire",
         "count": 28
       },
       {
@@ -1394,9 +1393,9 @@ export const SNAPSHOT: Dataset = {
         "count": 6
       },
       {
-        "country": "Réunion",
+        "country": "R\u00e9union",
         "pct": 0,
-        "atlasName": "Réunion",
+        "atlasName": "R\u00e9union",
         "count": 6
       },
       {
@@ -1747,7 +1746,10 @@ export const SNAPSHOT: Dataset = {
         "atlasName": "Djibouti",
         "count": 1
       }
-    ],
-    "headlineAudience": 44000
+    ]
+  },
+  "current": {
+    "linkedin": 108287,
+    "substack": 44000
   }
 };

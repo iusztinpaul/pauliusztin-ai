@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { Dataset } from '../mediakit/data/types';
 import { loadDataset } from '../mediakit/data/load';
-import { AUDIENCE } from '../data/audienceStats';
-import { audienceOf, computeKpis, resolveView } from '../mediakit/data/view';
+import { combinedAudience, computeKpis, plusK, resolveView } from '../mediakit/data/view';
 import { SITE } from '../mediakit/config';
 import LinkedInSection from '../mediakit/components/LinkedInSection';
 import SubstackSection from '../mediakit/components/SubstackSection';
@@ -18,12 +17,6 @@ const compactStat = (n: number): string => {
   if (n >= 1_000) return `${(n / 1000).toFixed(n >= 100_000 ? 0 : 1)}k`;
   return `${n}`;
 };
-
-const perks = [
-  'A senior, technical audience of AI & data engineers',
-  `${AUDIENCE.combinedLabel} combined audience across platforms`,
-  'Millions of monthly impressions and views',
-];
 
 export default function MediaKit() {
   const [dataset, setDataset] = useState<Dataset | null>(null);
@@ -75,9 +68,17 @@ export default function MediaKit() {
 
   const li = view.data.linkedin;
   const ss = view.data.substack;
+  // Period-end, like everything else on this page — not the live figure the
+  // rest of the site quotes, which has moved on since the window closed.
+  const combinedLabel = plusK(combinedAudience(view.data));
+  const perks = [
+    'A senior, technical audience of AI & data engineers',
+    `${combinedLabel} combined audience across platforms`,
+    'Millions of monthly impressions and views',
+  ];
   const tabs = [
-    { key: 'linkedin', name: 'LinkedIn', icon: <LinkedInIcon size={18} className="shrink-0" />, stat: view.hasLinkedIn ? `${compactStat(audienceOf(li))} followers` : 'No data yet' },
-    { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(audienceOf(ss))} subscribers` : 'No data yet' },
+    { key: 'linkedin', name: 'LinkedIn', icon: <LinkedInIcon size={18} className="shrink-0" />, stat: view.hasLinkedIn ? `${compactStat(li.endFollowers)} followers` : 'No data yet' },
+    { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(ss.endSubscribers)} subscribers` : 'No data yet' },
   ];
 
   return (
@@ -154,7 +155,7 @@ export default function MediaKit() {
         <ScrollReveal className="relative max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Sponsorship</Eyebrow>
           <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
-          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {AUDIENCE.combinedLabel} AI &amp; data engineers.</p>
+          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {combinedLabel} AI &amp; data engineers.</p>
           <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
             {perks.map((perk) => (
               <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">

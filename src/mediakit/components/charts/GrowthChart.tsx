@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import type { FollowerPoint } from '../../data/types';
+import type { SeriesPoint } from '../../data/types';
 import { BRAND } from '../../lib/colors';
 import { useIsMobile } from '../../lib/useIsMobile';
 import ChartTooltip from './ChartTooltip';
@@ -26,9 +26,9 @@ const compact = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(0)}k` : `${n}`
 const full = (n: number) => Math.round(n).toLocaleString('en-US');
 
 interface GrowthChartProps {
-  points: FollowerPoint[];
-  startFollowers: number;
-  endFollowers: number;
+  points: SeriesPoint[];
+  startValue: number;
+  endValue: number;
   growthPct: number;
   unitLabel: string;
   periodLabel: string;
@@ -37,8 +37,8 @@ interface GrowthChartProps {
 
 export default function GrowthChart({
   points,
-  startFollowers,
-  endFollowers,
+  startValue,
+  endValue,
   growthPct,
   unitLabel,
   periodLabel,
@@ -65,10 +65,10 @@ export default function GrowthChart({
         </div>
         <div className="text-right">
           <p className="text-2xl font-extrabold leading-none text-brand-white tabular-nums sm:text-3xl md:text-4xl">
-            <CountUp value={endFollowers} format={full} />
+            <CountUp value={endValue} format={full} />
           </p>
           <p className="mt-1.5 whitespace-nowrap text-xs text-brand-grey">
-            {unitLabel} · from {full(startFollowers)}
+            {unitLabel} · from {full(startValue)}
           </p>
         </div>
       </div>
@@ -104,13 +104,13 @@ export default function GrowthChart({
               content={
                 <ChartTooltip
                   labelFormatter={(l) => fmtDate(String(l))}
-                  valueFormatter={(v) => `+${v.toLocaleString('en-US')} (${(startFollowers + v).toLocaleString('en-US')} total)`}
+                  valueFormatter={(v) => `+${v.toLocaleString('en-US')} (${(startValue + v).toLocaleString('en-US')} total)`}
                 />
               }
             />
             <Area
               type="monotone"
-              dataKey="newFollowers"
+              dataKey="added"
               name="New followers"
               stroke={BRAND.orange}
               strokeWidth={2.75}
@@ -121,7 +121,7 @@ export default function GrowthChart({
             {last && (
               <ReferenceDot
                 x={last.date}
-                y={last.newFollowers}
+                y={last.added}
                 r={5}
                 fill={BRAND.orange}
                 stroke={BRAND.black3}

@@ -48,11 +48,15 @@ const compact = (n: number): string => {
 const full = (n: number): string => n.toLocaleString('en-US');
 
 /** Floor to thousands with a "+" — e.g. 128,153 → "128k+". */
-const plusK = (n: number): string => (n >= 1_000 ? `${Math.floor(n / 1_000)}k+` : full(n));
+export const plusK = (n: number): string => (n >= 1_000 ? `${Math.floor(n / 1_000)}k+` : full(n));
 
-/** The KPI figure for a platform: the sheet's headline number, else the period end. */
-export const audienceOf = (p: { headlineAudience: number; endFollowers: number }): number =>
-  p.headlineAudience || p.endFollowers;
+/**
+ * Audience at the end of the period, across platforms. Every figure on the
+ * media kit describes the window, so the page's own copy uses this rather than
+ * the present-day numbers in src/data/audienceStats.ts.
+ */
+export const combinedAudience = (d: Dataset): number =>
+  d.linkedin.endFollowers + d.substack.endSubscribers;
 
 export function computeKpis(view: ResolvedView): Kpi[] {
   if (!view.hasData) {
@@ -64,8 +68,8 @@ export function computeKpis(view: ResolvedView): Kpi[] {
     ];
   }
   const { linkedin: li, substack: ss } = view.data;
-  const liAudience = audienceOf(li);
-  const ssAudience = audienceOf(ss);
+  const liAudience = li.endFollowers;
+  const ssAudience = ss.endSubscribers;
   const audience = liAudience + ssAudience;
   const reach = li.totalImpressions + ss.totalTraffic;
   const growthSub = (g: number) => (g > 0 ? `+${g.toFixed(0)}% Growth` : undefined);

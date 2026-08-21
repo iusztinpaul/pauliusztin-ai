@@ -46,8 +46,8 @@ export default function LinkedInSection({ data, hasData, period }: LinkedInSecti
                 <ChartCard>
                   <GrowthChart
                     points={data.followers}
-                    startFollowers={data.startFollowers}
-                    endFollowers={data.endFollowers}
+                    startValue={data.startFollowers}
+                    endValue={data.endFollowers}
                     growthPct={data.growthPct}
                     unitLabel="followers"
                     periodLabel={period}
