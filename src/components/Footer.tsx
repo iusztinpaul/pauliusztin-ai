@@ -40,11 +40,11 @@ export default function Footer() {
             <a href="https://www.decodingai.com/" target="_blank" rel="noopener noreferrer" className={socialClass} aria-label="Substack">
               <SubstackIcon size={14} />
             </a>
-            <a href="https://github.com/iusztinpaul" target="_blank" rel="noopener noreferrer" className={socialClass} aria-label="GitHub">
-              <GitHubIcon size={15} />
-            </a>
             <a href="https://www.youtube.com/@itsdecodingai" target="_blank" rel="noopener noreferrer" className={socialClass} aria-label="YouTube">
               <YouTubeIcon size={15} />
+            </a>
+            <a href="https://github.com/iusztinpaul" target="_blank" rel="noopener noreferrer" className={socialClass} aria-label="GitHub">
+              <GitHubIcon size={15} />
             </a>
           </div>
         </div>

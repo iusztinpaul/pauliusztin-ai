@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { Dataset } from '../mediakit/data/types';
 import { INITIAL_DATASET, loadDataset } from '../mediakit/data/load';
-import { combinedAudience, computeKpis, plusK, resolveView } from '../mediakit/data/view';
+import { computeKpis, resolveView } from '../mediakit/data/view';
 import { SITE } from '../mediakit/config';
 import LinkedInSection from '../mediakit/components/LinkedInSection';
 import CountUp from '../mediakit/components/CountUp';
@@ -67,12 +67,12 @@ export default function MediaKit() {
 
   const li = view.data.linkedin;
   const ss = view.data.substack;
-  // Period-end, like everything else on this page — not the live figure the
-  // rest of the site quotes, which has moved on since the window closed.
-  const combinedLabel = plusK(combinedAudience(view.data));
+  // Deliberately unnumbered. The audience figure here would be the period-end
+  // one, while every other CTA on the site quotes the present-day figure — two
+  // correct numbers that read as a contradiction side by side.
   const perks = [
     'A senior, technical audience of AI & data engineers',
-    `${combinedLabel} combined audience across platforms`,
+    'Placement across LinkedIn and Substack',
     'Millions of monthly impressions and views',
   ];
   const tabs = [
@@ -164,7 +164,7 @@ export default function MediaKit() {
         <ScrollReveal className="relative max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Sponsorship</Eyebrow>
           <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
-          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {combinedLabel} AI &amp; data engineers.</p>
+          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of AI &amp; data engineers.</p>
           <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
             {perks.map((perk) => (
               <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">

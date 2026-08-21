@@ -157,7 +157,7 @@ export default function Book() {
               <ExternalLink size={16} /> Amazon
             </a>
           </div>
-          <p className="text-sm text-brand-black1">Can't order from Packt? Amazon often has its own deals, sometimes up to 40% off.</p>
+          <p className="text-sm text-brand-grey/70">Can't order from Packt? Amazon often has its own deals, sometimes up to 40% off.</p>
         </div>
       </section>
 

@@ -72,8 +72,6 @@ try {
       `  combinedLabel: '${plusK(combined)}',\n` +
       `  /** "${plusK(substack)}" — compact, for the navbar button. */\n` +
       `  substackLabel: '${plusK(substack)}',\n` +
-      `  /** "${substack.toLocaleString('en-US')}+" — long form, for sentences. */\n` +
-      `  substackLabelFull: '${substack.toLocaleString('en-US')}+',\n` +
       "} as const;\n",
   );
 

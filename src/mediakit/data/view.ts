@@ -48,15 +48,7 @@ const compact = (n: number): string => {
 const full = (n: number): string => n.toLocaleString('en-US');
 
 /** Floor to thousands with a "+" — e.g. 128,153 → "128k+". */
-export const plusK = (n: number): string => (n >= 1_000 ? `${Math.floor(n / 1_000)}k+` : full(n));
-
-/**
- * Audience at the end of the period, across platforms. Every figure on the
- * media kit describes the window, so the page's own copy uses this rather than
- * the present-day numbers in src/data/audienceStats.ts.
- */
-export const combinedAudience = (d: Dataset): number =>
-  d.linkedin.endFollowers + d.substack.endSubscribers;
+const plusK = (n: number): string => (n >= 1_000 ? `${Math.floor(n / 1_000)}k+` : full(n));
 
 export function computeKpis(view: ResolvedView): Kpi[] {
   if (!view.hasData) {
