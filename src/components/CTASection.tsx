@@ -29,7 +29,7 @@ export default function CTASection() {
         </div>
 
         <p className="text-brand-grey text-lg leading-relaxed max-w-xl">
-          Join {AUDIENCE.substackLabelFull} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
+          Join {AUDIENCE.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
         </p>
 
         <SubscribeForm />

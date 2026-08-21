@@ -5,7 +5,38 @@ import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { AUDIENCE } from '../data/audienceStats';
 
-const interests = ['Sponsorship', 'Affiliate', 'Guest Post', 'Other'];
+/**
+ * Chip label -> how it reads inside the generated subject line. Kept apart so
+ * "Other" does not produce "contacting you about Other".
+ */
+const INTERESTS: Record<string, string> = {
+  Sponsorship: 'sponsorship',
+  Affiliate: 'affiliate marketing',
+  'Guest Post': 'a guest post',
+  Other: 'something else',
+};
+
+/**
+ * Where the form hands off. A mailto: cannot send anything on its own — it
+ * opens the visitor's mail client with the fields filled in, and they press
+ * send. So the mail arrives from their own address, which makes replying work
+ * naturally, but nothing is delivered unless they follow through.
+ */
+const CONTACT_EMAIL = 'pauliusztin@decodingai.com';
+
+/** Sponsorship enquiries are copied here too. */
+const SPONSORSHIP_CC = 'david@solopreneurgroup.com';
+
+/**
+ * Practical mailto: ceiling. Outlook has historically truncated around 2048
+ * characters, and a truncated enquiry is the worst possible failure here — the
+ * visitor believes they sent something they did not.
+ *
+ * The limit has to be measured on the ENCODED url, not the character count:
+ * percent-encoding expands a newline to 3 characters and an accented letter to
+ * 6, so 1,500 typed characters can be anywhere from 1,600 to 9,000 encoded.
+ */
+const MAILTO_MAX = 1900;
 
 const reachOut = [
   { Icon: Star, label: 'Sponsorships', desc: `Get your product in front of ${AUDIENCE.combinedLabel} engineers.` },
@@ -17,38 +48,41 @@ const inputCls =
   'w-full px-4 py-3 bg-brand-black3/80 border border-brand-black1/50 rounded-xl text-brand-white placeholder:text-brand-grey/35 focus:outline-none focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/15 transition-all';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', interest: '', message: '' });
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({ name: '', interest: '', message: '' });
+  const [handedOff, setHandedOff] = useState(false);
+  const [missingInterest, setMissingInterest] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // The subject is generated rather than typed. Note this is a starting point,
+  // not a guarantee: once the draft opens it belongs to the visitor's mail app
+  // and every field is editable, so nothing here can be relied on for
+  // filtering. The body carries the message alone — the reply address is
+  // whatever account their client sends from, and their name is in the
+  // signature.
+  const subject = `Form: ${formData.name} is contacting you about ${INTERESTS[formData.interest] ?? ''}`;
+  const body = formData.message;
+
+  // Built by hand rather than with URLSearchParams, which encodes spaces as
+  // '+'. That is correct for form submissions and wrong for mailto: (RFC 6068
+  // wants percent-encoding), where clients render the '+' literally.
+  const params = [`subject=${encodeURIComponent(subject)}`, `body=${encodeURIComponent(body)}`];
+  if (formData.interest === 'Sponsorship') params.unshift(`cc=${encodeURIComponent(SPONSORSHIP_CC)}`);
+  const mailto = `mailto:${CONTACT_EMAIL}?${params.join('&')}`;
+  const tooLong = mailto.length > MAILTO_MAX;
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('loading');
-    setErrorMessage('');
-    try {
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact-form`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: `[Interest: ${formData.interest}]\n\n${formData.message}`,
-        }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to send message');
-      }
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', interest: '', message: '' });
-    } catch (err) {
-      setStatus('error');
-      setErrorMessage(err instanceof Error ? err.message : 'Something went wrong');
+    // The chips are plain buttons, so required= cannot cover them.
+    if (!formData.interest) {
+      setMissingInterest(true);
+      return;
     }
+    if (tooLong) return;
+    // location.href, not window.open: a mailto handled by a desktop client
+    // leaves window.open with a stranded blank tab. If no handler is
+    // registered nothing happens at all, which is why the next screen shows
+    // the address in full.
+    window.location.href = mailto;
+    setHandedOff(true);
   };
 
   return (
@@ -63,7 +97,7 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-6 mb-16">
             {[
-              { Icon: ArrowUpRight, t: 'Brands & Startups', d: "I partner with companies in the AI space for sponsorships and affiliate marketing. If you have a product that solves real problems, I'd love to get it in front of my 120k+ audience." },
+              { Icon: ArrowUpRight, t: 'Brands & Startups', d: `I partner with companies in the AI space for sponsorships and affiliate marketing. If you have a product that solves real problems, I'd love to get it in front of my ${AUDIENCE.combinedLabel} audience.` },
               { Icon: Mail, t: 'Guest Authors', d: "I'm always looking for guest posts on Decoding AI Magazine from people building in the trenches. If you have technical insights to share, I'd love to feature your work." },
             ].map((c, i) => (
               <ScrollReveal key={c.t} delay={i * 120}>
@@ -99,19 +133,27 @@ export default function Contact() {
                 <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center shrink-0"><Presentation size={18} className="text-white" /></div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">Media Kit</p>
-                  <p className="text-brand-white font-semibold leading-tight mt-0.5">Full audience breakdown</p>
+                  <p className="text-brand-white font-semibold leading-tight mt-0.5">Audience breakdown</p>
                 </div>
                 <ArrowRight size={18} className="text-brand-grey group-hover:text-brand-red group-hover:translate-x-1 transition-all shrink-0" />
               </Link>
             </ScrollReveal>
 
             <ScrollReveal className="lg:col-span-3" delay={150}>
-              {status === 'success' ? (
+              {handedOff ? (
                 <div className="card p-10 text-center flex flex-col items-center gap-4">
                   <CheckCircle size={48} className="text-green-400" />
-                  <h3 className="text-2xl font-bold text-brand-white">Message sent!</h3>
-                  <p className="text-brand-grey">Thanks for reaching out. I'll get back to you as soon as possible.</p>
-                  <button onClick={() => setStatus('idle')} className="text-brand-orange hover:text-brand-red transition-colors font-medium">Send another message</button>
+                  <h3 className="text-2xl font-bold text-brand-white">Your draft is ready</h3>
+                  <p className="text-brand-grey">
+                    Your email app should have opened with everything filled in.
+                  </p>
+                  <p className="text-sm text-brand-grey/70">
+                    Nothing opened? Some browsers have no mail app set up. Write to{' '}
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-brand-orange hover:text-brand-red transition-colors font-medium">{CONTACT_EMAIL}</a>
+                    {' '}directly, or{' '}
+                    <a href={mailto} className="text-brand-orange hover:text-brand-red transition-colors font-medium">try the draft again</a>.
+                  </p>
+                  <button onClick={() => setHandedOff(false)} className="text-brand-orange hover:text-brand-red transition-colors font-medium">Edit the message</button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="card p-8 flex flex-col gap-5">
@@ -122,42 +164,40 @@ export default function Contact() {
                       <p className="text-xs text-brand-grey mt-0.5">Tell me what you're working on.</p>
                     </div>
                   </div>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <label className="flex flex-col gap-2">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">Name</span>
-                      <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputCls} placeholder="Your name" />
-                    </label>
-                    <label className="flex flex-col gap-2">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">Email</span>
-                      <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputCls} placeholder="you@example.com" />
-                    </label>
-                  </div>
                   <label className="flex flex-col gap-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">Subject</span>
-                    <input type="text" required value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} className={inputCls} placeholder="What's this about?" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">Name</span>
+                    <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputCls} placeholder="Your name" />
                   </label>
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">I'm interested in...</span>
                     <div className="flex flex-wrap gap-2">
-                      {interests.map((i) => {
+                      {Object.keys(INTERESTS).map((i) => {
                         const on = formData.interest === i;
                         return (
-                          <button type="button" key={i} onClick={() => setFormData({ ...formData, interest: i })} className={`px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all ${on ? 'gradient-bg text-white border-transparent shadow-lg shadow-brand-red/20' : 'bg-brand-black3 text-brand-grey border-brand-black1/50 hover:border-brand-red/50 hover:text-brand-white'}`}>
+                          <button type="button" key={i} onClick={() => { setFormData({ ...formData, interest: i }); setMissingInterest(false); }} className={`px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all ${on ? 'gradient-bg text-white border-transparent shadow-lg shadow-brand-red/20' : 'bg-brand-black3 text-brand-grey border-brand-black1/50 hover:border-brand-red/50 hover:text-brand-white'}`}>
                             {i}
                           </button>
                         );
                       })}
                     </div>
+                    {missingInterest && <p className="text-brand-red text-sm">Pick one so I know what this is about.</p>}
                   </div>
                   <label className="flex flex-col gap-2">
                     <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">Message</span>
                     <textarea required rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`${inputCls} resize-none`} placeholder="Your message..." />
                   </label>
-                  {status === 'error' && <p className="text-brand-red text-sm">{errorMessage}</p>}
-                  <div className="text-center pt-1">
-                    <button type="submit" disabled={status === 'loading'} className="btn btn-primary px-7 py-3.5 disabled:opacity-60 disabled:cursor-not-allowed">
-                      {status === 'loading' ? 'Sending...' : (<><Send size={16} /> Send Message</>)}
+                  {tooLong && (
+                    <p className="text-brand-red text-sm">
+                      This message is too long to hand to an email app and would be cut short. Please shorten it, or write to{' '}
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-brand-orange transition-colors">{CONTACT_EMAIL}</a>
+                      {' '}directly.
+                    </p>
+                  )}
+                  <div className="flex flex-col items-center gap-2 pt-1">
+                    <button type="submit" disabled={tooLong} className="btn btn-primary px-7 py-3.5 disabled:opacity-60 disabled:cursor-not-allowed">
+                      <Send size={16} /> Send Message
                     </button>
+                    <p className="text-xs text-brand-grey/70">Opens in your email app, so you can check it before sending.</p>
                   </div>
                 </form>
               )}

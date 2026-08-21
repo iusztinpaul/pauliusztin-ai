@@ -12,6 +12,4 @@ export const AUDIENCE = {
   combinedLabel: '154k+',
   /** "44k+" — compact, for the navbar button. */
   substackLabel: '44k+',
-  /** "44,000+" — long form, for sentences. */
-  substackLabelFull: '44,000+',
 } as const;

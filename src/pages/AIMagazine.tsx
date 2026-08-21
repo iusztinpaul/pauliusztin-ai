@@ -80,7 +80,7 @@ export default function AIMagazine() {
       <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
           <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
-          <p className="text-brand-grey text-lg">Join {AUDIENCE.substackLabelFull} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
+          <p className="text-brand-grey text-lg">Join {AUDIENCE.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
           <SubscribeForm />
         </div>
       </section>
