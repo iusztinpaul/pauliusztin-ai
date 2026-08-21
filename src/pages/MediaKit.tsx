@@ -1,18 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { Dataset } from '../mediakit/data/types';
-import { yearHasData } from '../mediakit/data/types';
-import { loadDataset } from '../mediakit/data/load';
-import { AUDIENCE } from '../data/audienceStats';
-import { computeKpis, resolveView, viewOptions, LIFETIME } from '../mediakit/data/view';
+import { INITIAL_DATASET, loadDataset } from '../mediakit/data/load';
+import { combinedAudience, computeKpis, plusK, resolveView } from '../mediakit/data/view';
 import { SITE } from '../mediakit/config';
 import LinkedInSection from '../mediakit/components/LinkedInSection';
-import SubstackSection from '../mediakit/components/SubstackSection';
 import CountUp from '../mediakit/components/CountUp';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { LinkedInIcon } from '../components/BrandIcons';
+
+// Only this section pulls in react-simple-maps and d3 (~55 kB gzipped), and
+// LinkedIn is the default tab — so it is split out and fetched on demand,
+// warmed by a hover on the tab so the switch still feels instant.
+const loadSubstackSection = () => import('../mediakit/components/SubstackSection');
+const SubstackSection = lazy(loadSubstackSection);
 
 const compactStat = (n: number): string => {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -20,27 +23,8 @@ const compactStat = (n: number): string => {
   return `${n}`;
 };
 
-function defaultViewKey(dataset: Dataset): string {
-  // Default to the most recent *shown* year that has data, falling back to
-  // Lifetime — so the initial selection is always one of the visible options
-  // even once older years get archived out of the toggle.
-  const shownYears = viewOptions(dataset).filter((o) => o.key !== LIFETIME).map((o) => o.key);
-  const newestWithData = [...shownYears].reverse().find((key) => {
-    const y = dataset.years.find((yr) => yr.year === key);
-    return !!y && yearHasData(y);
-  });
-  return newestWithData ?? LIFETIME;
-}
-
-const perks = [
-  'A senior, technical audience of AI & data engineers',
-  `${AUDIENCE.combinedLabel} combined audience across platforms`,
-  'Millions of monthly impressions and views',
-];
-
 export default function MediaKit() {
-  const [dataset, setDataset] = useState<Dataset | null>(null);
-  const [viewKey, setViewKey] = useState('');
+  const [dataset, setDataset] = useState<Dataset>(INITIAL_DATASET);
   const [platform, setPlatform] = useState('linkedin');
   const chartsRef = useRef<HTMLElement>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
@@ -52,14 +36,8 @@ export default function MediaKit() {
     setPlatform(key);
   };
 
-  const changeView = (key: string) => {
-    if (key === viewKey) return;
-    pendingScrollRef.current = true;
-    setViewKey(key);
-  };
-
   // Bring the start of the graphs just below the sticky controls after a
-  // platform or year switch. This runs AFTER the new section renders —
+  // platform switch. This runs AFTER the new section renders —
   // scrolling synchronously in the click handler breaks on mobile, where the
   // section's height change reflows the page mid-scroll and cancels the scroll.
   useEffect(() => {
@@ -71,35 +49,35 @@ export default function MediaKit() {
     const controlsH = controlsRef.current?.offsetHeight ?? 0;
     const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - navH - controlsH - 12);
     window.scrollTo({ top, behavior: 'smooth' });
-  }, [platform, viewKey]);
+  }, [platform]);
 
   useEffect(() => {
     let alive = true;
     loadDataset().then((ds) => {
       if (!alive) return;
-      setDataset(ds);
-      setViewKey(defaultViewKey(ds));
+      // Swap only when the sheet actually differs from what is already on
+      // screen, so the count-ups do not replay for identical numbers.
+      setDataset((cur) => (JSON.stringify(ds) === JSON.stringify(cur) ? cur : ds));
     });
     return () => { alive = false; };
   }, []);
 
-  const options = useMemo(() => (dataset ? viewOptions(dataset) : []), [dataset]);
-  const view = useMemo(() => (dataset && viewKey ? resolveView(dataset, viewKey) : null), [dataset, viewKey]);
-  const kpis = useMemo(() => (view ? computeKpis(view) : []), [view]);
-
-  if (!dataset || !view) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-black1 border-t-brand-orange" />
-      </div>
-    );
-  }
+  const view = useMemo(() => resolveView(dataset), [dataset]);
+  const kpis = useMemo(() => computeKpis(view), [view]);
 
   const li = view.data.linkedin;
   const ss = view.data.substack;
+  // Period-end, like everything else on this page — not the live figure the
+  // rest of the site quotes, which has moved on since the window closed.
+  const combinedLabel = plusK(combinedAudience(view.data));
+  const perks = [
+    'A senior, technical audience of AI & data engineers',
+    `${combinedLabel} combined audience across platforms`,
+    'Millions of monthly impressions and views',
+  ];
   const tabs = [
     { key: 'linkedin', name: 'LinkedIn', icon: <LinkedInIcon size={18} className="shrink-0" />, stat: view.hasLinkedIn ? `${compactStat(li.endFollowers)} followers` : 'No data yet' },
-    { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(ss.totalSubscribers)} subscribers` : 'No data yet' },
+    { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(ss.endSubscribers)} subscribers` : 'No data yet' },
   ];
 
   return (
@@ -114,15 +92,12 @@ export default function MediaKit() {
       {/* KPI hero */}
       <section className="pt-12 pb-8">
         <div className="max-w-6xl mx-auto px-6">
-          {/* A closed year is done, not "updated" — only a live period carries a date.
-              Lifetime counts as live: buildLifetime flattens ytd to false, but it
-              aggregates the in-progress year. */}
           <p className="text-center text-sm text-brand-grey mb-8">
-            {view.label} · {view.partial || view.key === LIFETIME ? `updated ${dataset.lastUpdated}` : 'final'}
+            {view.label}{dataset.lastUpdated && ` · updated ${dataset.lastUpdated}`}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {kpis.map((k, i) => (
-              <ScrollReveal key={`${viewKey}-${k.label}`} delay={i * 80}>
+              <ScrollReveal key={k.label} delay={i * 80}>
                 <div className="card card-hover h-full p-5 text-center md:text-left">
                   <p className="text-3xl md:text-4xl font-extrabold gradient-text leading-none">
                     {k.raw !== undefined && k.format ? <CountUp value={k.raw} format={k.format} /> : k.value}
@@ -136,9 +111,9 @@ export default function MediaKit() {
         </div>
       </section>
 
-      {/* Controls — platform + year */}
+      {/* Controls — platform */}
       <div ref={controlsRef} className="sticky top-[56px] md:top-[68px] z-30 bg-brand-black3 md:bg-brand-black3/90 md:backdrop-blur-md border-y border-brand-black1/30">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-center sm:justify-start">
           <div className="flex gap-3">
             {tabs.map((t) => {
               const on = platform === t.key;
@@ -146,6 +121,8 @@ export default function MediaKit() {
                 <button
                   key={t.key}
                   onClick={() => changePlatform(t.key)}
+                  onMouseEnter={t.key === 'substack' ? loadSubstackSection : undefined}
+                  onFocus={t.key === 'substack' ? loadSubstackSection : undefined}
                   className={`px-3.5 py-2 rounded-xl border flex items-center gap-2.5 transition-colors ${on ? 'gradient-bg text-white border-transparent' : 'bg-brand-black2 border-brand-black1/50 text-brand-grey hover:text-brand-white hover:border-brand-black1'}`}
                 >
                   {t.icon}
@@ -157,27 +134,24 @@ export default function MediaKit() {
               );
             })}
           </div>
-          <div className="inline-flex gap-1 p-1 rounded-full bg-brand-black2 border border-brand-black1/50">
-            {options.map((o) => (
-              <button
-                key={o.key}
-                onClick={() => changeView(o.key)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${viewKey === o.key ? 'bg-brand-white text-brand-black3' : 'text-brand-grey hover:text-brand-white'}`}
-              >
-                {o.key === LIFETIME ? 'Lifetime' : o.key}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
       {/* Your charts — recharts sections, already on-brand */}
-      <section ref={chartsRef} className="pb-8" key={`${platform}-${viewKey}`}>
+      <section ref={chartsRef} className="pb-8" key={platform}>
         <div className="max-w-6xl mx-auto px-6">
           {platform === 'linkedin' ? (
-            <LinkedInSection data={li} hasData={view.hasLinkedIn} year={view.data.year} partial={view.partial} />
+            <LinkedInSection data={li} hasData={view.hasLinkedIn} period={view.label} />
           ) : (
-            <SubstackSection data={ss} hasData={view.hasSubstack} year={view.data.year} partial={view.partial} />
+            <Suspense
+              fallback={
+                <div className="flex min-h-[60vh] items-center justify-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-black1 border-t-brand-orange" />
+                </div>
+              }
+            >
+              <SubstackSection data={ss} hasData={view.hasSubstack} period={view.label} />
+            </Suspense>
           )}
         </div>
       </section>
@@ -190,7 +164,7 @@ export default function MediaKit() {
         <ScrollReveal className="relative max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Sponsorship</Eyebrow>
           <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
-          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {AUDIENCE.combinedLabel} AI &amp; data engineers.</p>
+          <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of {combinedLabel} AI &amp; data engineers.</p>
           <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
             {perks.map((perk) => (
               <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">

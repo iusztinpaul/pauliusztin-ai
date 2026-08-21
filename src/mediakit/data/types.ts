@@ -1,17 +1,21 @@
 // ---------------------------------------------------------------------------
 // Data model for the media kit.
 //
-// Everything the site renders comes from a `Dataset`. The snapshot in
-// `snapshot.ts` is the bundled fallback; `load.ts` can instead hydrate this
-// same shape from a published Google Sheet so updates need no redeploy.
+// One fixed period — currently 1 Aug 2025 to 31 Jul 2026 — not a set of years.
+// The sheet owns the dates (meta.period_start / period_end); nothing here
+// assumes a calendar year, so moving the window is a sheet edit.
+//
+// Everything the site renders comes from a `Dataset`. snapshot.ts is the
+// bundled fallback, baked from the same sheet at build time; load.ts hydrates
+// this shape live so updates need no redeploy.
 // ---------------------------------------------------------------------------
 
-
-export interface FollowerPoint {
-  /** ISO-ish date label shown on the x-axis, e.g. "2025-01-15". */
+export interface SeriesPoint {
+  /** ISO date of the week end, e.g. "2026-07-31". */
   date: string;
-  /** Cumulative NEW followers gained since the start of the period. */
-  newFollowers: number;
+  /** Cumulative arrivals since the start of the period — followers for
+   *  LinkedIn, subscribers for Substack. Net of churn on both. */
+  added: number;
 }
 
 export interface DemographicItem {
@@ -20,13 +24,13 @@ export interface DemographicItem {
 }
 
 export interface MonthlyLinkedIn {
-  month: string; // "Jan" ... "Dec"
+  month: string; // "Aug" ... "Jul"
   impressions: number;
   engagements: number;
 }
 
 export interface TrafficPoint {
-  month: string; // "Jan" ... "Dec"
+  month: string; // "Aug" ... "Jul"
   traffic: number;
 }
 
@@ -41,26 +45,22 @@ export interface LocationItem {
 }
 
 /**
- * Current global audience snapshot (decoupled from the year toggle — location
- * is a "where are my readers now" snapshot, not a per-year total). Generated
- * from a Substack CSV by scripts/build-audience-location.mjs.
+ * Where the readers are *now* — a current snapshot, deliberately not tied to
+ * the period. Demographics work the same way: nobody asks what the audience's
+ * seniority mix was last August.
  */
 export interface AudienceLocation {
-  /** ISO date the snapshot was exported. */
-  updated: string;
-  /** Total subscribers across all countries (incl. ones the map can't draw). */
-  total: number;
   /** Number of countries with subscribers. */
   countries: number;
   /** Per-country breakdown, sorted by count desc. */
   items: LocationItem[];
 }
 
-export interface LinkedInYear {
+export interface LinkedInStats {
   startFollowers: number;
   endFollowers: number;
   growthPct: number;
-  followers: FollowerPoint[];
+  followers: SeriesPoint[];
   jobTitle: DemographicItem[];
   seniority: DemographicItem[];
   industry: DemographicItem[];
@@ -70,43 +70,75 @@ export interface LinkedInYear {
   totalEngagements: number;
 }
 
-export interface SubstackYear {
-  startFollowers: number;
-  endFollowers: number;
+/**
+ * Substack is reported in *subscribers* throughout — the population a sponsor
+ * actually reaches. Followers are a different, larger set (people who follow
+ * without taking the email), and mixing the two put a subscriber headline on
+ * top of a follower chart. The sheet no longer carries the follower series.
+ */
+export interface SubstackStats {
+  startSubscribers: number;
+  endSubscribers: number;
   growthPct: number;
-  followers: FollowerPoint[];
+  subscribers: SeriesPoint[];
   traffic: TrafficPoint[];
   totalTraffic: number;
-  totalSubscribers: number;
   location: LocationItem[];
 }
 
-export interface YearData {
-  year: string; // "2025", "2026"
-  /** True when the period only covers part of the year (e.g. 2026 mid-year). */
-  ytd: boolean;
-  /** Last covered month for a YTD period, e.g. "Jun". */
-  through?: string;
-  linkedin: LinkedInYear;
-  substack: SubstackYear;
+/**
+ * Present-day figures, as of the last sheet refresh — not period figures.
+ *
+ * The media kit describes a closed window (its numbers stop at periodEnd and
+ * never move again), but the copy elsewhere on the site — "join 44k+
+ * subscribers" — is a live claim about today. Those are different numbers the
+ * moment the window closes, so the sheet carries both.
+ */
+export interface CurrentAudience {
+  linkedin: number;
+  substack: number;
 }
 
 export interface Dataset {
-  /** Human date the numbers were last refreshed. */
+  /** Human date the numbers were last refreshed, e.g. "August 2026". */
   lastUpdated: string;
-  /** Years present, oldest → newest. */
-  years: YearData[];
+  /** ISO period bounds from the sheet, used for the header label. */
+  periodStart: string;
+  periodEnd: string;
+  linkedin: LinkedInStats;
+  substack: SubstackStats;
+  /** Drives site-wide copy via scripts/fetch-mediakit.ts, not the media kit. */
+  current: CurrentAudience;
 }
 
-/** A LinkedIn year carries data when it has a follower curve or demographics. */
-export function linkedInHasData(li: LinkedInYear): boolean {
-  return li.followers.length > 0 || li.jobTitle.length > 0 || li.totalImpressions > 0;
+// These test values, not row counts. A tab that is present but reads as zeroes
+// — a renamed column, a gid now pointing at a different shape — is a failure,
+// and should show the last good numbers or an empty state, never a flat chart.
+export function linkedInHasData(li: LinkedInStats): boolean {
+  return li.endFollowers > 0 || li.totalImpressions > 0 || li.jobTitle.length > 0;
 }
 
-export function substackHasData(ss: SubstackYear): boolean {
-  return ss.followers.length > 0 || ss.traffic.length > 0 || ss.totalSubscribers > 0;
+export function substackHasData(ss: SubstackStats): boolean {
+  return ss.endSubscribers > 0 || ss.totalTraffic > 0 || ss.subscribers.some((p) => p.added > 0);
 }
 
-export function yearHasData(y: YearData): boolean {
-  return linkedInHasData(y.linkedin) || substackHasData(y.substack);
+export function datasetHasData(d: Dataset): boolean {
+  return linkedInHasData(d.linkedin) || substackHasData(d.substack);
+}
+
+/**
+ * Both growth series carry real numbers.
+ *
+ * Stricter than datasetHasData, and the check worth trusting: a tab can answer
+ * with the right shape and the wrong columns — rename a column, repoint a gid —
+ * and every row parses to zero. That reads as "data" by row count while
+ * rendering a flat chart, so it must never reach the page or overwrite the
+ * baked snapshot. Assumes a fully populated window; if the period is ever moved
+ * forward, both series start empty and the snapshot holds until they fill.
+ */
+export function datasetIsSound(d: Dataset): boolean {
+  return (
+    d.linkedin.followers.some((p) => p.added > 0) &&
+    d.substack.subscribers.some((p) => p.added > 0)
+  );
 }

@@ -1,4 +1,4 @@
-import type { LinkedInYear } from '../data/types';
+import type { LinkedInStats } from '../data/types';
 import { LinkedInIcon } from '../../components/BrandIcons';
 import ChartCard from './ChartCard';
 import DemographicChart from './charts/DemographicChart';
@@ -10,18 +10,17 @@ import Reveal from './Reveal';
 import SectionHeader from './SectionHeader';
 
 interface LinkedInSectionProps {
-  data: LinkedInYear;
+  data: LinkedInStats;
   hasData: boolean;
-  year: string;
-  partial: boolean;
+  /** e.g. "Aug 2025 – Jul 2026" — the window every figure describes. */
+  period: string;
 }
 
 const fmt = (n: number) => n.toLocaleString('en-US');
 const compactTotal = (n: number) =>
   n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}k` : `${n}`;
 
-export default function LinkedInSection({ data, hasData, year, partial }: LinkedInSectionProps) {
-  const periodLabel = partial ? `${year} YTD` : year;
+export default function LinkedInSection({ data, hasData, period }: LinkedInSectionProps) {
   const demographics = [
     { title: 'Job Title', items: data.jobTitle },
     { title: 'Seniority', items: data.seniority },
@@ -36,7 +35,7 @@ export default function LinkedInSection({ data, hasData, year, partial }: Linked
 
         {!hasData ? (
           <div className="mt-10">
-            <EmptyState year={year} />
+            <EmptyState period={period} />
           </div>
         ) : (
           <>
@@ -47,11 +46,11 @@ export default function LinkedInSection({ data, hasData, year, partial }: Linked
                 <ChartCard>
                   <GrowthChart
                     points={data.followers}
-                    startFollowers={data.startFollowers}
-                    endFollowers={data.endFollowers}
+                    startValue={data.startFollowers}
+                    endValue={data.endFollowers}
                     growthPct={data.growthPct}
                     unitLabel="followers"
-                    periodLabel={periodLabel}
+                    periodLabel={period}
                     gradientId="li-growth"
                   />
                 </ChartCard>
