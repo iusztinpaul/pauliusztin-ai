@@ -24,18 +24,18 @@ import type {
 // ---------------------------------------------------------------------------
 
 export const PUBLISHED_ID =
-  '2PACX-1vSx3FrValAUAVqxECHcXKxCzLtcF3d9fmRtgT2npmZd-UkH0jTeNsPl7aG9X62JCVR3ry5elEpP7xnN';
+  '2PACX-1vTctEkiBhrA5-h3mZ3kkDUFMXTA3pe154ViuIyVzUWuCtU6JavWcXiBuKnxcmGrrUR-nq9nniRRROzg';
 
 /** Tab name → gid, read off the published document. */
 const TAB_GIDS: Record<string, string> = {
-  meta: '1444242272',
-  summary: '45436169',
-  li_followers: '1217194287',
-  li_monthly: '221210840',
-  li_demographics: '811091259',
-  ss_subscribers: '1280245988',
-  ss_traffic: '2013769470',
-  ss_location: '752342125',
+  meta: '415418443',
+  summary: '830052816',
+  li_followers: '1658641104',
+  li_monthly: '1137550027',
+  li_demographics: '1172172797',
+  ss_subscribers: '787757660',
+  ss_traffic: '1986229077',
+  ss_location: '693403476',
 };
 type Row = Record<string, string | number | null>;
 

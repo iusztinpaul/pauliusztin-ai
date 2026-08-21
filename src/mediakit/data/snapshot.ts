@@ -295,19 +295,19 @@ export const SNAPSHOT: Dataset = {
         "pct": 23
       },
       {
-        "label": "1k\u20135k EEs",
+        "label": "1k–5k EEs",
         "pct": 10
       },
       {
-        "label": "11\u201350 EEs",
+        "label": "11–50 EEs",
         "pct": 10
       },
       {
-        "label": "51\u2013200 EEs",
+        "label": "51–200 EEs",
         "pct": 9
       },
       {
-        "label": "1\u201310 EEs",
+        "label": "1–10 EEs",
         "pct": 8
       }
     ],
@@ -739,7 +739,7 @@ export const SNAPSHOT: Dataset = {
         "count": 449
       },
       {
-        "country": "T\u00fcrkiye",
+        "country": "Türkiye",
         "pct": 1,
         "atlasName": "Turkey",
         "count": 423
@@ -1105,9 +1105,9 @@ export const SNAPSHOT: Dataset = {
         "count": 32
       },
       {
-        "country": "C\u00f4te d\u2019Ivoire",
+        "country": "Côte d’Ivoire",
         "pct": 0.1,
-        "atlasName": "C\u00f4te d'Ivoire",
+        "atlasName": "Côte d'Ivoire",
         "count": 28
       },
       {
@@ -1393,9 +1393,9 @@ export const SNAPSHOT: Dataset = {
         "count": 6
       },
       {
-        "country": "R\u00e9union",
+        "country": "Réunion",
         "pct": 0,
-        "atlasName": "R\u00e9union",
+        "atlasName": "Réunion",
         "count": 6
       },
       {
@@ -1749,7 +1749,7 @@ export const SNAPSHOT: Dataset = {
     ]
   },
   "current": {
-    "linkedin": 108287,
+    "linkedin": 110389,
     "substack": 44000
   }
 };
