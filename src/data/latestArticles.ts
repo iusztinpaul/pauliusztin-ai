@@ -2,7 +2,7 @@
 // Do not edit by hand — runs on build (prebuild) or `npm run fetch:articles`.
 export const latestArticles = [
   {
-    "title": "From Raw Shell to a Sandboxed Coding Agent",
+    "title": "From a Raw Shell to a Sandboxed Coding Agent",
     "description": "The guide to isolating your harness and safely executing its commands, locally or remotely.",
     "image": "https://substackcdn.com/image/fetch/$s_!k1Xr!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F97e3b938-fb2a-462c-923f-fbd591667a65_1376x768.png",
     "link": "https://www.decodingai.com/p/run-coding-agents-safely"

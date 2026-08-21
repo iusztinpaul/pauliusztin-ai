@@ -14,6 +14,18 @@ import { datasetIsSound } from './types';
  * parse to zero — is treated as a failure too: it should show the last good
  * numbers, not a flat chart.
  */
+/**
+ * What the page renders immediately, before the sheet answers.
+ *
+ * Reading the sheet costs ~1.1s of round-trip latency for ~9 kB — a fixed
+ * cost that a faster connection does not reduce, and one Google's cache
+ * headers make us pay again on almost every visit (the redirect hop is
+ * no-store). Blocking on it left the page spinning; this is the same
+ * build-time data the fallback path uses, so showing it first costs nothing
+ * and the live fetch only refines it.
+ */
+export const INITIAL_DATASET: Dataset = SNAPSHOT;
+
 export async function loadDataset(): Promise<Dataset> {
   if (!PUBLISHED_ID) return SNAPSHOT;
   try {

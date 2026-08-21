@@ -1,16 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { Dataset } from '../mediakit/data/types';
-import { loadDataset } from '../mediakit/data/load';
+import { INITIAL_DATASET, loadDataset } from '../mediakit/data/load';
 import { combinedAudience, computeKpis, plusK, resolveView } from '../mediakit/data/view';
 import { SITE } from '../mediakit/config';
 import LinkedInSection from '../mediakit/components/LinkedInSection';
-import SubstackSection from '../mediakit/components/SubstackSection';
 import CountUp from '../mediakit/components/CountUp';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { LinkedInIcon } from '../components/BrandIcons';
+
+// Only this section pulls in react-simple-maps and d3 (~55 kB gzipped), and
+// LinkedIn is the default tab — so it is split out and fetched on demand,
+// warmed by a hover on the tab so the switch still feels instant.
+const loadSubstackSection = () => import('../mediakit/components/SubstackSection');
+const SubstackSection = lazy(loadSubstackSection);
 
 const compactStat = (n: number): string => {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -19,7 +24,7 @@ const compactStat = (n: number): string => {
 };
 
 export default function MediaKit() {
-  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [dataset, setDataset] = useState<Dataset>(INITIAL_DATASET);
   const [platform, setPlatform] = useState('linkedin');
   const chartsRef = useRef<HTMLElement>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
@@ -50,21 +55,15 @@ export default function MediaKit() {
     let alive = true;
     loadDataset().then((ds) => {
       if (!alive) return;
-      setDataset(ds);
+      // Swap only when the sheet actually differs from what is already on
+      // screen, so the count-ups do not replay for identical numbers.
+      setDataset((cur) => (JSON.stringify(ds) === JSON.stringify(cur) ? cur : ds));
     });
     return () => { alive = false; };
   }, []);
 
-  const view = useMemo(() => (dataset ? resolveView(dataset) : null), [dataset]);
-  const kpis = useMemo(() => (view ? computeKpis(view) : []), [view]);
-
-  if (!dataset || !view) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-black1 border-t-brand-orange" />
-      </div>
-    );
-  }
+  const view = useMemo(() => resolveView(dataset), [dataset]);
+  const kpis = useMemo(() => computeKpis(view), [view]);
 
   const li = view.data.linkedin;
   const ss = view.data.substack;
@@ -122,6 +121,8 @@ export default function MediaKit() {
                 <button
                   key={t.key}
                   onClick={() => changePlatform(t.key)}
+                  onMouseEnter={t.key === 'substack' ? loadSubstackSection : undefined}
+                  onFocus={t.key === 'substack' ? loadSubstackSection : undefined}
                   className={`px-3.5 py-2 rounded-xl border flex items-center gap-2.5 transition-colors ${on ? 'gradient-bg text-white border-transparent' : 'bg-brand-black2 border-brand-black1/50 text-brand-grey hover:text-brand-white hover:border-brand-black1'}`}
                 >
                   {t.icon}
@@ -142,7 +143,15 @@ export default function MediaKit() {
           {platform === 'linkedin' ? (
             <LinkedInSection data={li} hasData={view.hasLinkedIn} period={view.label} />
           ) : (
-            <SubstackSection data={ss} hasData={view.hasSubstack} period={view.label} />
+            <Suspense
+              fallback={
+                <div className="flex min-h-[60vh] items-center justify-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-black1 border-t-brand-orange" />
+                </div>
+              }
+            >
+              <SubstackSection data={ss} hasData={view.hasSubstack} period={view.label} />
+            </Suspense>
           )}
         </div>
       </section>
