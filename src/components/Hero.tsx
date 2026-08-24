@@ -46,7 +46,7 @@ export default function Hero() {
               <h3 className="text-xl font-semibold text-brand-grey">I help engineers ship AI products.</h3>
             </div>
             <p className="text-base md:text-lg text-brand-grey leading-relaxed max-w-xl">
-              Bestselling author of the <span className="text-brand-white font-medium">LLM Engineer's Handbook</span>, lead instructor of the Agentic AI Engineering course, and founding AI engineer at a San Francisco start-up. I teach AI engineering <span className="text-brand-white font-medium">end-to-end</span>, from idea to production.
+              Bestselling author of the LLM Engineer's Handbook, lead instructor of the Agent Engineering course, and founding AI engineer at a San Francisco start-up. I teach AI engineering <span className="text-brand-white font-medium">end-to-end</span>, from idea to production.
             </p>
             <div className="flex flex-nowrap gap-2 pt-1 sm:gap-3">
               <a href="https://www.decodingai.com/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost-red px-4 py-3 text-sm sm:px-7 sm:py-3.5 sm:text-base">
