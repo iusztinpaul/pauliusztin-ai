@@ -3,11 +3,10 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // GitHub Pages serves this repo at /pauliusztin-ai/, not at a domain root.
-  // Change to '/' when a custom domain is pointed at it — App.tsx reads the
-  // same value through BASE_URL, and so does lib/asset.ts, so those are the
-  // only two places that ever need to know.
-  base: '/pauliusztin-ai/',
+  // Served from the domain root. lib/asset.ts and App.tsx's router basename
+  // both read this through BASE_URL, so this line is the only place that
+  // knows — moving the site again is a one-line change.
+  base: '/',
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],

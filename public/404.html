@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found - Paul Iusztin</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+    <style>
+      :root {
+        --ground: #131314;
+        --surface: #232527;
+        --ink: #ffffff;
+        --muted: #cdcfd3;
+        --line: #414042;
+        --red: #d5342a;
+        --orange: #e58925;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--muted);
+        font-family: 'Inter Variable', Inter, -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+        text-align: center;
+      }
+      main { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; max-width: 34rem; }
+      img { width: 72px; height: 72px; }
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 6vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        text-wrap: balance;
+      }
+      h1 span { color: var(--red); }
+      p { margin: 0; font-size: 1.0625rem; text-wrap: pretty; }
+      a.home {
+        margin-top: 0.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 1.75rem;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, var(--red), var(--orange));
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        transition: filter 0.2s ease, transform 0.2s ease;
+      }
+      a.home:hover { filter: brightness(1.08); transform: translateY(-1px); }
+      a.home:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1.25rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); width: 100%; }
+      nav a { color: var(--muted); text-decoration: none; font-size: 0.9375rem; }
+      nav a:hover { color: var(--ink); }
+      nav a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+      @media (prefers-reduced-motion: reduce) {
+        a.home { transition: none; }
+        a.home:hover { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/favicon.png" alt="" />
+      <h1>This page doesn't exist<span>.</span></h1>
+      <p>The link may be out of date, or the address slightly off.</p>
+      <a class="home" href="/">Back to the homepage</a>
+      <nav>
+        <a href="/about">About</a>
+        <a href="/aimagazine">Magazine</a>
+        <a href="/book">Book</a>
+        <a href="/courses">Courses</a>
+        <a href="/events">Events</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </main>
+  </body>
+</html>
