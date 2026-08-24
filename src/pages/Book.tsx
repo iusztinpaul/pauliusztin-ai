@@ -167,7 +167,7 @@ export default function Book() {
         <div className="max-w-5xl mx-auto px-6">
           <ScrollReveal>
             <div className="mb-12 space-y-3">
-              <Eyebrow>The Verdict</Eyebrow>
+              <Eyebrow>Peer Review</Eyebrow>
               <h2 className="text-3xl md:text-4xl font-extrabold">What Readers Say</h2>
             </div>
           </ScrollReveal>
