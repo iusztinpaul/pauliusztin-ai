@@ -15,10 +15,9 @@
 
     <!-- Share previews. og:image MUST be absolute: LinkedIn, X and Slack fetch
          this page from their own servers, where a relative path has nothing to
-         resolve against. It is also the one URL here that cannot read Vite's
-         base, so pointing a custom domain at the site means editing the two
-         absolute URLs below by hand or the preview silently keeps serving from
-         github.io.
+         resolve against. These two are the only URLs in the project that cannot
+         read Vite's base, so they are also the only ones to change if the site
+         ever moves again. SITE_ORIGIN in src/routes.ts must agree with them.
 
          All routes share this file, so every page previews as the site. Per-page
          cards would need the HTML to differ per route, i.e. pre-rendering. -->
@@ -26,8 +25,8 @@
     <meta property="og:site_name" content="Paul Iusztin" />
     <meta property="og:title" content="Paul Iusztin - AI Engineer & Educator" />
     <meta property="og:description" content="I help engineers ship AI products, not demos. Courses on designing, building and deploying AI systems and agents." />
-    <meta property="og:url" content="https://iusztinpaul.github.io/pauliusztin-ai/" />
-    <meta property="og:image" content="https://iusztinpaul.github.io/pauliusztin-ai/og-image.png" />
+    <meta property="og:url" content="https://www.pauliusztin.ai/" />
+    <meta property="og:image" content="https://www.pauliusztin.ai/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Paul Iusztin - AI Engineer, Author, Educator" />

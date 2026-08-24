@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type ComponentType } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ROUTES, type RoutePath } from './routes';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
@@ -14,6 +15,19 @@ const Courses = lazy(() => import('./pages/Courses'));
 const Events = lazy(() => import('./pages/Events'));
 const MediaKit = lazy(() => import('./pages/MediaKit'));
 const Contact = lazy(() => import('./pages/Contact'));
+
+// Typed against routes.ts, so a path without a page — or a page nobody can
+// reach — is a build error rather than a 404 someone finds later.
+const PAGES: Record<RoutePath, ComponentType> = {
+  '/': Home,
+  '/about': About,
+  '/aimagazine': AIMagazine,
+  '/book': Book,
+  '/courses': Courses,
+  '/events': Events,
+  '/media-kit': MediaKit,
+  '/contact': Contact,
+};
 
 function App() {
   // Vite's base only rewrites asset URLs; the router has to be told separately
@@ -32,14 +46,10 @@ function App() {
               }
             >
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/aimagazine" element={<AIMagazine />} />
-              <Route path="/book" element={<Book />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/media-kit" element={<MediaKit />} />
-              <Route path="/contact" element={<Contact />} />
+              {ROUTES.map(({ path }) => {
+                const Page = PAGES[path];
+                return <Route key={path} path={path} element={<Page />} />;
+              })}
             </Routes>
             </Suspense>
           </PageTransition>
