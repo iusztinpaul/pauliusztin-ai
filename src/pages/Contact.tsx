@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Mail, ArrowUpRight, Send, CheckCircle, ArrowRight, Star, Sparkles, BookOpen, Presentation } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
-import { AUDIENCE } from '../data/audienceStats';
+import { useAudience } from '../data/audience';
 
 /**
  * Chip label -> how it reads inside the generated subject line. Kept apart so
@@ -38,8 +38,8 @@ const SPONSORSHIP_CC = 'david@solopreneurgroup.com';
  */
 const MAILTO_MAX = 1900;
 
-const reachOut = [
-  { Icon: Star, label: 'Sponsorships', desc: `Get your product in front of ${AUDIENCE.combinedLabel} engineers.` },
+const reachOutFor = (combined: string) => [
+  { Icon: Star, label: 'Sponsorships', desc: `Get your product in front of ${combined} engineers.` },
   { Icon: Sparkles, label: 'Affiliate Marketing', desc: 'Performance partnerships that fit the audience.' },
   { Icon: BookOpen, label: 'Guest Posts', desc: 'Share technical insights on Decoding AI Magazine.' },
 ];
@@ -48,6 +48,8 @@ const inputCls =
   'w-full px-4 py-3 bg-brand-black3/80 border border-brand-black1/50 rounded-xl text-brand-white placeholder:text-brand-grey/35 focus:outline-none focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/15 transition-all';
 
 export default function Contact() {
+  const audience = useAudience();
+  const reachOut = reachOutFor(audience.combinedLabel);
   const [formData, setFormData] = useState({ name: '', interest: '', message: '' });
   const [handedOff, setHandedOff] = useState(false);
   const [missingInterest, setMissingInterest] = useState(false);
@@ -97,7 +99,7 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-6 mb-16">
             {[
-              { Icon: ArrowUpRight, t: 'Brands & Startups', d: `I partner with companies in the AI space for sponsorships and affiliate marketing. If you have a product that solves real problems, I'd love to get it in front of my ${AUDIENCE.combinedLabel} audience.` },
+              { Icon: ArrowUpRight, t: 'Brands & Startups', d: `I partner with companies in the AI space for sponsorships and affiliate marketing. If you have a product that solves real problems, I'd love to get it in front of my ${audience.combinedLabel} audience.` },
               { Icon: Mail, t: 'Guest Authors', d: "I'm always looking for guest posts on Decoding AI Magazine from people building in the trenches. If you have technical insights to share, I'd love to feature your work." },
             ].map((c, i) => (
               <ScrollReveal key={c.t} delay={i * 120}>

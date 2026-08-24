@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { AUDIENCE } from '../data/audienceStats';
+import { useAudience } from '../data/audience';
 import Wordmark from './Wordmark';
 
 const navLinks = [
@@ -15,6 +15,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const audience = useAudience();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -59,7 +60,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="btn btn-primary text-sm px-5 py-2.5"
           >
-            Join {AUDIENCE.substackLabel} Subscribers
+            Join {audience.substackLabel} Subscribers
           </a>
         </div>
 
@@ -101,7 +102,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="btn btn-primary text-sm px-5 py-2.5 mt-1 self-start"
             >
-              Join {AUDIENCE.substackLabel} Subscribers
+              Join {audience.substackLabel} Subscribers
             </a>
           </div>
         </>

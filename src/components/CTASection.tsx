@@ -2,12 +2,13 @@ import { ScrollReveal } from './PageTransition';
 import { asset } from '../lib/asset';
 import Eyebrow from './Eyebrow';
 import SubscribeForm from './SubscribeForm';
-import { AUDIENCE } from '../data/audienceStats';
+import { useAudience } from '../data/audience';
 
 const DAI_LOGO =
   asset('/media/logo-final-02-4d87c666.webp');
 
 export default function CTASection() {
+  const audience = useAudience();
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-brand-black2" />
@@ -30,7 +31,7 @@ export default function CTASection() {
         </div>
 
         <p className="text-brand-grey text-lg leading-relaxed max-w-xl">
-          Join {AUDIENCE.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
+          Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
         </p>
 
         <SubscribeForm />
