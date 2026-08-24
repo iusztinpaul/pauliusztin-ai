@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Paul Iusztin - AI Engineer & Educator</title>
-    <meta name="description" content="I help engineers ship AI products, not demos. Courses on designing, building and deploying AI systems and agents." />
+    <!-- The home page's own title and description. Every other route gets its
+         own pair written in by scripts/gen-static.ts at build time, along with
+         a canonical tag; the values all live in src/routes.ts. -->
+    <title>Paul Iusztin | AI Engineer, Author &amp; Educator</title>
+    <meta name="description" content="I help engineers ship AI products, not demos. Courses, a book and weekly guides on designing, building and deploying production-grade AI systems." />
     <meta name="theme-color" content="#131314" />
 
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
@@ -19,12 +22,16 @@
          read Vite's base, so they are also the only ones to change if the site
          ever moves again. SITE_ORIGIN in src/routes.ts must agree with them.
 
-         All routes share this file, so every page previews as the site. Per-page
-         cards would need the HTML to differ per route, i.e. pre-rendering. -->
+         Deliberately one shared card for the whole site, even though each route
+         now has its own HTML file and could carry its own. Titles and
+         descriptions are read by a crawler and belong to the page; a share card
+         is read by a person deciding whether to click, and one recognisable
+         card for the site is a reasonable thing to want. Making them per-page
+         later is the same edit as the title: a field in src/routes.ts. -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Paul Iusztin" />
-    <meta property="og:title" content="Paul Iusztin - AI Engineer & Educator" />
-    <meta property="og:description" content="I help engineers ship AI products, not demos. Courses on designing, building and deploying AI systems and agents." />
+    <meta property="og:title" content="Paul Iusztin | AI Engineer, Author &amp; Educator" />
+    <meta property="og:description" content="I help engineers ship AI products, not demos. Courses, a book and weekly guides on designing, building and deploying production-grade AI systems." />
     <meta property="og:url" content="https://www.pauliusztin.ai/" />
     <meta property="og:image" content="https://www.pauliusztin.ai/og-image.png" />
     <meta property="og:image:width" content="1200" />

@@ -4,6 +4,7 @@ import { ROUTES, type RoutePath } from './routes';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
+import PageMetadata from './components/PageMetadata';
 import Home from './pages/Home';
 
 // Code-split every route except the landing page, so a homepage visit doesn't
@@ -34,6 +35,7 @@ function App() {
   // or every route 404s under a subpath.
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <PageMetadata />
       <div className="min-h-screen bg-brand-black3 flex flex-col">
         <Navbar />
         <main className="flex-1">
