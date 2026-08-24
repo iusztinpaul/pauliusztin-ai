@@ -52,7 +52,7 @@ export default function AIMagazine() {
           <div className="grid lg:grid-cols-5 gap-10 items-center">
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-8">
               <div className="flex flex-col gap-4">
-                <Eyebrow>The Mission</Eyebrow>
+                <Eyebrow>Why I Started It</Eyebrow>
                 <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] lg:whitespace-nowrap font-extrabold leading-tight text-brand-white">Your weekly magazine on shipping AI products.</h2>
               </div>
               <div className="flex flex-col gap-6 text-lg text-brand-grey leading-relaxed">

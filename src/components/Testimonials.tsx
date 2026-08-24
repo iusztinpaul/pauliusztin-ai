@@ -93,7 +93,7 @@ export default function Testimonials() {
         <ScrollReveal>
           <div className="flex items-end justify-between mb-12 gap-6">
             <div className="space-y-3">
-              <Eyebrow>The Verdict</Eyebrow>
+              <Eyebrow>Peer Review</Eyebrow>
               <h2 className="text-3xl md:text-4xl font-extrabold">What People Say</h2>
             </div>
             <div className="flex gap-3 flex-shrink-0">

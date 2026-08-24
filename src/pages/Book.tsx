@@ -69,7 +69,7 @@ export default function Book() {
               <Eyebrow>A framework, not just code</Eyebrow>
               <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
               <div className="space-y-4 text-lg text-brand-grey leading-relaxed">
-                <p>The lack of standardization makes building scalable, robust, accurate LLM solutions a real challenge. As an emerging field, you face a plethora of algorithms, tools, and design principles — confusing and daunting.</p>
+                <p>The lack of standardization makes building scalable, robust, accurate LLM solutions a real challenge. As an emerging field, you face an excess of algorithms, tools, and design principles, which can feel confusing and daunting.</p>
                 <p>
                   <span className="text-brand-white font-medium">This book gives you a set of principles and a framework</span> for structuring your thinking about what it takes to build an end-to-end LLM system, flexible enough to adapt to your needs.
                 </p>
@@ -88,7 +88,7 @@ export default function Book() {
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
           {[
             { Icon: BookOpen, t: 'What the book is about', d: "Its emphasis on practicality sets it apart. It provides a framework for architecting and building LLM apps you can adapt to your own needs." },
-            { Icon: Sparkles, t: 'What makes it unique', d: "It presents the complete lifecycle of an LLM app — connecting DE, SWE, GenAI, and MLOps while building the LLM Twin MVP. Beyond coding: a mind map for architecting future ideas." },
+            { Icon: Sparkles, t: 'What makes it unique', d: "It presents the complete lifecycle of an LLM app, connecting DE, SWE, GenAI, and MLOps while building the LLM Twin MVP. Beyond coding: a mind map for architecting future ideas." },
           ].map((c, i) => (
             <ScrollReveal key={c.t} delay={i * 120}>
               <div className="card p-8 h-full flex flex-col gap-4">
@@ -137,7 +137,7 @@ export default function Book() {
         <div className="max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Get your copy</Eyebrow>
           <h2 className="text-3xl md:text-4xl font-extrabold">A special perk from Decoding AI</h2>
-          <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes — tap to copy:</p>
+          <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes (tap to copy):</p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <div className="card p-5 flex-1 flex flex-col items-center gap-2">
               <span className="text-3xl font-extrabold gradient-text">20% off</span>
@@ -167,7 +167,7 @@ export default function Book() {
         <div className="max-w-5xl mx-auto px-6">
           <ScrollReveal>
             <div className="mb-12 space-y-3">
-              <Eyebrow>The Verdict</Eyebrow>
+              <Eyebrow>Peer Review</Eyebrow>
               <h2 className="text-3xl md:text-4xl font-extrabold">What Readers Say</h2>
             </div>
           </ScrollReveal>

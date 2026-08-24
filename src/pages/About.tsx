@@ -33,9 +33,9 @@ export default function About() {
               </div>
               <div className="gradient-hairline opacity-50" />
               <div className="flex flex-col gap-5 text-lg text-brand-grey leading-relaxed">
-                <p>I'm the author of the bestselling <span className="text-brand-white font-medium">LLM Engineer's Handbook</span>, lead instructor of the Agentic AI Engineering course, and one of the founding AI engineers of a San Francisco start-up.</p>
+                <p>I'm the author of the bestselling LLM Engineer's Handbook, lead instructor of the Agent Engineering course, and one of the founding AI engineers of a San Francisco start-up.</p>
                 <p>But my path here was anything but direct.</p>
-                <p>My family lost everything in the 2008 financial crisis. As a teenager, I spiraled into destructive habits. Then, at 18, I made a U-turn — studying relentlessly to rebuild my future. That resilience still fuels my work today.</p>
+                <p>My family lost everything in the 2008 financial crisis. As a teenager, I spiraled into destructive habits. At 18, I made a U-turn, studying relentlessly to rebuild my future. That resilience still fuels my work today.</p>
               </div>
               <div className="gradient-hairline opacity-50" />
               <div className="flex flex-col gap-5 text-lg text-brand-grey leading-relaxed">
@@ -56,7 +56,7 @@ export default function About() {
           <img src={DAI_LOGO} alt="Decoding AI" decoding="async" loading="lazy" className="w-32 h-32 object-contain drop-shadow-2xl" />
           <div className="max-w-2xl mx-auto text-center flex flex-col gap-5 text-lg text-white/90 leading-relaxed">
             <p>Real-world guides taking you from the PoC purgatory to shipping AI products.</p>
-            <p>Every Tuesday morning, you'll get one free actionable tip to design, build, and deploy production-grade AI systems in less than 8 minutes.</p>
+            <p>Every Tuesday, you'll get one free actionable tip to design, build, and deploy production-grade AI systems in less than 8 minutes.</p>
           </div>
           <Link to="/aimagazine" className="btn px-7 py-3.5 bg-white text-brand-black3 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30">
             Read More<ArrowRight size={16} />
