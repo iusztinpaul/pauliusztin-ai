@@ -97,7 +97,7 @@ export default function SubstackSection({ data, hasData, period }: SubstackSecti
                 <p className="-mt-6 mb-6 text-sm text-brand-grey">
                   Self-reported by{' '}
                   {data.surveyResponses > 0 ? `${data.surveyResponses} readers` : 'surveyed readers'}
-                  . A sample, not platform analytics.
+                  , not platform analytics.
                 </p>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {survey.map((d, i) => (
