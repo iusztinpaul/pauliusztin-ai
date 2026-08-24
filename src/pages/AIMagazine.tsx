@@ -6,7 +6,7 @@ import Testimonials from '../components/Testimonials';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import SubscribeForm from '../components/SubscribeForm';
-import { AUDIENCE } from '../data/audienceStats';
+import { useAudience } from '../data/audience';
 import {
   getArticles,
   ARTICLE_MODES,
@@ -22,6 +22,7 @@ const MAG_LOGO =
   asset('/media/logo-final-02-d91e8005.webp');
 
 export default function AIMagazine() {
+  const audience = useAudience();
   const [mode, setMode] = useState<ArticleMode>('latest');
   const [articles, setArticles] = useState<Article[]>(LATEST_ARTICLES);
 
@@ -81,7 +82,7 @@ export default function AIMagazine() {
       <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
           <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
-          <p className="text-brand-grey text-lg">Join {AUDIENCE.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
+          <p className="text-brand-grey text-lg">Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
           <SubscribeForm />
         </div>
       </section>

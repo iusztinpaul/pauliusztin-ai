@@ -6,15 +6,15 @@
  * mirrors scripts/fetch-articles.mjs, which bakes the same shapes at build time
  * as the fallback — keep the two in step if a feed shape changes.
  *
- * Written against the Web-standard fetch handler so it runs unmodified on
- * Cloudflare Workers, Deno Deploy, Netlify Edge and Vercel Edge. Per host:
- *   Cloudflare Pages  functions/articles.ts  → export const onRequest = ({ request }) => handler(request)
- *   Vercel            api/articles.ts        → export const config = { runtime: 'edge' }; export default handler
- *   Netlify Edge      netlify/edge-functions/articles.ts → export default handler
- *   Deno Deploy       Deno.serve(handler)
+ * On Cloudflare Pages the path is the route: this file answers /api/articles,
+ * which is where src/data/articles.ts looks by default. Set
+ * VITE_ARTICLES_ENDPOINT to override it, or to empty to skip the call and serve
+ * the build-time snapshots alone.
  *
- * Then set VITE_ARTICLES_ENDPOINT to its URL (e.g. /api/articles) and rebuild.
- * Leave it unset and the site keeps serving the build-time snapshots.
+ * The handler itself is a Web-standard fetch function, so it also runs
+ * unmodified elsewhere — Vercel Edge (`export default handler`), Netlify Edge,
+ * Deno Deploy (`Deno.serve(handler)`). Only the adapter at the bottom is
+ * Cloudflare-specific.
  */
 
 const COUNT = 3;
@@ -77,7 +77,7 @@ async function fetchTop(): Promise<Article[]> {
   }));
 }
 
-export default async function handler(request: Request): Promise<Response> {
+async function handler(request: Request): Promise<Response> {
   const mode = new URL(request.url).searchParams.get('mode') === 'top' ? 'top' : 'latest';
 
   try {
@@ -98,3 +98,14 @@ export default async function handler(request: Request): Promise<Response> {
     );
   }
 }
+
+/**
+ * Cloudflare Pages entry point. Pages calls onRequest with a context object and
+ * routes by file path, so this file — and only this name — is what makes
+ * /api/articles exist. Typed inline rather than via @cloudflare/workers-types:
+ * one property is all this needs, and functions/ is outside tsconfig's `src`.
+ */
+export const onRequest = (context: { request: Request }): Promise<Response> =>
+  handler(context.request);
+
+export default handler;

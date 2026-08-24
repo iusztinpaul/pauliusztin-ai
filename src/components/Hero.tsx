@@ -2,20 +2,13 @@ import { Link } from 'react-router-dom';
 import { asset } from '../lib/asset';
 import { ArrowRight } from 'lucide-react';
 import { ScrollReveal } from './PageTransition';
-import { AUDIENCE } from '../data/audienceStats';
+import { useAudience } from '../data/audience';
 import Eyebrow from './Eyebrow';
 
 // Squarespace serves this at 2041px; cap it to ~1000px (covers the 416px @2x
 // display) so the hero isn't decoding a 2 MP image on every mobile load.
 const AVATAR =
   asset('/media/professional-avatar-image-full-edited-2-47269356.webp');
-
-const stats = [
-  { value: AUDIENCE.combinedLabel, label: 'Audience' },
-  { value: '#1', label: 'Bestselling author' },
-  { value: '10+ yrs', label: 'Shipping AI' },
-  { value: '20+', label: 'Apps shipped' },
-];
 
 function Portrait() {
   return (
@@ -29,6 +22,14 @@ function Portrait() {
 }
 
 export default function Hero() {
+  const audience = useAudience();
+  const stats = [
+    { value: audience.combinedLabel, label: 'Audience' },
+    { value: '#1', label: 'Bestselling author' },
+    { value: '10+ yrs', label: 'Shipping AI' },
+    { value: '20+', label: 'Apps shipped' },
+  ];
+
   return (
     <section className="relative pt-36 pb-16 md:pb-24 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">

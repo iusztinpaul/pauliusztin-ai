@@ -27,8 +27,13 @@ export const TOP_ARTICLES: Article[] = topArticles;
  */
 export const LATEST_ARTICLES: Article[] = latestArticles;
 
-/** Where the live loader reads from. Unset → snapshots only, no network call. */
-const ENDPOINT = import.meta.env.VITE_ARTICLES_ENDPOINT;
+/**
+ * Where the live loader reads from. Defaults to the Cloudflare Function that
+ * ships with the site (functions/api/articles.ts), so there is no environment
+ * variable to remember to set. Set it to empty to serve snapshots only; in
+ * `vite dev` there is no Function, the call fails, and the snapshot is used.
+ */
+const ENDPOINT = import.meta.env.VITE_ARTICLES_ENDPOINT ?? '/api/articles';
 const TIMEOUT_MS = 4000;
 
 /** A response is only worth rendering if every entry is actually usable. */
@@ -52,7 +57,7 @@ function isArticleList(value: unknown): value is Article[] {
  *
  * Substack sends no CORS headers on /feed or /api/v1/archive, so the browser
  * cannot read them directly — the endpoint is a small server-side proxy (see
- * functions/articles.ts). Every failure path falls back to the snapshot, and
+ * functions/api/articles.ts). Every failure path falls back to the snapshot, and
  * the page renders that snapshot before this resolves, so a slow or broken
  * endpoint is invisible rather than an empty panel.
  */

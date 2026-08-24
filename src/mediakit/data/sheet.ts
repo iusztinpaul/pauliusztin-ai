@@ -38,7 +38,7 @@ const TAB_GIDS: Record<string, string> = {
   ss_location: '693403476',
   ss_demographics: '490418416',
 };
-type Row = Record<string, string | number | null>;
+export type Row = Record<string, string | number | null>;
 
 function csvUrl(tab: string): string {
   return `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_ID}/pub?gid=${TAB_GIDS[tab]}&single=true&output=csv`;
@@ -65,7 +65,7 @@ function parseCsv(text: string): string[][] {
   return rows;
 }
 
-async function fetchTab(tab: string): Promise<Row[]> {
+export async function fetchTab(tab: string): Promise<Row[]> {
   const res = await fetch(csvUrl(tab));
   if (!res.ok) throw new Error(`${tab}: HTTP ${res.status}`);
   const [header, ...body] = parseCsv(await res.text());
@@ -107,7 +107,7 @@ function demographics(rows: Row[]): Record<string, DemographicItem[]> {
 }
 
 /** summary is a metric/value table; read it into a lookup. */
-function metrics(rows: Row[]): Record<string, number> {
+export function metrics(rows: Row[]): Record<string, number> {
   const out: Record<string, number> = {};
   rows.forEach((r) => { const k = str(r.metric); if (k) out[k] = num(r.value); });
   return out;
