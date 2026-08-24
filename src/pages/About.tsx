@@ -33,7 +33,7 @@ export default function About() {
               </div>
               <div className="gradient-hairline opacity-50" />
               <div className="flex flex-col gap-5 text-lg text-brand-grey leading-relaxed">
-                <p>I'm the author of the bestselling <span className="text-brand-white font-medium">LLM Engineer's Handbook</span>, lead instructor of the Agentic AI Engineering course, and one of the founding AI engineers of a San Francisco start-up.</p>
+                <p>I'm the author of the bestselling LLM Engineer's Handbook, lead instructor of the Agent Engineering course, and one of the founding AI engineers of a San Francisco start-up.</p>
                 <p>But my path here was anything but direct.</p>
                 <p>My family lost everything in the 2008 financial crisis. As a teenager, I spiraled into destructive habits. At 18, I made a U-turn, studying relentlessly to rebuild my future. That resilience still fuels my work today.</p>
               </div>
