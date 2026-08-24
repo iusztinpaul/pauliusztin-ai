@@ -2,9 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/media/logo-final-02-d508b7da.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Paul Iusztin - AI Engineer & Educator</title>
+    <meta name="description" content="I help engineers ship AI products. Bestselling author of the LLM Engineer's Handbook and lead instructor of the Agent Engineering course." />
+    <meta name="theme-color" content="#131314" />
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+    <!-- iOS composites this onto its own tile and paints any alpha black, so
+         unlike the favicon it is deliberately opaque. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Share previews. og:image MUST be absolute: LinkedIn, X and Slack fetch
+         this page from their own servers, where a relative path has nothing to
+         resolve against. It is also the one URL here that cannot read Vite's
+         base, so pointing a custom domain at the site means editing the two
+         absolute URLs below by hand or the preview silently keeps serving from
+         github.io.
+
+         All routes share this file, so every page previews as the site. Per-page
+         cards would need the HTML to differ per route, i.e. pre-rendering. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Paul Iusztin" />
+    <meta property="og:title" content="Paul Iusztin - AI Engineer & Educator" />
+    <meta property="og:description" content="I help engineers ship AI products. Bestselling author of the LLM Engineer's Handbook and lead instructor of the Agent Engineering course." />
+    <meta property="og:url" content="https://iusztinpaul.github.io/pauliusztin-ai/" />
+    <meta property="og:image" content="https://iusztinpaul.github.io/pauliusztin-ai/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Paul Iusztin - AI Engineer, Author, Educator" />
+
+    <!-- X falls back to the og: tags for title, description and image, so only
+         the card type genuinely needs restating. Without it X renders a small
+         square thumbnail and wastes the 1200x630. -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@pauliusztin_" />
   </head>
   <body>
     <div id="root"></div>
