@@ -172,6 +172,20 @@
     color: var(--brand-white, #fff);
   }
   .wordmark__mark { flex-shrink: 0; margin-bottom: 0.04em; }
+  /* The hidden full name reserves the width; the typed text sits on top of it,
+     so neither the reveal nor Inter arriving late can reflow the header. */
+  .wordmark__text {
+    position: relative;
+    display: inline-block;
+    white-space: pre;
+  }
+  .wordmark__ghost { visibility: hidden; }
+  .wordmark__typed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+  }
   .wordmark__ai {
     color: transparent;
     background-clip: text;
@@ -186,6 +200,9 @@
     vertical-align: -0.12em;
     background: linear-gradient(180deg, #d5342a, #e58925);
     animation: caretBlink 0.9s steps(1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark__caret { animation: none; }
   }
 
   /* ---- Tags / chips ---- */

@@ -3,23 +3,36 @@ import { Link } from 'react-router-dom';
 
 const FULL = 'Paul Iusztin.';
 const SPLIT = 5; // "Paul " white, "Iusztin." gradient
-const STEP_MS = 80; // typing cadence per character
+const STEP_MS = 45; // typing cadence per character
+/**
+ * Upper bound on how long to wait for a quiet main thread before typing anyway.
+ * The reveal itself takes FULL.length * STEP_MS, so this is added to it: at the
+ * old 600ms the header sat as a bare chevron for over half a second on a phone,
+ * because a cold mobile load never goes idle — React is parsing, the homepage
+ * tree is rendering, the avatar is decoding. Better to start into a busy frame
+ * than to look broken while waiting for a calm one that is not coming.
+ */
+const START_TIMEOUT_MS = 150;
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
 
 /**
  * Name wordmark — gradient command-prompt chevron + "Paul Iusztin."
  * Pass `typing` to type the name out once on mount (header only).
  */
 export default function Wordmark({ typing = false }: { typing?: boolean }) {
-  const [n, setN] = useState(typing ? 0 : FULL.length);
+  // Computed lazily so a reduced-motion visitor never renders the empty frame
+  // that setting it in an effect would flash first.
+  const [n, setN] = useState(() => (typing && !prefersReducedMotion() ? 0 : FULL.length));
 
-  // The type-out runs on the main thread, so kicking it off while the homepage's
-  // first paint is still hammering that thread is what makes it stutter (and only
-  // there — every other page is light). So: wait for the thread to go idle, then
-  // drive the reveal off the rAF clock (time-based, so a late frame catches up
-  // instead of dragging). The prompt chevron shows while we wait, so the header
-  // never looks empty; `timeout` guarantees it still starts promptly on light pages.
+  // Driven off the rAF clock rather than a timer: it is time-based, so a frame
+  // lost to the initial render catches up on the next one instead of dragging
+  // the whole reveal out. Idle scheduling still gets used when the thread does
+  // go quiet, but START_TIMEOUT_MS caps how long that is worth waiting for.
   useEffect(() => {
-    if (!typing) return;
+    if (!typing || prefersReducedMotion()) return;
     let raf = 0;
     let start = 0;
     let shown = 0;
@@ -38,8 +51,8 @@ export default function Wordmark({ typing = false }: { typing?: boolean }) {
     };
     const supportsIdle = typeof window.requestIdleCallback === 'function';
     const handle: number = supportsIdle
-      ? window.requestIdleCallback(begin, { timeout: 600 })
-      : window.setTimeout(begin, 150);
+      ? window.requestIdleCallback(begin, { timeout: START_TIMEOUT_MS })
+      : window.setTimeout(begin, START_TIMEOUT_MS);
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
@@ -73,10 +86,22 @@ export default function Wordmark({ typing = false }: { typing?: boolean }) {
         </defs>
         <path d="m8 6 6 6-6 6" />
       </svg>
-      <span className="leading-none whitespace-pre">
-        {shown.slice(0, SPLIT)}
-        <span className="wordmark__ai">{shown.slice(SPLIT)}</span>
-        {typing && !done && <span className="wordmark__caret" />}
+      {/*
+        The full name is always in the layout, hidden, holding the width; the
+        typed characters are painted over it. Without that, every character
+        widened the header — and Inter loads with font-display:swap, so on a
+        phone it usually arrives mid-reveal and re-measures whatever has been
+        typed so far. Reserving the space makes both of those invisible.
+      */}
+      <span className="wordmark__text">
+        <span className="wordmark__ghost" aria-hidden>
+          {FULL}
+        </span>
+        <span className="wordmark__typed">
+          {shown.slice(0, SPLIT)}
+          <span className="wordmark__ai">{shown.slice(SPLIT)}</span>
+          {typing && !done && <span className="wordmark__caret" />}
+        </span>
       </span>
     </Link>
   );
