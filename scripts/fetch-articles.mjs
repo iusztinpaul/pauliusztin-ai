@@ -12,7 +12,32 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const COUNT = 3;
-const UA = { 'User-Agent': 'pauliusztin.ai build script' };
+
+// Matches functions/api/articles.ts. Substack throttles by IP and treats
+// automated-looking requests harshly; Cloudflare's build machines share egress
+// addresses with everything else it runs, so the build hits the same 429 the
+// edge does. A failure here is not fatal — the committed snapshot is kept — but
+// it silently ships week-old posts as the fallback, so it is worth avoiding.
+const UA = {
+  'User-Agent':
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+};
+const RETRIES = 2;
+const RETRY_DELAY_MS = 1500;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Retry only what a retry can fix: 429 and 5xx are transient, 404 is an answer. */
+async function fetchUpstream(url, accept) {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { headers: { ...UA, Accept: accept } });
+    if (res.ok) return res;
+    if (attempt >= RETRIES || (res.status !== 429 && res.status < 500)) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    await sleep(RETRY_DELAY_MS * (attempt + 1));
+  }
+}
 const DATA_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data');
 
 const decode = (s) =>
@@ -42,8 +67,10 @@ async function fetchLatest() {
     const m = block.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)</${name}>`));
     return m ? m[1] : '';
   };
-  const res = await fetch('https://www.decodingai.com/feed', { headers: UA });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetchUpstream(
+    'https://www.decodingai.com/feed',
+    'application/rss+xml, application/xml, text/xml',
+  );
   const xml = await res.text();
   const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, COUNT).map((m) => {
     const block = m[1];
@@ -62,8 +89,10 @@ async function fetchLatest() {
 
 // Top — most-popular posts, from the archive API (sort=top).
 async function fetchTop() {
-  const res = await fetch(`https://www.decodingai.com/api/v1/archive?sort=top&limit=${COUNT}`, { headers: UA });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetchUpstream(
+    `https://www.decodingai.com/api/v1/archive?sort=top&limit=${COUNT}`,
+    'application/json',
+  );
   const posts = await res.json();
   const items = (Array.isArray(posts) ? posts : []).slice(0, COUNT).map((p) => ({
     title: decode(p.title),
