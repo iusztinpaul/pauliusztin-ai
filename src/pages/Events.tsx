@@ -99,9 +99,9 @@ export default function Events() {
                   </div>
                 )}
               </div>
-              <div className="p-8 md:p-10 flex flex-col justify-center gap-4">
+              <div className="p-5 sm:p-8 md:p-10 flex flex-col justify-center gap-4">
                 <span className="text-xs uppercase tracking-widest text-brand-orange font-bold">Latest</span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-brand-white group-hover:text-brand-orange transition-colors leading-tight">{featured.title}</h2>
+                <h2 className="text-[1.2rem] sm:text-2xl md:text-3xl font-extrabold text-brand-white group-hover:text-brand-orange transition-colors leading-tight">{featured.title}</h2>
                 <p className="text-brand-grey leading-relaxed line-clamp-2">{featured.description}</p>
                 <span className="inline-flex items-center gap-2 text-brand-red font-semibold text-sm pt-1">{isWatchable(featured.link) ? 'Watch now' : 'Learn more'}<ArrowRight size={15} /></span>
               </div>
