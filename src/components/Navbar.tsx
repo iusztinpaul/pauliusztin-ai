@@ -20,9 +20,13 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
+  // Passive: this never calls preventDefault, and saying so keeps iOS from
+  // holding each scroll frame to find out. Only the shadow depends on it now —
+  // the mobile background no longer does, so a late event cannot show content
+  // through the bar.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -33,8 +37,17 @@ export default function Navbar() {
 
   return (
     <nav
+      // Opaque from the first pixel on mobile. It used to be transparent until
+      // 20px of scroll and then faded in over 300ms, so the hero slid visibly
+      // under a see-through bar on every downward flick. Nothing is lost by
+      // painting it immediately: the mobile "scrolled" colour is bg-brand-black3,
+      // the same as the page behind it, so at rest the two are indistinguishable.
+      // Desktop keeps the transparent-to-glass transition, where the blur is the
+      // point and there is no momentum scrolling to lag behind.
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-brand-black3 md:bg-brand-black3/90 md:backdrop-blur-md shadow-lg shadow-black/30' : 'bg-transparent'
+        scrolled
+          ? 'bg-brand-black3 md:bg-brand-black3/90 md:backdrop-blur-md shadow-lg shadow-black/30'
+          : 'bg-brand-black3 md:bg-transparent'
       }`}
     >
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
