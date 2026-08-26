@@ -6,33 +6,42 @@ const SPLIT = 5; // "Paul " white, "Iusztin." gradient
 const STEP_MS = 45; // typing cadence per character
 /**
  * Upper bound on how long to wait for a quiet main thread before typing anyway.
- * The reveal itself takes FULL.length * STEP_MS, so this is added to it: at the
- * old 600ms the header sat as a bare chevron for over half a second on a phone,
- * because a cold mobile load never goes idle — React is parsing, the homepage
- * tree is rendering, the avatar is decoding. Better to start into a busy frame
- * than to look broken while waiting for a calm one that is not coming.
+ * Added to the FULL.length * STEP_MS the reveal itself takes, so a long wait
+ * shows as a bare chevron sitting in the header. 600ms did exactly that.
  */
 const START_TIMEOUT_MS = 150;
 
-const prefersReducedMotion = () =>
-  typeof window !== 'undefined' &&
-  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+const mq = (query: string) =>
+  typeof window !== 'undefined' && window.matchMedia?.(query).matches === true;
+
+/**
+ * Where the reveal is skipped and the name simply appears.
+ *
+ * Below Tailwind's `md`, i.e. phones, because there is no version of this that
+ * reads well there. A cold mobile load has no spare main thread — React is
+ * parsing, the homepage tree is rendering, the avatar is decoding — so frames
+ * get dropped and the time-based catch-up dumps several characters at once.
+ * Shortening it only changed how long the jerkiness lasted. Desktop keeps the
+ * animation, where the thread is idle by the time it starts and it plays as
+ * intended.
+ */
+const skipReveal = () => mq('(prefers-reduced-motion: reduce)') || mq('(max-width: 767px)');
 
 /**
  * Name wordmark — gradient command-prompt chevron + "Paul Iusztin."
  * Pass `typing` to type the name out once on mount (header only).
  */
 export default function Wordmark({ typing = false }: { typing?: boolean }) {
-  // Computed lazily so a reduced-motion visitor never renders the empty frame
-  // that setting it in an effect would flash first.
-  const [n, setN] = useState(() => (typing && !prefersReducedMotion() ? 0 : FULL.length));
+  // Computed lazily so a visitor who skips the reveal never renders the empty
+  // frame that setting it in an effect would flash first.
+  const [n, setN] = useState(() => (typing && !skipReveal() ? 0 : FULL.length));
 
   // Driven off the rAF clock rather than a timer: it is time-based, so a frame
   // lost to the initial render catches up on the next one instead of dragging
   // the whole reveal out. Idle scheduling still gets used when the thread does
   // go quiet, but START_TIMEOUT_MS caps how long that is worth waiting for.
   useEffect(() => {
-    if (!typing || prefersReducedMotion()) return;
+    if (!typing || skipReveal()) return;
     let raf = 0;
     let start = 0;
     let shown = 0;
