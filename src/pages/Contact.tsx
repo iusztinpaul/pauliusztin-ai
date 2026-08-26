@@ -95,7 +95,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-6 mb-16">
             {[
@@ -103,9 +103,11 @@ export default function Contact() {
               { Icon: Mail, t: 'Guest Authors', d: "I'm always looking for guest posts on Decoding AI Magazine from people building in the trenches. If you have technical insights to share, I'd love to feature your work." },
             ].map((c, i) => (
               <ScrollReveal key={c.t} delay={i * 120}>
-                <div className="card card-hover p-8 h-full flex flex-col gap-5">
-                  <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center"><c.Icon size={20} className="text-white" /></div>
-                  <h3 className="text-2xl font-bold text-brand-white">{c.t}</h3>
+                <div className="card card-hover p-6 md:p-8 h-full flex flex-col gap-4 md:gap-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center shrink-0"><c.Icon size={20} className="text-white" /></div>
+                    <h3 className="text-xl md:text-2xl font-bold text-brand-white">{c.t}</h3>
+                  </div>
                   <p className="text-brand-grey leading-relaxed">{c.d}</p>
                 </div>
               </ScrollReveal>
@@ -122,7 +124,7 @@ export default function Contact() {
                       <div className="w-10 h-10 rounded-xl bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-orange flex-shrink-0">
                         <it.Icon size={17} />
                       </div>
-                      <div className="flex flex-col gap-0.5">
+                      <div className="flex min-w-0 flex-col gap-0.5">
                         <p className="text-brand-white font-semibold leading-tight">{it.label}</p>
                         <p className="text-brand-grey text-sm leading-snug">{it.desc}</p>
                       </div>
@@ -158,7 +160,7 @@ export default function Contact() {
                   <button onClick={() => setHandedOff(false)} className="text-brand-orange hover:text-brand-red transition-colors font-medium">Edit the message</button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="card p-8 flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="card p-4 sm:p-6 md:p-8 flex flex-col gap-5">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center shrink-0"><Send size={15} className="text-white" /></div>
                     <div>
@@ -172,11 +174,11 @@ export default function Contact() {
                   </label>
                   <div className="flex flex-col gap-2">
                     <span className="text-xs font-semibold uppercase tracking-wider text-brand-grey">I'm interested in...</span>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap justify-center gap-1.5 sm:justify-start sm:gap-2">
                       {Object.keys(INTERESTS).map((i) => {
                         const on = formData.interest === i;
                         return (
-                          <button type="button" key={i} onClick={() => { setFormData({ ...formData, interest: i }); setMissingInterest(false); }} className={`px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all ${on ? 'gradient-bg text-white border-transparent shadow-lg shadow-brand-red/20' : 'bg-brand-black3 text-brand-grey border-brand-black1/50 hover:border-brand-red/50 hover:text-brand-white'}`}>
+                          <button type="button" key={i} onClick={() => { setFormData({ ...formData, interest: i }); setMissingInterest(false); }} className={`px-2.5 py-1.5 text-[13px] sm:px-3.5 sm:text-sm rounded-full font-medium border transition-all ${on ? 'gradient-bg text-white border-transparent shadow-lg shadow-brand-red/20' : 'bg-brand-black3 text-brand-grey border-brand-black1/50 hover:border-brand-red/50 hover:text-brand-white'}`}>
                             {i}
                           </button>
                         );
@@ -199,7 +201,7 @@ export default function Contact() {
                     <button type="submit" disabled={tooLong} className="btn btn-primary px-7 py-3.5 disabled:opacity-60 disabled:cursor-not-allowed">
                       <Send size={16} /> Send Message
                     </button>
-                    <p className="text-xs text-brand-grey/70">Opens in your email app, so you can check it before sending.</p>
+                    <p className="max-w-[30ch] text-center text-xs text-brand-grey/70">Opens in your email app, so you can check it before sending.</p>
                   </div>
                 </form>
               )}

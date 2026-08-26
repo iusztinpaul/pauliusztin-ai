@@ -87,23 +87,36 @@ export default function Testimonials() {
     return () => clearTimeout(t);
   }, [animate]);
 
+  // Rendered in two slots — one shown per breakpoint — so the markup and the
+  // handlers stay in one place.
+  const arrows = (
+    <>
+      <button onClick={prev} aria-label="Previous" className="w-10 h-10 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-white hover:border-brand-red/50 transition-all">
+        <ChevronLeft size={18} />
+      </button>
+      <button onClick={goNext} aria-label="Next" className="w-10 h-10 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-white hover:border-brand-red/50 transition-all">
+        <ChevronRight size={18} />
+      </button>
+    </>
+  );
+
   return (
-    <section className="py-24 overflow-hidden">
+    <section className="py-16 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal>
-          <div className="flex items-end justify-between mb-12 gap-6">
+          <div className="flex flex-col gap-3 mb-12 md:flex-row md:items-end md:justify-between md:gap-6">
             <div className="space-y-3">
-              <Eyebrow>Peer Review</Eyebrow>
+              {/* On a phone the arrows sat beside the h2 and left it ~210px, so
+                  "What People Say" broke over two lines. They ride the eyebrow
+                  row instead, which has width to spare, and the title gets the
+                  whole column. Desktop keeps them where they were. */}
+              <div className="flex items-center justify-between gap-4 md:block">
+                <Eyebrow>Peer Review</Eyebrow>
+                <div className="flex gap-3 flex-shrink-0 md:hidden">{arrows}</div>
+              </div>
               <h2 className="text-3xl md:text-4xl font-extrabold">What People Say</h2>
             </div>
-            <div className="flex gap-3 flex-shrink-0">
-              <button onClick={prev} aria-label="Previous" className="w-10 h-10 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-white hover:border-brand-red/50 transition-all">
-                <ChevronLeft size={18} />
-              </button>
-              <button onClick={goNext} aria-label="Next" className="w-10 h-10 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-white hover:border-brand-red/50 transition-all">
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            <div className="hidden md:flex gap-3 flex-shrink-0">{arrows}</div>
           </div>
         </ScrollReveal>
 

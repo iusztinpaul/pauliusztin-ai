@@ -140,9 +140,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 18rem;
+    min-height: 13rem;
     overflow: hidden;
-    padding: 5.5rem 0 4rem;
+    padding: 4.5rem 0 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .page-header {
+      min-height: 18rem;
+      padding: 5.5rem 0 4rem;
+    }
   }
   .page-header::before {
     content: '';
@@ -228,7 +234,7 @@
   }
   .code-chip:hover { background: rgba(229,137,37,0.16); }
 
-  .section-spacing { @apply py-24; }
+  .section-spacing { @apply py-16 md:py-24; }
 }
 
 @keyframes caretBlink { 50% { opacity: 0; } }

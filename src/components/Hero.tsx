@@ -49,7 +49,7 @@ export default function Hero() {
             <p className="text-base md:text-lg text-brand-grey leading-relaxed max-w-xl">
               Bestselling author of the LLM Engineer's Handbook, lead instructor of the Agent Engineering course, and founding AI engineer at a San Francisco start-up. I teach AI engineering end-to-end, from idea to production.
             </p>
-            <div className="flex flex-nowrap gap-2 pt-1 sm:gap-3">
+            <div className="flex flex-wrap gap-2 pt-1 sm:flex-nowrap sm:gap-3">
               <a href="https://www.decodingai.com/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost-red px-4 py-3 text-sm sm:px-7 sm:py-3.5 sm:text-base">
                 Read the Magazine
                 <ArrowRight size={16} className="shrink-0" />

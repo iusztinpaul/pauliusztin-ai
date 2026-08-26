@@ -47,7 +47,7 @@ export default function Book() {
       </section>
 
       {/* Intro: cover + framework */}
-      <section className="py-20 md:py-24 relative overflow-hidden">
+      <section className="py-14 md:py-24 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
             <ScrollReveal className="lg:col-span-2 flex flex-col items-center gap-6">
@@ -68,7 +68,7 @@ export default function Book() {
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-6" delay={150}>
               <Eyebrow>A framework, not just code</Eyebrow>
               <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
-              <div className="space-y-4 text-lg text-brand-grey leading-relaxed">
+              <div className="space-y-4 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>The lack of standardization makes building scalable, robust, accurate LLM solutions a real challenge. As an emerging field, you face an excess of algorithms, tools, and design principles, which can feel confusing and daunting.</p>
                 <p>
                   <span className="text-brand-white font-medium">This book gives you a set of principles and a framework</span> for structuring your thinking about what it takes to build an end-to-end LLM system, flexible enough to adapt to your needs.
@@ -84,7 +84,7 @@ export default function Book() {
       </section>
 
       {/* About / Unique */}
-      <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
           {[
             { Icon: BookOpen, t: 'What the book is about', d: "Its emphasis on practicality sets it apart. It provides a framework for architecting and building LLM apps you can adapt to your own needs." },
@@ -104,7 +104,7 @@ export default function Book() {
       </section>
 
       {/* Featured pull-quote */}
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">
           <ScrollReveal>
             <div className="relative text-center flex flex-col items-center gap-5">
@@ -133,7 +133,7 @@ export default function Book() {
       </section>
 
       {/* Get your copy */}
-      <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Get your copy</Eyebrow>
           <h2 className="text-3xl md:text-4xl font-extrabold">A special perk from Decoding AI</h2>
@@ -163,7 +163,7 @@ export default function Book() {
       </section>
 
       {/* What readers say — testimonial card design, no avatars */}
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
           <ScrollReveal>
             <div className="mb-12 space-y-3">

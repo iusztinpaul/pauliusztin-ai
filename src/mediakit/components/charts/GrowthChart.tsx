@@ -55,19 +55,19 @@ export default function GrowthChart({
           so the count-up can't bump a block onto a second line mid-animation;
           numbers shrink a step on phones so both blocks stay on one line. */}
       <div className="mb-6 flex items-end justify-between gap-3 sm:gap-4">
-        <div>
+        <div className="min-w-0">
           <p className="text-3xl font-extrabold leading-none gradient-text tabular-nums sm:text-4xl md:text-5xl">
             <CountUp value={growthPct} format={(n) => `+${n.toFixed(0)}%`} />
           </p>
-          <p className="mt-1.5 whitespace-nowrap text-xs font-medium uppercase tracking-wide text-brand-grey">
+          <p className="mt-1.5 text-xs font-medium uppercase tracking-wide text-brand-grey sm:whitespace-nowrap">
             {periodLabel} growth
           </p>
         </div>
-        <div className="text-right">
+        <div className="min-w-0 text-right">
           <p className="text-2xl font-extrabold leading-none text-brand-white tabular-nums sm:text-3xl md:text-4xl">
             <CountUp value={endValue} format={full} />
           </p>
-          <p className="mt-1.5 whitespace-nowrap text-xs text-brand-grey">
+          <p className="mt-1.5 text-xs text-brand-grey sm:whitespace-nowrap">
             {unitLabel} · from {full(startValue)}
           </p>
         </div>

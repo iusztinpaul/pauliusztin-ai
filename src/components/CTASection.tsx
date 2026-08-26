@@ -10,7 +10,7 @@ const DAI_LOGO =
 export default function CTASection() {
   const audience = useAudience();
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-brand-black2" />
       <div className="absolute top-0 left-0 right-0 gradient-hairline opacity-70" />
       <div
@@ -30,7 +30,7 @@ export default function CTASection() {
           <div className="h-px w-20 bg-gradient-to-l from-transparent to-brand-black1" />
         </div>
 
-        <p className="text-brand-grey text-lg leading-relaxed max-w-xl">
+        <p className="text-brand-grey text-base md:text-lg leading-relaxed max-w-xl">
           Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.
         </p>
 

@@ -72,7 +72,7 @@ export default function Courses() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <ScrollReveal>
             <div className="text-center flex flex-col items-center gap-5 mb-16">
@@ -118,7 +118,7 @@ export default function Courses() {
       </section>
 
       {/* Flagship */}
-      <section className="py-20 relative overflow-hidden border-y border-brand-black1/30">
+      <section className="py-14 md:py-20 relative overflow-hidden border-y border-brand-black1/30">
         <div className="absolute inset-0 bg-brand-black2/60" />
         <div className="absolute top-0 inset-x-0 gradient-hairline opacity-40" />
         <div className="absolute bottom-0 inset-x-0 gradient-hairline opacity-40" />
@@ -136,14 +136,16 @@ export default function Courses() {
                 <img src={FLAGSHIP_IMG} alt="Agent Engineering: Building Multi-Agent Systems" className="w-full rounded-2xl shadow-2xl shadow-black/40 group-hover:scale-[1.02] transition-transform duration-300" />
               </a>
               <div className="flex flex-col gap-6">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-brand-white">Agent Engineering: Building Multi-Agent Systems</h2>
-                <p className="text-brand-white font-medium text-lg">From prompting models to engineering agents.</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-white">
+                  Agent Engineering: Building <span className="whitespace-nowrap">Multi-Agent</span> Systems
+                </h2>
+                <p className="text-brand-white font-medium text-base md:text-lg">From prompting models to engineering agents.</p>
                 <div className="flex flex-col gap-4 text-brand-grey leading-relaxed">
                   <p>Go from agent user to agent builder. Master the foundations of AI agents and turn fragile demo code into reliable, production-ready systems.</p>
                   <p>35 lessons. 4 mini-projects. 2 production systems. Certificate and direct access to me &amp; industry experts in our Discord.</p>
                   <p>Built for software and data professionals transitioning into AI engineering.</p>
                 </div>
-                <a href="https://course.pauliusztin.ai" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-7 py-3.5 self-start">
+                <a href="https://course.pauliusztin.ai" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-7 py-3.5 self-center lg:self-start">
                   Go to Course <ArrowRight size={16} />
                 </a>
               </div>
@@ -154,7 +156,7 @@ export default function Courses() {
       </section>
 
       {/* Library */}
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <ScrollReveal>
             <div className="flex flex-col items-center text-center gap-3 mb-10">
