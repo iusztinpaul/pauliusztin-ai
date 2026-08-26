@@ -138,7 +138,7 @@ export default function Book() {
       <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Get your copy</Eyebrow>
-          <h2 className="text-3xl md:text-4xl font-extrabold">A special perk from Decoding AI</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold">A Special Perk From Decoding AI</h2>
           <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes (tap to copy):</p>
           {/* Side by side even on a phone. Stacked, two cards this tall took
               most of the screen to carry a percentage and an eleven-character

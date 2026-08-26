@@ -91,7 +91,7 @@ export default function Contact() {
     <div className="pt-24">
       <section className="page-header">
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-4">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white">Let's collaborate.</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">Let's Collaborate.</h1>
         </div>
       </section>
 

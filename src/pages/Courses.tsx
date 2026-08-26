@@ -67,7 +67,7 @@ export default function Courses() {
     <div className="pt-24">
       <section className="page-header">
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-4">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white">Build production-ready AI</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">Build Production-Ready AI</h1>
           <p className="text-xl text-white/80">Write real code. Ship real AI products.</p>
         </div>
       </section>

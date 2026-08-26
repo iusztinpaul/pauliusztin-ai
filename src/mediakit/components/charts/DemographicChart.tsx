@@ -9,7 +9,7 @@ interface DemographicChartProps {
 export default function DemographicChart({ title, items }: DemographicChartProps) {
   return (
     <div>
-      <p className="mb-4 text-sm font-bold text-brand-white">{title}</p>
+      <p className="mb-4 text-sm font-bold text-brand-orange">{title}</p>
       <BarList items={items} />
     </div>
   );
