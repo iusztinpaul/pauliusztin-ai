@@ -47,7 +47,7 @@ export default function Book() {
       </section>
 
       {/* Intro: cover + framework */}
-      <section className="py-20 md:py-24 relative overflow-hidden">
+      <section className="py-14 md:py-24 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
             <ScrollReveal className="lg:col-span-2 flex flex-col items-center gap-6">
@@ -67,8 +67,8 @@ export default function Book() {
 
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-6" delay={150}>
               <Eyebrow>A framework, not just code</Eyebrow>
-              <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
-              <div className="space-y-4 text-lg text-brand-grey leading-relaxed">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
+              <div className="space-y-4 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>The lack of standardization makes building scalable, robust, accurate LLM solutions a real challenge. As an emerging field, you face an excess of algorithms, tools, and design principles, which can feel confusing and daunting.</p>
                 <p>
                   <span className="text-brand-white font-medium">This book gives you a set of principles and a framework</span> for structuring your thinking about what it takes to build an end-to-end LLM system, flexible enough to adapt to your needs.
@@ -84,18 +84,20 @@ export default function Book() {
       </section>
 
       {/* About / Unique */}
-      <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
           {[
             { Icon: BookOpen, t: 'What the book is about', d: "Its emphasis on practicality sets it apart. It provides a framework for architecting and building LLM apps you can adapt to your own needs." },
             { Icon: Sparkles, t: 'What makes it unique', d: "It presents the complete lifecycle of an LLM app, connecting DE, SWE, GenAI, and MLOps while building the LLM Twin MVP. Beyond coding: a mind map for architecting future ideas." },
           ].map((c, i) => (
             <ScrollReveal key={c.t} delay={i * 120}>
-              <div className="card p-8 h-full flex flex-col gap-4">
-                <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center">
-                  <c.Icon size={18} className="text-white" />
+              <div className="card p-6 md:p-8 h-full flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center shrink-0">
+                    <c.Icon size={18} className="text-white" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-brand-white">{c.t}</h3>
                 </div>
-                <h3 className="text-xl font-bold text-brand-white">{c.t}</h3>
                 <p className="text-brand-grey leading-relaxed">{c.d}</p>
               </div>
             </ScrollReveal>
@@ -104,7 +106,7 @@ export default function Book() {
       </section>
 
       {/* Featured pull-quote */}
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">
           <ScrollReveal>
             <div className="relative text-center flex flex-col items-center gap-5">
@@ -133,28 +135,31 @@ export default function Book() {
       </section>
 
       {/* Get your copy */}
-      <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Get your copy</Eyebrow>
-          <h2 className="text-3xl md:text-4xl font-extrabold">A special perk from Decoding AI</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold">A Special Perk From Decoding AI</h2>
           <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes (tap to copy):</p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <div className="card p-5 flex-1 flex flex-col items-center gap-2">
-              <span className="text-3xl font-extrabold gradient-text">20% off</span>
-              <span className="text-xs text-brand-grey uppercase tracking-wider">eBook</span>
+          {/* Side by side even on a phone. Stacked, two cards this tall took
+              most of the screen to carry a percentage and an eleven-character
+              code. */}
+          <div className="flex w-full gap-3 sm:w-auto sm:gap-4">
+            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
+              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">20% off</span>
+              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">eBook</span>
               <CodeChip code="EDecodeML20" />
             </div>
-            <div className="card p-5 flex-1 flex flex-col items-center gap-2">
-              <span className="text-3xl font-extrabold gradient-text">10% off</span>
-              <span className="text-xs text-brand-grey uppercase tracking-wider">Print</span>
+            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
+              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">10% off</span>
+              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">Print</span>
               <CodeChip code="PDecodeML10" />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-8 py-3.5">
+          <div className="flex flex-row justify-center gap-3 sm:gap-4">
+            <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-5 py-3 sm:px-8 sm:py-3.5">
               <BookOpen size={18} /> Buy the Book
             </a>
-            <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-8 py-3.5">
+            <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-5 py-3 sm:px-8 sm:py-3.5">
               <ExternalLink size={16} /> Amazon
             </a>
           </div>
@@ -163,7 +168,7 @@ export default function Book() {
       </section>
 
       {/* What readers say — testimonial card design, no avatars */}
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
           <ScrollReveal>
             <div className="mb-12 space-y-3">

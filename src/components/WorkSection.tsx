@@ -32,7 +32,7 @@ const works = [
 
 export default function WorkSection() {
   return (
-    <section className="py-24 relative">
+    <section className="py-16 md:py-24 relative">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="flex flex-col items-center text-center gap-3 mb-16">

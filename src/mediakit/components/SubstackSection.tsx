@@ -43,7 +43,7 @@ export default function SubstackSection({ data, hasData, period }: SubstackSecti
 
   return (
     <section className="section-spacing">
-      <div className="mx-auto max-w-6xl px-5 md:px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <PlatformHeader
           title="The Decoding AI"
           art={<img src={SITE.decodingLogo} alt="Decoding AI" className="h-full w-full object-contain" />}

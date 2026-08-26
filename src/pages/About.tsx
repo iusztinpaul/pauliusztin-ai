@@ -12,7 +12,7 @@ const DAI_LOGO =
 export default function About() {
   return (
     <div className="pt-24">
-      <section className="py-20 md:py-24 relative overflow-hidden">
+      <section className="py-14 md:py-24 relative overflow-hidden">
         <div className="warm-glow" style={{ width: 360, height: 360, top: 0, right: -120, opacity: 0.25 }} />
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
@@ -32,13 +32,13 @@ export default function About() {
                 <h3 className="text-xl font-semibold text-brand-grey">I help engineers ship AI products.</h3>
               </div>
               <div className="gradient-hairline opacity-50" />
-              <div className="flex flex-col gap-5 text-lg text-brand-grey leading-relaxed">
+              <div className="flex flex-col gap-5 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>I'm the author of the bestselling LLM Engineer's Handbook, lead instructor of the Agent Engineering course, and one of the founding AI engineers of a San Francisco start-up.</p>
                 <p>But my path here was anything but direct.</p>
                 <p>My family lost everything in the 2008 financial crisis. As a teenager, I spiraled into destructive habits. At 18, I made a U-turn, studying relentlessly to rebuild my future. That resilience still fuels my work today.</p>
               </div>
               <div className="gradient-hairline opacity-50" />
-              <div className="flex flex-col gap-5 text-lg text-brand-grey leading-relaxed">
+              <div className="flex flex-col gap-5 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>Now I teach AI Engineering as I wanted to at the beginning of my career. End-to-end.</p>
                 <p>My goal is to help others escape the PoC purgatory I faced for the first five years of my career. That's why I created <span className="text-brand-white font-medium">Decoding AI Magazine</span>.</p>
                 <p>When I'm not working, I spend time with my fiancée and cats, traveling, gaming, cooking, and working out.</p>
@@ -48,7 +48,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="relative py-24 overflow-hidden">
+      <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 gradient-bg opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-black3/30 to-brand-black3/60" />
         <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center gap-10">

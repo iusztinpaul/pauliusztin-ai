@@ -17,11 +17,14 @@
     line-height: 1.1;
     font-weight: 700;
     letter-spacing: -0.02em;
-    text-wrap: balance;
   }
 
-  p {
-    text-wrap: pretty;
+  /* Balance evens the length of a heading's lines, which flatters a display
+     title but starves a small one: a card heading came out 173px then 154px
+     inside a 277px card, leaving a ragged gutter down the right of every card
+     on the site. Display headings only. */
+  h1, h2 {
+    text-wrap: balance;
   }
 }
 
@@ -140,9 +143,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 18rem;
+    min-height: 13rem;
     overflow: hidden;
-    padding: 5.5rem 0 4rem;
+    padding: 4.5rem 0 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .page-header {
+      min-height: 18rem;
+      padding: 5.5rem 0 4rem;
+    }
   }
   .page-header::before {
     content: '';
@@ -172,6 +181,20 @@
     color: var(--brand-white, #fff);
   }
   .wordmark__mark { flex-shrink: 0; margin-bottom: 0.04em; }
+  /* The hidden full name reserves the width; the typed text sits on top of it,
+     so neither the reveal nor Inter arriving late can reflow the header. */
+  .wordmark__text {
+    position: relative;
+    display: inline-block;
+    white-space: pre;
+  }
+  .wordmark__ghost { visibility: hidden; }
+  .wordmark__typed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+  }
   .wordmark__ai {
     color: transparent;
     background-clip: text;
@@ -187,6 +210,9 @@
     background: linear-gradient(180deg, #d5342a, #e58925);
     animation: caretBlink 0.9s steps(1) infinite;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark__caret { animation: none; }
+  }
 
   /* ---- Tags / chips ---- */
   .tag {
@@ -201,6 +227,7 @@
   }
   .code-chip {
     font-family: ui-monospace, monospace;
+    font-size: 0.8rem;
     background: rgba(229,137,37,0.08);
     border: 1px dashed rgba(229,137,37,0.4);
     color: #e58925;
@@ -211,7 +238,7 @@
   }
   .code-chip:hover { background: rgba(229,137,37,0.16); }
 
-  .section-spacing { @apply py-24; }
+  .section-spacing { @apply py-16 md:py-24; }
 }
 
 @keyframes caretBlink { 50% { opacity: 0; } }

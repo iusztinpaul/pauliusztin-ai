@@ -139,7 +139,7 @@ export default function MediaKit() {
 
       {/* Your charts — recharts sections, already on-brand */}
       <section ref={chartsRef} className="pb-8" key={platform}>
-        <div className="max-w-6xl mx-auto px-6">
+        <div>
           {platform === 'linkedin' ? (
             <LinkedInSection data={li} hasData={view.hasLinkedIn} period={view.label} />
           ) : (
@@ -157,7 +157,7 @@ export default function MediaKit() {
       </section>
 
       {/* Sponsor CTA — matches the site CTA band */}
-      <section className="py-24 relative overflow-hidden mt-8">
+      <section className="py-16 md:py-24 relative overflow-hidden mt-8">
         <div className="absolute inset-0 bg-brand-black2" />
         <div className="absolute top-0 left-0 right-0 gradient-hairline opacity-70" />
         <div className="warm-glow" style={{ width: 420, height: 420, top: -120, left: '50%', transform: 'translateX(-50%)', opacity: 0.35 }} />

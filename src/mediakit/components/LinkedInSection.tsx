@@ -30,7 +30,7 @@ export default function LinkedInSection({ data, hasData, period }: LinkedInSecti
 
   return (
     <section className="section-spacing">
-      <div className="mx-auto max-w-6xl px-5 md:px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <PlatformHeader title="LinkedIn" art={<LinkedInIcon size={40} className="text-brand-black3" />} />
 
         {!hasData ? (

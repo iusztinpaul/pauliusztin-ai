@@ -48,15 +48,15 @@ export default function AIMagazine() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-10 items-center">
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-8">
               <div className="flex flex-col gap-4">
                 <Eyebrow>Why I Started It</Eyebrow>
-                <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] lg:whitespace-nowrap font-extrabold leading-tight text-brand-white">Your weekly magazine on shipping AI products.</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] lg:whitespace-nowrap font-extrabold leading-tight text-brand-white">Your weekly magazine on shipping AI products.</h2>
               </div>
-              <div className="flex flex-col gap-6 text-lg text-brand-grey leading-relaxed">
+              <div className="flex flex-col gap-6 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>I founded this magazine to solve the problem I faced for the first five years of my career: escaping the "PoC purgatory." Finding a team that knows how to ship AI software is rare. Too many AI projects get stuck at Jupyter notebooks or fancy demos that never see a real user.</p>
                 <p>Decoding AI is the solution. It's your weekly hub for learning how to design, build, and ship production-grade AI systems, end-to-end, from data collection to deployment, monitoring, and evaluation.</p>
                 <p className="text-brand-white font-medium">Stop building prototypes. Start shipping AI that works.</p>
@@ -79,17 +79,17 @@ export default function AIMagazine() {
         </div>
       </section>
 
-      <section className="py-16 bg-brand-black2/40 border-y border-brand-black1/30">
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
           <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
-          <p className="text-brand-grey text-lg">Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
+          <p className="text-brand-grey text-base md:text-lg">Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
           <SubscribeForm />
         </div>
       </section>
 
       <LogoBanner />
 
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="flex flex-col items-center text-center gap-6 mb-12">
