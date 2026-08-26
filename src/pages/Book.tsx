@@ -67,7 +67,7 @@ export default function Book() {
 
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-6" delay={150}>
               <Eyebrow>A framework, not just code</Eyebrow>
-              <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] font-extrabold text-brand-white leading-tight">A framework for building LLM and RAG apps.</h2>
               <div className="space-y-4 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>The lack of standardization makes building scalable, robust, accurate LLM solutions a real challenge. As an emerging field, you face an excess of algorithms, tools, and design principles, which can feel confusing and daunting.</p>
                 <p>

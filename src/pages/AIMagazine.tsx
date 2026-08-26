@@ -54,7 +54,7 @@ export default function AIMagazine() {
             <ScrollReveal className="lg:col-span-3 flex flex-col gap-8">
               <div className="flex flex-col gap-4">
                 <Eyebrow>Why I Started It</Eyebrow>
-                <h2 className="text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] lg:whitespace-nowrap font-extrabold leading-tight text-brand-white">Your weekly magazine on shipping AI products.</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[1.6rem] xl:text-[1.75rem] lg:whitespace-nowrap font-extrabold leading-tight text-brand-white">Your weekly magazine on shipping AI products.</h2>
               </div>
               <div className="flex flex-col gap-6 text-base md:text-lg text-brand-grey leading-relaxed">
                 <p>I founded this magazine to solve the problem I faced for the first five years of my career: escaping the "PoC purgatory." Finding a team that knows how to ship AI software is rare. Too many AI projects get stuck at Jupyter notebooks or fancy demos that never see a real user.</p>
