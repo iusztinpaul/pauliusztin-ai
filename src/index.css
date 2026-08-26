@@ -227,6 +227,7 @@
   }
   .code-chip {
     font-family: ui-monospace, monospace;
+    font-size: 0.8rem;
     background: rgba(229,137,37,0.08);
     border: 1px dashed rgba(229,137,37,0.4);
     color: #e58925;

@@ -28,7 +28,7 @@ const QUOTE_PATH =
 /** Unified testimonial card — `withAvatar` optional (Book passes false). */
 export function TestimonialCard({ t, withAvatar }: { t: Testimonial; withAvatar?: boolean }) {
   return (
-    <div className="card p-8 flex flex-col justify-between min-h-[19rem] h-full w-full">
+    <div className="card p-6 md:p-8 flex flex-col justify-between min-h-[17rem] md:min-h-[19rem] h-full w-full">
       <div className="mb-6">
         <svg className="w-7 h-7 text-brand-red/40 mb-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d={QUOTE_PATH} />

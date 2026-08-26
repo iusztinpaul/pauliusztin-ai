@@ -91,11 +91,13 @@ export default function Book() {
             { Icon: Sparkles, t: 'What makes it unique', d: "It presents the complete lifecycle of an LLM app, connecting DE, SWE, GenAI, and MLOps while building the LLM Twin MVP. Beyond coding: a mind map for architecting future ideas." },
           ].map((c, i) => (
             <ScrollReveal key={c.t} delay={i * 120}>
-              <div className="card p-8 h-full flex flex-col gap-4">
-                <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center">
-                  <c.Icon size={18} className="text-white" />
+              <div className="card p-6 md:p-8 h-full flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center shrink-0">
+                    <c.Icon size={18} className="text-white" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-brand-white">{c.t}</h3>
                 </div>
-                <h3 className="text-xl font-bold text-brand-white">{c.t}</h3>
                 <p className="text-brand-grey leading-relaxed">{c.d}</p>
               </div>
             </ScrollReveal>
@@ -138,23 +140,26 @@ export default function Book() {
           <Eyebrow center>Get your copy</Eyebrow>
           <h2 className="text-3xl md:text-4xl font-extrabold">A special perk from Decoding AI</h2>
           <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes (tap to copy):</p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <div className="card p-5 flex-1 flex flex-col items-center gap-2">
-              <span className="text-3xl font-extrabold gradient-text">20% off</span>
-              <span className="text-xs text-brand-grey uppercase tracking-wider">eBook</span>
+          {/* Side by side even on a phone. Stacked, two cards this tall took
+              most of the screen to carry a percentage and an eleven-character
+              code. */}
+          <div className="flex w-full gap-3 sm:w-auto sm:gap-4">
+            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
+              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">20% off</span>
+              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">eBook</span>
               <CodeChip code="EDecodeML20" />
             </div>
-            <div className="card p-5 flex-1 flex flex-col items-center gap-2">
-              <span className="text-3xl font-extrabold gradient-text">10% off</span>
-              <span className="text-xs text-brand-grey uppercase tracking-wider">Print</span>
+            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
+              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">10% off</span>
+              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">Print</span>
               <CodeChip code="PDecodeML10" />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-8 py-3.5">
+          <div className="flex flex-row justify-center gap-3 sm:gap-4">
+            <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-5 py-3 sm:px-8 sm:py-3.5">
               <BookOpen size={18} /> Buy the Book
             </a>
-            <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-8 py-3.5">
+            <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-5 py-3 sm:px-8 sm:py-3.5">
               <ExternalLink size={16} /> Amazon
             </a>
           </div>
