@@ -31,7 +31,13 @@ export default function Footer() {
   return (
     <footer className="py-10 md:py-12 border-t border-brand-black1/30">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_auto] md:gap-12">
+{/* Columns sized to their content, with the slack shared out by
+            justify-between, so the declared gap is the gap you see. As
+            fractions they were wider than their contents — 116px of trailing
+            air in the first, 166 in the second — which made two equal 48px
+            gaps land as 164 and 214. minmax on the first lets it shrink at
+            the md breakpoint, where the three do not otherwise fit. */}
+        <div className="grid gap-8 md:grid-cols-[minmax(0,auto)_auto_auto] md:justify-between md:gap-12">
           {/* Who this is, and the one thing worth doing about it. CTASection
               only renders on the home page, so on the other seven this is the
               closing ask. */}
