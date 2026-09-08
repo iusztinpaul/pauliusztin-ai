@@ -14,7 +14,7 @@ const SUBSCRIBE_URL = 'https://www.decodingai.com/subscribe';
 const inputCls =
   'w-full px-5 py-3.5 bg-brand-black3/80 border border-brand-black1/50 rounded-full text-brand-white placeholder:text-brand-grey/35 focus:outline-none focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/15 transition-all';
 
-export default function SubscribeForm({ buttonLabel = 'Subscribe' }: { buttonLabel?: string }) {
+export default function SubscribeForm() {
   const [email, setEmail] = useState('');
   const [handedOff, setHandedOff] = useState(false);
 
@@ -78,7 +78,7 @@ export default function SubscribeForm({ buttonLabel = 'Subscribe' }: { buttonLab
           aria-label="Your email address"
         />
         <button type="submit" className="btn btn-primary px-7 py-3.5 shrink-0">
-          {buttonLabel} <ArrowRight size={16} />
+          Subscribe <ArrowRight size={16} />
         </button>
       </form>
       <p className="text-xs text-brand-grey/70">
