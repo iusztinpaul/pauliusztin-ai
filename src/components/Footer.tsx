@@ -59,7 +59,7 @@ export default function Footer() {
             {/* Two columns rather than seven stacked rows, which would set the
                 footer's height on its own. Column-major so reading down then
                 over gives the nav's order, rather than zig-zagging across. */}
-            <div className="grid grid-flow-col grid-rows-4 grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-brand-grey">
+            <div className="grid grid-flow-col grid-rows-4 justify-start gap-x-10 gap-y-2.5 text-sm text-brand-grey">
               {links.map((l) => (
                 <Link key={l.label} to={l.to} className="hover:text-brand-red transition-colors">
                   {l.label}
