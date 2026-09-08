@@ -5,7 +5,7 @@ import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { TestimonialCard } from '../components/Testimonials';
 
-const BOOK_COVER = asset('/Handbook.png');
+const BOOK_COVER = asset('/Handbook.webp');
 const BOOK_BANNER =
   asset('/media/book-page-amazon-best-seller-banner-7-010de00f.webp');
 

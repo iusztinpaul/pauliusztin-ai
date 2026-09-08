@@ -35,8 +35,6 @@
     background-image: linear-gradient(135deg, #d5342a, #e58925);
   }
   .gradient-bg { background: linear-gradient(135deg, #d5342a, #e58925); }
-  .gradient-bg-warm { background: linear-gradient(135deg, #e8ba00, #e58925, #d5342a); }
-  .dark-gradient-bg { background: linear-gradient(180deg, #131314, #232527, #414042); }
 
   /* ---- Eyebrow kicker ---- */
   .eyebrow {
@@ -111,13 +109,6 @@
     transform: translateY(-1px);
   }
   .btn-primary:active { transform: scale(0.97); }
-  .btn-red {
-    background: #d5342a;
-    color: #fff;
-    box-shadow: 0 10px 30px -12px rgba(213, 52, 42, 0.45);
-  }
-  .btn-red:hover { background: #b70000; transform: translateY(-1px); }
-  .btn-red:active { transform: scale(0.97); }
   .btn-ghost-red {
     border: 1px solid rgba(213, 52, 42, 0.55);
     color: #d5342a;
@@ -130,12 +121,6 @@
     background: transparent;
   }
   .btn-ghost:hover { border-color: rgba(213, 52, 42, 0.6); color: #d5342a; }
-  .btn-outline-red {
-    border: 2px solid #d5342a;
-    color: #d5342a;
-    background: transparent;
-  }
-  .btn-outline-red:hover { background: #d5342a; color: #fff; }
 
   /* ---- Page header band ---- */
   .page-header {

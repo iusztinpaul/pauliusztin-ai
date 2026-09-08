@@ -40,7 +40,7 @@ const shape = (linkedin: number, substack: number): Audience => ({
 });
 
 /** Built at the last deploy. Rendered immediately, and kept if the sheet fails. */
-export const BAKED: Audience = AUDIENCE;
+const BAKED: Audience = AUDIENCE;
 
 const TIMEOUT_MS = 4000;
 
@@ -60,7 +60,7 @@ async function fetchLive(): Promise<Audience> {
  * their own connection for the same eight-cell CSV.
  */
 let inflight: Promise<Audience> | null = null;
-export function loadAudience(): Promise<Audience> {
+function loadAudience(): Promise<Audience> {
   inflight ??= Promise.race([
     fetchLive(),
     new Promise<never>((_, reject) =>
