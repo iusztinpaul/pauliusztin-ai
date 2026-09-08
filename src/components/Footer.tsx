@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon, SubstackIcon, XIcon, YouTubeIcon } from './BrandIcons';
 import { useAudience } from '../data/audience';
 import Wordmark from './Wordmark';
@@ -33,15 +34,19 @@ export default function Footer() {
           <div className="flex flex-col items-start gap-3 md:gap-4">
             <Wordmark />
             <p className="max-w-xs text-sm leading-relaxed text-brand-grey">
-              I help engineers ship AI products, not demos.
+              I ship AI products and teach you about the process.
             </p>
+            {/* A link rather than a button: the navbar already carries the
+                primary one, and a second filled button at the foot of every
+                page competes with it instead of closing quietly. */}
             <a
               href="https://www.decodingai.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary text-sm px-5 py-2.5"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-orange hover:text-brand-white transition-colors"
             >
               Join {audience.substackLabel} Subscribers
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </a>
           </div>
 
