@@ -13,7 +13,7 @@ const AVATAR =
 function Portrait() {
   return (
     <div className="relative">
-      <div className="warm-glow" style={{ width: '120%', height: '120%', top: '-10%', left: '-10%' }} />
+      <div className="warm-glow hidden md:block" style={{ width: '120%', height: '120%', top: '-10%', left: '-10%' }} />
       <div className="relative w-72 h-72 md:w-[26rem] md:h-[26rem] rounded-[1.6rem] p-[3px] gradient-bg shadow-2xl shadow-black/50">
         <img src={AVATAR} alt="Paul Iusztin" decoding="async" className="w-full h-full object-cover rounded-[1.45rem]" />
       </div>
