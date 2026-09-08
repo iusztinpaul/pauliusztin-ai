@@ -24,8 +24,12 @@ export default function Footer() {
   const socialClass =
     'w-9 h-9 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-red hover:border-brand-red/50 transition-all';
 
+  // No top margin: the home, about and media kit pages end on a section that
+  // paints its own full-bleed background, and 16px of page colour between that
+  // and this border read as a seam. Elsewhere the last section is transparent,
+  // so the gap was invisible either way.
   return (
-    <footer className="py-10 md:py-12 border-t border-brand-black1/30 mt-4">
+    <footer className="py-10 md:py-12 border-t border-brand-black1/30">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_auto] md:gap-12">
           {/* Who this is, and the one thing worth doing about it. CTASection
