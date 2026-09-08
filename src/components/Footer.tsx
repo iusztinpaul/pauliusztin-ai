@@ -33,7 +33,7 @@ export default function Footer() {
               closing ask. */}
           <div className="flex flex-col items-start gap-3 md:gap-4">
             <Wordmark />
-            <p className="max-w-xs text-sm leading-relaxed text-brand-grey">
+            <p className="max-w-sm text-sm leading-relaxed text-brand-grey">
               I ship AI products and teach you about the process.
             </p>
             {/* A link rather than a button: the navbar already carries the
@@ -43,7 +43,7 @@ export default function Footer() {
               href="https://www.decodingai.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-orange hover:text-brand-white transition-colors"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange hover:text-brand-white transition-colors"
             >
               Join {audience.substackLabel} Subscribers
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
