@@ -14,29 +14,26 @@ const links = [
   { label: 'Contact', to: '/contact' },
 ];
 
-/** Column heading. White on grey text is the hierarchy the old footer lacked —
- *  three groups sat side by side with nothing saying what any of them was. */
+/** White against the columns' grey, so each group says what it is. */
 const headingClass = 'text-xs font-bold uppercase tracking-wider text-brand-white';
+
+const socialClass =
+  'w-9 h-9 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-red hover:border-brand-red/50 transition-all';
 
 export default function Footer() {
   const audience = useAudience();
 
-  const socialClass =
-    'w-9 h-9 rounded-full bg-brand-black2 border border-brand-black1/50 flex items-center justify-center text-brand-grey hover:text-brand-red hover:border-brand-red/50 transition-all';
-
   // No top margin: the home, about and media kit pages end on a section that
-  // paints its own full-bleed background, and 16px of page colour between that
-  // and this border read as a seam. Elsewhere the last section is transparent,
-  // so the gap was invisible either way.
+  // paints its own full-bleed background, and any gap between that and this
+  // border shows the page colour through as a seam.
   return (
     <footer className="py-10 md:py-12 border-t border-brand-black1/30">
       <div className="max-w-7xl mx-auto px-6">
-{/* Columns sized to their content, with the slack shared out by
-            justify-between, so the declared gap is the gap you see. As
-            fractions they were wider than their contents — 116px of trailing
-            air in the first, 166 in the second — which made two equal 48px
-            gaps land as 164 and 214. minmax on the first lets it shrink at
-            the md breakpoint, where the three do not otherwise fit. */}
+        {/* Columns sized to their content, with the slack shared out by
+            justify-between, so the declared gap is the gap you see — as
+            fractions they ran wider than their contents and the equal gaps
+            landed unequal. minmax on the first lets it shrink at the md
+            breakpoint, where the three natural widths do not fit. */}
         <div className="grid gap-8 md:grid-cols-[minmax(0,auto)_auto_auto] md:justify-between md:gap-12">
           {/* Who this is, and the one thing worth doing about it. CTASection
               only renders on the home page, so on the other seven this is the
@@ -63,8 +60,8 @@ export default function Footer() {
           <nav className="flex flex-col gap-4" aria-label="Footer">
             <p className={headingClass}>Pages</p>
             {/* Two columns rather than seven stacked rows, which would set the
-                footer's height on its own. Column-major so reading down then
-                over gives the nav's order, rather than zig-zagging across. */}
+                footer's height on its own. Column-major, so reading down then
+                over gives the nav's order rather than zig-zagging across. */}
             <div className="grid grid-flow-col grid-rows-4 justify-start gap-x-10 gap-y-2.5 text-sm text-brand-grey">
               {links.map((l) => (
                 <Link key={l.label} to={l.to} className="hover:text-brand-red transition-colors">
@@ -96,8 +93,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Was text-brand-black1, which measured 1.8:1 against the page — below
-            any threshold, effectively invisible rather than merely quiet. */}
+        {/* Grey at 60%: the previous colour measured 1.8:1 against the page,
+            which is invisible rather than merely secondary. */}
         <div className="mt-8 md:mt-10 border-t border-brand-black1/30 pt-6 text-sm text-brand-grey/60">
           &copy; {new Date().getFullYear()} Crafted Intelligence LLC
         </div>
