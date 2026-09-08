@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite --host",
     "fetch:articles": "node scripts/fetch-articles.mjs",
-    "vendor:assets": "node scripts/vendor-assets.mjs",
     "prebuild": "node scripts/fetch-articles.mjs && tsx scripts/fetch-mediakit.ts",
     "build": "vite build",
     "lint": "eslint .",
