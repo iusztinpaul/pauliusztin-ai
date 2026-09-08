@@ -14,6 +14,7 @@ interface EventItem {
 }
 
 const events: EventItem[] = [
+  { title: 'Inside a Software Factory', description: "Guest Post on O'Reilly Radar", type: 'Guest Post', link: 'https://www.oreilly.com/radar/inside-a-software-factory/', image: asset('/media/inside-a-software-factory-ec7ee1bc.webp') },
   { title: "What's Harness Engineering?", description: 'Guest Post on Technically', type: 'Guest Post', link: 'https://read.technically.dev/p/whats-harness-engineering', image: asset('/media/harness-engineering-b756acd9.webp') },
   { title: 'DataTalksClub Podcast', description: 'Engineering Your Own AI Assistant', type: 'Podcast', link: 'https://www.youtube.com/watch?v=TDP3tIKxqlc', image: asset('/media/engineering-your-own-ai-assistant-595d4753.webp') },
   { title: "AI Engineer World's Fair", description: 'Turn 10,994 Notes Into Memory', type: 'Conference', link: 'https://www.youtube.com/watch?v=ZRM_TfEZcIo&t=96s', image: asset('/media/agent-memory-cda990fc.webp') },
@@ -62,7 +63,7 @@ function EventCard({ event }: { event: EventItem }) {
           <h3 className="font-bold text-brand-white group-hover:text-brand-orange transition-colors text-sm leading-snug">{event.title}</h3>
           <ExternalLink size={14} className="text-brand-black1 group-hover:text-brand-orange transition-colors flex-shrink-0 mt-0.5" />
         </div>
-        {event.description && <p className="text-xs text-brand-grey leading-relaxed mt-auto">{event.description}</p>}
+        {event.description && <p className="text-xs text-brand-grey leading-relaxed">{event.description}</p>}
       </div>
     </a>
   );
