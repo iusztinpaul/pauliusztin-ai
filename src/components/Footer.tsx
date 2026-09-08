@@ -76,7 +76,7 @@ export default function Footer() {
 
           <div className="flex flex-col gap-4">
             <p className={headingClass}>Follow along</p>
-            <div className="flex items-center gap-[10.5px]">
+            <div className="flex items-center gap-3">
               <a href="https://www.linkedin.com/in/pauliusztin/" target="_blank" rel="noopener noreferrer" className={socialClass} aria-label="LinkedIn">
                 <LinkedInIcon size={15} />
               </a>
