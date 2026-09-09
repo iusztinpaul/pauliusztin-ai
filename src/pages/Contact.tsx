@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Mail, ArrowUpRight, Send, CheckCircle, ArrowRight, Star, Sparkles, BookOpen, Presentation } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
@@ -50,7 +50,18 @@ const inputCls =
 export default function Contact() {
   const audience = useAudience();
   const reachOut = reachOutFor(audience.combinedLabel);
-  const [formData, setFormData] = useState({ name: '', interest: '', message: '' });
+
+  // ?interest=Sponsorship opens the form with that chip already picked — the
+  // sponsors banner links here rather than opening a mail draft of its own.
+  // hasOwnProperty rather than `in`, so a crafted ?interest=constructor cannot
+  // set the field to something that is not one of the four chips.
+  const [searchParams] = useSearchParams();
+  const preset = searchParams.get('interest') ?? '';
+  const [formData, setFormData] = useState({
+    name: '',
+    interest: Object.prototype.hasOwnProperty.call(INTERESTS, preset) ? preset : '',
+    message: '',
+  });
   const [handedOff, setHandedOff] = useState(false);
   const [missingInterest, setMissingInterest] = useState(false);
 
