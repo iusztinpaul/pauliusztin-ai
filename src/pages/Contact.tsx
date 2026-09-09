@@ -212,7 +212,7 @@ export default function Contact() {
                     <button type="submit" disabled={tooLong} className="btn btn-primary px-7 py-3.5 disabled:opacity-60 disabled:cursor-not-allowed">
                       <Send size={16} /> Send Message
                     </button>
-                    <p className="max-w-[30ch] text-center text-xs text-brand-grey/70">Opens in your email app, so you can check it before sending.</p>
+                    <p className="text-center text-xs text-brand-grey/70">Opens in your email app.</p>
                   </div>
                 </form>
               )}

@@ -81,14 +81,6 @@ export default function AIMagazine() {
 
       <Testimonials />
 
-      <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
-        <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
-          <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
-          <p className="text-brand-grey text-base md:text-lg">Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
-          <SubscribeForm />
-        </div>
-      </section>
-
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -126,6 +118,17 @@ export default function AIMagazine() {
           <div className="text-center mt-12">
             <a href="https://www.decodingai.com/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost-red px-7 py-3.5">Read More<ExternalLink size={14} /></a>
           </div>
+        </div>
+      </section>
+
+      {/* border-t only: the sponsors banner sits directly below and brings
+          its own top border, so a border-y here stacks two 1px rules into
+          one 2px line. The band's own background still closes it off. */}
+      <section className="py-12 md:py-16 bg-brand-black2/40 border-t border-brand-black1/30">
+        <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
+          <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
+          <p className="text-brand-grey text-base md:text-lg">Join {audience.substackLabel} engineers for content on designing, building, and shipping AI software. New issues every Tuesday.</p>
+          <SubscribeForm />
         </div>
       </section>
 

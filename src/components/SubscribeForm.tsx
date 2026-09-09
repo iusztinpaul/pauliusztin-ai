@@ -82,7 +82,7 @@ export default function SubscribeForm() {
         </button>
       </form>
       <p className="text-xs text-brand-grey/70">
-        You'll finish on Substack, with your email already filled in.
+        You'll finish on Substack, with your email filled in.
       </p>
     </div>
   );
