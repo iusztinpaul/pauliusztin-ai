@@ -89,8 +89,6 @@ export default function AIMagazine() {
         </div>
       </section>
 
-      <LogoBanner />
-
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -130,6 +128,8 @@ export default function AIMagazine() {
           </div>
         </div>
       </section>
+
+      <LogoBanner />
     </div>
   );
 }
