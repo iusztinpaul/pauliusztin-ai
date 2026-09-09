@@ -25,7 +25,7 @@ const logos = [
 export default function LogoBanner() {
   return (
     <section className="py-8 border-t border-b border-brand-black1/30">
-      <div className="max-w-7xl mx-auto px-6 mb-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <div className="max-w-7xl mx-auto px-6 mb-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
         <Eyebrow>Sponsors &amp; Partners</Eyebrow>
         {/* The interest arrives pre-selected so the form opens on the right
             chip. Deliberately not a mailto: the sponsorship path in Contact
@@ -35,8 +35,12 @@ export default function LogoBanner() {
           to="/contact?interest=Sponsorship"
           className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange hover:text-brand-white transition-colors"
         >
-          Contact for sponsorship
-          <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+          Get in touch
+          {/* The eyebrow is a fixed 232px and the row has 345px on a phone,
+              which leaves the link 101px. With the arrow it wants 103 and drops
+              to a second line; without it, 82. Hidden below sm so the heading
+              stays one row there, shown from sm up where there is room. */}
+          <ArrowRight size={15} className="hidden sm:inline-block transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
 
