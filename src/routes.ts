@@ -25,7 +25,7 @@ export const ROUTES = [
     priority: 1.0,
     title: 'Paul Iusztin | AI Engineer, Author & Educator',
     description:
-      'I help engineers ship AI products, not demos. Courses, a book and weekly guides on designing, building and deploying production-grade AI systems.',
+      'I help engineers ship AI products, not demos. Courses, books, and weekly guides on designing, building and deploying production-grade AI systems.',
   },
   {
     path: '/about',
