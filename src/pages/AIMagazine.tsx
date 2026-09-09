@@ -79,6 +79,8 @@ export default function AIMagazine() {
         </div>
       </section>
 
+      <Testimonials />
+
       <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
         <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-6">
           <h3 className="text-2xl md:text-3xl font-extrabold">Want to join us?</h3>
@@ -128,8 +130,6 @@ export default function AIMagazine() {
           </div>
         </div>
       </section>
-
-      <Testimonials />
     </div>
   );
 }
