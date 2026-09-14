@@ -34,6 +34,16 @@ function useScrollReveal<T extends HTMLElement>() {
     const el = ref.current;
     if (!el) return;
 
+    // Without the observer there is no way to know when this scrolls into view,
+    // so reveal it now rather than never. Unguarded the cost is not a missing
+    // animation: the constructor throws, no boundary above catches it, and React
+    // unmounts the whole root — navbar, page and footer — leaving a blank
+    // document. mediakit/lib/useInView.ts guards the same way; keep them in step.
+    if (typeof IntersectionObserver === 'undefined') {
+      setRevealed(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

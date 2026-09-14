@@ -44,8 +44,15 @@ const events: EventItem[] = [
 
 const STEP = 9;
 
-/** Whether a link points at watchable/listenable media → play button + "Watch now". */
-const isWatchable = (url: string) => /youtube\.com|youtu\.be|spotify\.com|vimeo\.com/i.test(url);
+/**
+ * Whether a link points at watchable/listenable media → play button + "Watch now".
+ *
+ * The video hosts match on domain alone. O'Reilly and InfoQ need the path too,
+ * because both publish writing and recordings under one domain — oreilly.com/radar
+ * is a guest post in this very list, and only oreilly.com/videos is a talk.
+ */
+const isWatchable = (url: string) =>
+  /youtube\.com|youtu\.be|spotify\.com|vimeo\.com|oreilly\.com\/videos\/|infoq\.com\/presentations\//i.test(url);
 
 function EventCard({ event }: { event: EventItem }) {
   return (
@@ -53,11 +60,13 @@ function EventCard({ event }: { event: EventItem }) {
       <div className={`relative aspect-video overflow-hidden ${event.imageBg || 'bg-brand-black1'}`}>
         <img src={event.image} alt={event.title} loading="lazy" className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${event.imagePosition || ''}`} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="w-14 h-14 rounded-full gradient-bg flex items-center justify-center shadow-lg shadow-black/40 scale-90 group-hover:scale-100 transition-transform">
-            <Play size={22} className="text-white ml-0.5" fill="#fff" strokeWidth={0} />
+        {isWatchable(event.link) && (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="w-14 h-14 rounded-full gradient-bg flex items-center justify-center shadow-lg shadow-black/40 scale-90 group-hover:scale-100 transition-transform">
+              <Play size={22} className="text-white ml-0.5" fill="#fff" strokeWidth={0} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="p-5 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-3 mb-2">
