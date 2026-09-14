@@ -112,7 +112,13 @@ export default function Book() {
         <div className="max-w-6xl mx-auto px-6">
           <ScrollReveal>
             <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="block group">
-              <img src={BOOK_BANNER} alt="Amazon Best Seller" className="w-full rounded-2xl group-hover:scale-[1.01] transition-transform duration-300" />
+              {/* width/height are the file's own pixels, not a size — they give the
+                  browser the ratio so it can reserve the box before the bytes
+                  arrive. Without them this is a zero-height element until it
+                  loads, and lazy loading turns that into a 650px shove landing
+                  under the reader mid-scroll. Tailwind's preflight keeps height
+                  auto, so w-full still drives the real size. */}
+              <img src={BOOK_BANNER} alt="Amazon Best Seller" width={2500} height={1472} decoding="async" loading="lazy" className="w-full rounded-2xl group-hover:scale-[1.01] transition-transform duration-300" />
             </a>
           </ScrollReveal>
         </div>
