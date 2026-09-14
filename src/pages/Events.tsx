@@ -14,6 +14,7 @@ interface EventItem {
 }
 
 const events: EventItem[] = [
+  { title: 'DataTalksClub Workshop', description: 'Build an LLM Wiki for Agent Long-Term Memory', type: 'Workshop', link: 'https://www.youtube.com/watch?v=f5xRFWRdyKA', image: asset('/media/maxresdefault-c4c28985.webp') },
   { title: 'Inside a Software Factory', description: "Guest Post on O'Reilly Radar", type: 'Guest Post', link: 'https://www.oreilly.com/radar/inside-a-software-factory/', image: asset('/media/inside-a-software-factory-ec7ee1bc.webp') },
   { title: "What's Harness Engineering?", description: 'Guest Post on Technically', type: 'Guest Post', link: 'https://read.technically.dev/p/whats-harness-engineering', image: asset('/media/harness-engineering-b756acd9.webp') },
   { title: 'DataTalksClub Podcast', description: 'Engineering Your Own AI Assistant', type: 'Podcast', link: 'https://www.youtube.com/watch?v=TDP3tIKxqlc', image: asset('/media/engineering-your-own-ai-assistant-595d4753.webp') },
