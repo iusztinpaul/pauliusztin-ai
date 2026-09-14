@@ -52,8 +52,9 @@ function isArticleList(value: unknown): value is Article[] {
 }
 
 /**
- * Articles for a mode: the live feed when VITE_ARTICLES_ENDPOINT is configured,
- * otherwise the snapshot baked at build time by scripts/fetch-articles.mjs.
+ * Articles for a mode: the live feed by default, falling back to the snapshot
+ * baked at build time by scripts/fetch-articles.mjs whenever the read fails or
+ * ENDPOINT is empty.
  *
  * Substack sends no CORS headers on /feed or /api/v1/archive, so the browser
  * cannot read them directly — the endpoint is a small server-side proxy (see
