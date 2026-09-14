@@ -208,21 +208,14 @@
     font-weight: 600;
     padding: 0.25rem 0.7rem;
     border-radius: 9999px;
-    border: 1px solid;
+    /* Width and style only, never the colour. `border: 1px solid` is a
+       shorthand, so it also resets border-color to currentcolor — and this
+       rule sits after Tailwind's utilities in the sheet, so it beat every
+       border-* class a call site asked for and the outline came out matching
+       the label. Leaving the colour alone lets those classes through. */
+    border-width: 1px;
+    border-style: solid;
   }
-  .code-chip {
-    font-family: ui-monospace, monospace;
-    font-size: 0.8rem;
-    background: rgba(229,137,37,0.08);
-    border: 1px dashed rgba(229,137,37,0.4);
-    color: #e58925;
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-  .code-chip:hover { background: rgba(229,137,37,0.16); }
-
   .section-spacing { @apply py-16 md:py-24; }
 }
 

@@ -14,6 +14,7 @@ interface EventItem {
 }
 
 const events: EventItem[] = [
+  { title: 'DataTalksClub Workshop', description: 'Build an LLM Wiki for Agent Long-Term Memory', type: 'Workshop', link: 'https://www.youtube.com/watch?v=f5xRFWRdyKA', image: asset('/media/maxresdefault-c4c28985.webp') },
   { title: 'Inside a Software Factory', description: "Guest Post on O'Reilly Radar", type: 'Guest Post', link: 'https://www.oreilly.com/radar/inside-a-software-factory/', image: asset('/media/inside-a-software-factory-ec7ee1bc.webp') },
   { title: "What's Harness Engineering?", description: 'Guest Post on Technically', type: 'Guest Post', link: 'https://read.technically.dev/p/whats-harness-engineering', image: asset('/media/harness-engineering-b756acd9.webp') },
   { title: 'DataTalksClub Podcast', description: 'Engineering Your Own AI Assistant', type: 'Podcast', link: 'https://www.youtube.com/watch?v=TDP3tIKxqlc', image: asset('/media/engineering-your-own-ai-assistant-595d4753.webp') },
@@ -43,8 +44,43 @@ const events: EventItem[] = [
 
 const STEP = 9;
 
-/** Whether a link points at watchable/listenable media → play button + "Watch now". */
-const isWatchable = (url: string) => /youtube\.com|youtu\.be|spotify\.com|vimeo\.com/i.test(url);
+/** Hosts where everything is a recording. Subdomains count: open.spotify.com, m.youtube.com. */
+const WATCHABLE_HOSTS = ['youtube.com', 'youtu.be', 'spotify.com', 'vimeo.com'];
+
+/** Hosts that publish writing and recordings side by side, where the section decides. */
+const WATCHABLE_SECTIONS: Record<string, string> = {
+  'oreilly.com': '/videos',
+  'infoq.com': '/presentations',
+};
+
+/**
+ * Whether a link points at watchable/listenable media → play button + "Watch now".
+ *
+ * Reads the host out of the URL rather than searching the whole string for a
+ * name. Searching matches the name wherever it lands, so notyoutube.com and a
+ * ?from=youtube.com tracking parameter both came back watchable and would have
+ * put a play button over something that plays nothing. No entry in the list
+ * above trips that today; this is about the entry nobody has added yet.
+ *
+ * O'Reilly and InfoQ need the section as well as the host, because they publish
+ * both kinds under one domain — oreilly.com/radar is a guest post in this very
+ * list, and only oreilly.com/videos is a talk.
+ */
+const isWatchable = (url: string) => {
+  let host: string;
+  let path: string;
+  try {
+    const parsed = new URL(url);
+    host = parsed.hostname.toLowerCase();
+    path = parsed.pathname.toLowerCase();
+  } catch {
+    return false; // not an absolute URL, so there is nothing to reason about
+  }
+  const isOn = (domain: string) => host === domain || host.endsWith(`.${domain}`);
+  if (WATCHABLE_HOSTS.some(isOn)) return true;
+  const section = Object.entries(WATCHABLE_SECTIONS).find(([domain]) => isOn(domain))?.[1];
+  return section !== undefined && (path === section || path.startsWith(`${section}/`));
+};
 
 function EventCard({ event }: { event: EventItem }) {
   return (
@@ -52,11 +88,13 @@ function EventCard({ event }: { event: EventItem }) {
       <div className={`relative aspect-video overflow-hidden ${event.imageBg || 'bg-brand-black1'}`}>
         <img src={event.image} alt={event.title} loading="lazy" className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${event.imagePosition || ''}`} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="w-14 h-14 rounded-full gradient-bg flex items-center justify-center shadow-lg shadow-black/40 scale-90 group-hover:scale-100 transition-transform">
-            <Play size={22} className="text-white ml-0.5" fill="#fff" strokeWidth={0} />
+        {isWatchable(event.link) && (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="w-14 h-14 rounded-full gradient-bg flex items-center justify-center shadow-lg shadow-black/40 scale-90 group-hover:scale-100 transition-transform">
+              <Play size={22} className="text-white ml-0.5" fill="#fff" strokeWidth={0} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="p-5 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-3 mb-2">

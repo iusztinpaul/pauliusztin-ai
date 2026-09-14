@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { asset } from '../lib/asset';
-import { ExternalLink, BookOpen, Star, Sparkles, Copy, Check } from 'lucide-react';
+import { ExternalLink, BookOpen, Star, Sparkles, Lock, ArrowRight } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { TestimonialCard } from '../components/Testimonials';
@@ -15,21 +14,6 @@ const bookTestimonials = [
   { name: 'Gideon Mendels', role: 'Co-founder & CEO, CometML', quote: "The book provides an excellent framework for mastering LLM Engineering, bridging the gap between ML research, AI engineering and LLMOps." },
   { name: 'Hamza Tahir', role: 'Co-founder & CTO, ZenML', quote: "In an era where AI is reshaping industries at breakneck speed, LLM Engineer's Handbook stands out as an essential guide for navigating the complexities of large language models." },
 ];
-
-function CodeChip({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = () =>
-    navigator.clipboard
-      ?.writeText(code)
-      .then(() => { setCopied(true); setTimeout(() => setCopied(false), 1600); })
-      .catch(() => {});
-  return (
-    <button type="button" className="code-chip inline-flex items-center gap-1.5" onClick={copy} title="Copy code">
-      {code}
-      {copied ? <Check size={12} className="text-brand-yellow" /> : <Copy size={12} />}
-    </button>
-  );
-}
 
 const badges = [
   { icon: Star, label: '#1 Bestseller' },
@@ -128,7 +112,13 @@ export default function Book() {
         <div className="max-w-6xl mx-auto px-6">
           <ScrollReveal>
             <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="block group">
-              <img src={BOOK_BANNER} alt="Amazon Best Seller" className="w-full rounded-2xl group-hover:scale-[1.01] transition-transform duration-300" />
+              {/* width/height are the file's own pixels, not a size — they give the
+                  browser the ratio so it can reserve the box before the bytes
+                  arrive. Without them this is a zero-height element until it
+                  loads, and lazy loading turns that into a 650px shove landing
+                  under the reader mid-scroll. Tailwind's preflight keeps height
+                  auto, so w-full still drives the real size. */}
+              <img src={BOOK_BANNER} alt="Amazon Best Seller" width={2500} height={1472} decoding="async" loading="lazy" className="w-full rounded-2xl group-hover:scale-[1.01] transition-transform duration-300" />
             </a>
           </ScrollReveal>
         </div>
@@ -136,34 +126,58 @@ export default function Book() {
 
       {/* Get your copy */}
       <section className="py-12 md:py-16 bg-brand-black2/40 border-y border-brand-black1/30">
-        <div className="max-w-3xl mx-auto px-6 text-center flex flex-col items-center gap-7">
+        <div className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-7">
           <Eyebrow center>Get your copy</Eyebrow>
           <h2 className="text-3xl md:text-4xl font-extrabold">A Special Perk From Decoding AI</h2>
-          <p className="text-brand-grey leading-relaxed">Buy the book from Packt with these discount codes (tap to copy):</p>
-          {/* Side by side even on a phone. Stacked, two cards this tall took
-              most of the screen to carry a percentage and an eleven-character
-              code. */}
-          <div className="flex w-full gap-3 sm:w-auto sm:gap-4">
-            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
-              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">20% off</span>
-              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">eBook</span>
-              <CodeChip code="EDecodeML20" />
+          {/* One card per retailer, Packt first and wider. The discount codes are
+              a paid-subscription perk now, so they belong to one of the two — the
+              split says that on its own, without a sentence having to.
+              The two bodies start level because each header row is a single h3 at
+              the same size; the perk tag is shorter than that h3, so it never
+              drives the row's height. Amazon carries the same header wrapper for
+              nothing but that symmetry. Each button sits in an mt-auto footer so
+              both land on one baseline however long the copy above them runs.
+              btn-ghost has a 1px border and btn-primary has none, so the Packt
+              button takes a transparent one — in one flex row they used to stretch
+              to match, but in separate cards nothing equalises them and the tops
+              sat 2px apart. */}
+          <div className="grid w-full gap-4 md:grid-cols-[1.15fr_1fr] md:gap-5">
+            <div className="card flex flex-col gap-3 p-6 text-left">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-extrabold">Packt</h3>
+                {/* Same treatment the course cards give their level badges
+                    (levelStyle in Courses.tsx, the Beginner case). Inline rather
+                    than utilities because .tag ends in a `border: 1px solid`
+                    shorthand, which resets border-color to currentcolor and,
+                    sitting later in the sheet, beats a border-* utility — the
+                    reason the border read as solid yellow instead of a tint. */}
+                <span className="tag" style={{ color: '#f9cf32', borderColor: 'rgba(249,207,50,0.3)', background: 'rgba(249,207,50,0.1)' }}>
+                  <Lock size={11} /> Subscriber perk
+                </span>
+              </div>
+              <p className="text-sm text-brand-grey leading-relaxed">Paid Decoding AI subscribers get discount codes for the eBook and the print edition.</p>
+              <a href="https://www.decodingai.com/p/perks" target="_blank" rel="noopener noreferrer" className="group self-center inline-flex items-center gap-1.5 text-sm font-semibold text-brand-orange hover:text-brand-yellow transition-colors">
+                Get your codes on Substack
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <div className="mt-auto flex justify-center pt-1">
+                <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary border border-transparent px-5 py-3 sm:px-8 sm:py-3.5">
+                  <BookOpen size={18} /> Buy from Packt
+                </a>
+              </div>
             </div>
-            <div className="card flex min-w-0 flex-1 flex-col items-center gap-1.5 p-3 sm:gap-2 sm:p-5">
-              <span className="text-2xl font-extrabold gradient-text sm:text-3xl">10% off</span>
-              <span className="text-[11px] uppercase tracking-wider text-brand-grey sm:text-xs">Print</span>
-              <CodeChip code="PDecodeML10" />
+            <div className="card flex flex-col gap-3 p-6 text-left">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-extrabold">Amazon</h3>
+              </div>
+              <p className="text-sm text-brand-grey leading-relaxed">Can't order from Packt? Amazon often has its own deals, sometimes up to 40% off.</p>
+              <div className="mt-auto flex justify-center pt-1">
+                <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-5 py-3 sm:px-8 sm:py-3.5">
+                  <ExternalLink size={16} /> Buy on Amazon
+                </a>
+              </div>
             </div>
           </div>
-          <div className="flex flex-row justify-center gap-3 sm:gap-4">
-            <a href="https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062" target="_blank" rel="noopener noreferrer" className="btn btn-primary px-5 py-3 sm:px-8 sm:py-3.5">
-              <BookOpen size={18} /> Buy the Book
-            </a>
-            <a href="https://www.amazon.com/LLM-Engineers-Handbook-engineering-production/dp/1836200072/" target="_blank" rel="noopener noreferrer" className="btn btn-ghost px-5 py-3 sm:px-8 sm:py-3.5">
-              <ExternalLink size={16} /> Amazon
-            </a>
-          </div>
-          <p className="text-sm text-brand-grey/70">Can't order from Packt? Amazon often has its own deals, sometimes up to 40% off.</p>
         </div>
       </section>
 
