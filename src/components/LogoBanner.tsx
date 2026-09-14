@@ -19,7 +19,7 @@ const logos = [
   { name: 'Towards AI', src: asset('/media/towards-ai-wordmark-8e90f3ac.webp') },
   { name: 'Prefect', src: asset('/media/prefect-1-036981e7.webp') },
   { name: 'JetBrains', src: asset('/media/jetbrains-logo-e255e65c.webp') },
-  { name: 'Bolt', src: asset('/bolt.png') },
+  { name: 'Bolt', src: asset('/media/bolt-86af5d7e.webp') },
 ];
 
 export default function LogoBanner() {
