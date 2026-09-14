@@ -44,15 +44,43 @@ const events: EventItem[] = [
 
 const STEP = 9;
 
+/** Hosts where everything is a recording. Subdomains count: open.spotify.com, m.youtube.com. */
+const WATCHABLE_HOSTS = ['youtube.com', 'youtu.be', 'spotify.com', 'vimeo.com'];
+
+/** Hosts that publish writing and recordings side by side, where the section decides. */
+const WATCHABLE_SECTIONS: Record<string, string> = {
+  'oreilly.com': '/videos',
+  'infoq.com': '/presentations',
+};
+
 /**
  * Whether a link points at watchable/listenable media → play button + "Watch now".
  *
- * The video hosts match on domain alone. O'Reilly and InfoQ need the path too,
- * because both publish writing and recordings under one domain — oreilly.com/radar
- * is a guest post in this very list, and only oreilly.com/videos is a talk.
+ * Reads the host out of the URL rather than searching the whole string for a
+ * name. Searching matches the name wherever it lands, so notyoutube.com and a
+ * ?from=youtube.com tracking parameter both came back watchable and would have
+ * put a play button over something that plays nothing. No entry in the list
+ * above trips that today; this is about the entry nobody has added yet.
+ *
+ * O'Reilly and InfoQ need the section as well as the host, because they publish
+ * both kinds under one domain — oreilly.com/radar is a guest post in this very
+ * list, and only oreilly.com/videos is a talk.
  */
-const isWatchable = (url: string) =>
-  /youtube\.com|youtu\.be|spotify\.com|vimeo\.com|oreilly\.com\/videos\/|infoq\.com\/presentations\//i.test(url);
+const isWatchable = (url: string) => {
+  let host: string;
+  let path: string;
+  try {
+    const parsed = new URL(url);
+    host = parsed.hostname.toLowerCase();
+    path = parsed.pathname.toLowerCase();
+  } catch {
+    return false; // not an absolute URL, so there is nothing to reason about
+  }
+  const isOn = (domain: string) => host === domain || host.endsWith(`.${domain}`);
+  if (WATCHABLE_HOSTS.some(isOn)) return true;
+  const section = Object.entries(WATCHABLE_SECTIONS).find(([domain]) => isOn(domain))?.[1];
+  return section !== undefined && (path === section || path.startsWith(`${section}/`));
+};
 
 function EventCard({ event }: { event: EventItem }) {
   return (
