@@ -210,19 +210,6 @@
     border-radius: 9999px;
     border: 1px solid;
   }
-  .code-chip {
-    font-family: ui-monospace, monospace;
-    font-size: 0.8rem;
-    background: rgba(229,137,37,0.08);
-    border: 1px dashed rgba(229,137,37,0.4);
-    color: #e58925;
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-  .code-chip:hover { background: rgba(229,137,37,0.16); }
-
   .section-spacing { @apply py-16 md:py-24; }
 }
 
