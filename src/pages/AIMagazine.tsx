@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { asset } from '../lib/asset';
 import { ExternalLink } from 'lucide-react';
 import LogoBanner from '../components/LogoBanner';
 import Testimonials from '../components/Testimonials';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import SubscribeForm from '../components/SubscribeForm';
+import { DECODING_AI_LOGO } from '../lib/brand';
 import { useAudience } from '../data/audience';
 import {
   getArticles,
@@ -15,11 +15,6 @@ import {
   type Article,
   type ArticleMode,
 } from '../data/articles';
-
-const DAI_LOGO =
-  asset('/media/logo-final-02-d508b7da.webp');
-const MAG_LOGO =
-  asset('/media/logo-final-02-d91e8005.webp');
 
 export default function AIMagazine() {
   const audience = useAudience();
@@ -44,7 +39,7 @@ export default function AIMagazine() {
       <section className="page-header" style={{ paddingTop: '4rem', paddingBottom: '2rem' }}>
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-4">
           <h1 className="text-5xl md:text-6xl font-extrabold text-white">The Decoding AI Magazine</h1>
-          <img src={MAG_LOGO} alt="Decoding AI" className="w-32 h-32 object-contain drop-shadow-2xl mt-2" />
+          <img src={DECODING_AI_LOGO} alt="Decoding AI" className="w-32 h-32 object-contain drop-shadow-2xl mt-2" />
         </div>
       </section>
 
@@ -67,7 +62,7 @@ export default function AIMagazine() {
                 <div className="warm-glow" style={{ width: 220, height: 220, top: -50, left: '50%', transform: 'translateX(-50%)', opacity: 0.3 }} />
                 <div className="relative w-20 h-20 rounded-2xl gradient-bg p-[2px]">
                   <div className="w-full h-full rounded-[14px] bg-brand-black2 flex items-center justify-center">
-                    <img src={DAI_LOGO} alt="Decoding AI" className="w-12 h-12 object-contain" />
+                    <img src={DECODING_AI_LOGO} alt="Decoding AI" className="w-12 h-12 object-contain" />
                   </div>
                 </div>
                 <p className="relative text-brand-white text-lg font-semibold leading-relaxed">Real-world guides taking you from PoC purgatory to shipping AI products.</p>

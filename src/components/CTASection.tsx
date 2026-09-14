@@ -1,11 +1,8 @@
 import { ScrollReveal } from './PageTransition';
-import { asset } from '../lib/asset';
+import { DECODING_AI_LOGO } from '../lib/brand';
 import Eyebrow from './Eyebrow';
 import SubscribeForm from './SubscribeForm';
 import { useAudience } from '../data/audience';
-
-const DAI_LOGO =
-  asset('/media/logo-final-02-4d87c666.webp');
 
 export default function CTASection() {
   const audience = useAudience();
@@ -26,7 +23,7 @@ export default function CTASection() {
 
         <div className="flex items-center justify-center gap-6">
           <div className="h-px w-20 bg-gradient-to-r from-transparent to-brand-black1" />
-          <img src={DAI_LOGO} alt="Decoding AI" decoding="async" loading="lazy" className="w-16 h-16 object-contain" />
+          <img src={DECODING_AI_LOGO} alt="Decoding AI" decoding="async" loading="lazy" className="w-16 h-16 object-contain" />
           <div className="h-px w-20 bg-gradient-to-l from-transparent to-brand-black1" />
         </div>
 

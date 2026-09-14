@@ -3,11 +3,10 @@ import { asset } from '../lib/asset';
 import { ArrowRight } from 'lucide-react';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
+import { DECODING_AI_LOGO } from '../lib/brand';
 
 const AVATAR =
   asset('/media/professional-avatar-image-full-edited-2-47269356.webp');
-const DAI_LOGO =
-  asset('/media/logo-final-02-96e549da.webp');
 
 export default function About() {
   return (
@@ -52,7 +51,7 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-b from-brand-black3/30 to-brand-black3/60" />
         <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center gap-10">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white text-center">The Decoding AI Magazine</h2>
-          <img src={DAI_LOGO} alt="Decoding AI" decoding="async" loading="lazy" className="w-32 h-32 object-contain drop-shadow-2xl" />
+          <img src={DECODING_AI_LOGO} alt="Decoding AI" decoding="async" loading="lazy" className="w-32 h-32 object-contain drop-shadow-2xl" />
           <div className="max-w-2xl mx-auto text-center flex flex-col gap-5 text-lg text-white/90 leading-relaxed">
             <p>Real-world guides taking you from the PoC purgatory to shipping AI products.</p>
             <p>Every Tuesday, you'll get one free actionable tip to design, build, and deploy production-grade AI systems in less than 8 minutes.</p>
