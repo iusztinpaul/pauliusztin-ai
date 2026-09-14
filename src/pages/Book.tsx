@@ -132,19 +132,26 @@ export default function Book() {
           {/* One card per retailer, Packt first and wider. The discount codes are
               a paid-subscription perk now, so they belong to one of the two — the
               split says that on its own, without a sentence having to.
-              min-h-7 on both header rows reserves the height of the perk tag,
-              which is taller than a bare h3; without it the two bodies start at
-              different heights and the cards read as misaligned. Each button sits
-              in an mt-auto footer so both land on one baseline however long the
-              copy above them runs. btn-ghost has a 1px border and btn-primary
-              has none, so the Packt button takes a transparent one — in one flex
-              row they used to stretch to match, but in separate cards nothing
-              equalises them and the tops sat 2px apart. */}
+              The two bodies start level because each header row is a single h3 at
+              the same size; the perk tag is shorter than that h3, so it never
+              drives the row's height. Amazon carries the same header wrapper for
+              nothing but that symmetry. Each button sits in an mt-auto footer so
+              both land on one baseline however long the copy above them runs.
+              btn-ghost has a 1px border and btn-primary has none, so the Packt
+              button takes a transparent one — in one flex row they used to stretch
+              to match, but in separate cards nothing equalises them and the tops
+              sat 2px apart. */}
           <div className="grid w-full gap-4 md:grid-cols-[1.15fr_1fr] md:gap-5">
             <div className="card flex flex-col gap-3 p-6 text-left">
-              <div className="flex min-h-7 items-center justify-between gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-extrabold">Packt</h3>
-                <span className="tag text-brand-yellow border-brand-yellow/40 bg-brand-yellow/10">
+                {/* Same treatment the course cards give their level badges
+                    (levelStyle in Courses.tsx, the Beginner case). Inline rather
+                    than utilities because .tag ends in a `border: 1px solid`
+                    shorthand, which resets border-color to currentcolor and,
+                    sitting later in the sheet, beats a border-* utility — the
+                    reason the border read as solid yellow instead of a tint. */}
+                <span className="tag" style={{ color: '#f9cf32', borderColor: 'rgba(249,207,50,0.3)', background: 'rgba(249,207,50,0.1)' }}>
                   <Lock size={11} /> Subscriber perk
                 </span>
               </div>
@@ -160,7 +167,7 @@ export default function Book() {
               </div>
             </div>
             <div className="card flex flex-col gap-3 p-6 text-left">
-              <div className="flex min-h-7 items-center justify-between gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-extrabold">Amazon</h3>
               </div>
               <p className="text-sm text-brand-grey leading-relaxed">Can't order from Packt? Amazon often has its own deals, sometimes up to 40% off.</p>
