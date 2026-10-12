@@ -4,6 +4,7 @@ import { Mail, ArrowUpRight, Send, CheckCircle, ArrowRight, Star, Sparkles, Book
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { useAudience } from '../data/audience';
+import { packageName } from '../data/sponsorship';
 
 /**
  * Chip label -> how it reads inside the generated subject line. Kept apart so
@@ -57,10 +58,14 @@ export default function Contact() {
   // set the field to something that is not one of the four chips.
   const [searchParams] = useSearchParams();
   const preset = searchParams.get('interest') ?? '';
+  // A package card on the Media Kit adds ?package=. Only known slugs are
+  // turned into an opening line, so a crafted URL cannot put words in the
+  // visitor's mouth.
+  const pkg = packageName(searchParams.get('package'));
   const [formData, setFormData] = useState({
     name: '',
     interest: Object.prototype.hasOwnProperty.call(INTERESTS, preset) ? preset : '',
-    message: '',
+    message: pkg ? `I'm interested in the ${pkg} package.\n\n` : '',
   });
   const [handedOff, setHandedOff] = useState(false);
   const [missingInterest, setMissingInterest] = useState(false);
