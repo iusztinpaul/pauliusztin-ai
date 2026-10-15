@@ -32,7 +32,7 @@ export default function SponsorshipPackages() {
                   <p className="text-sm text-brand-grey leading-snug">{p.description}</p>
                 </div>
                 <p className="flex items-baseline gap-2">
-                  <span className="text-sm text-brand-grey">From</span>
+                  <span className="text-sm text-brand-grey">{p.fromLabel ?? 'From'}</span>
                   <span className="text-3xl font-extrabold gradient-text leading-none">{p.from}</span>
                 </p>
                 <ul className="flex flex-col gap-2.5 flex-1">

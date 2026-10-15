@@ -11,6 +11,8 @@ export interface SponsorshipPackage {
   name: string;
   description: string;
   from: string;
+  /** Word before the price; defaults to "From". */
+  fromLabel?: string;
   includes: string[];
   /** Highlighted card, with this as its badge. */
   badge?: string;
@@ -22,6 +24,8 @@ export const PACKAGES: SponsorshipPackage[] = [
     name: 'Standalone Posts',
     description: 'Posts about your product.',
     from: '$10,000',
+    // Single posts cost less, but they're sold as bundles.
+    fromLabel: 'Packages from',
     includes: ['LinkedIn', 'X', 'YouTube'],
   },
   {
