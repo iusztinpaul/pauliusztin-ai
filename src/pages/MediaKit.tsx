@@ -10,6 +10,7 @@ import CountUp from '../mediakit/components/CountUp';
 import { ScrollReveal } from '../components/PageTransition';
 import Eyebrow from '../components/Eyebrow';
 import { LinkedInIcon } from '../components/BrandIcons';
+import SponsorshipPackages from '../components/SponsorshipPackages';
 
 // Only this section pulls in react-simple-maps and d3 (~55 kB gzipped), and
 // LinkedIn is the default tab — so it is split out and fetched on demand,
@@ -67,14 +68,6 @@ export default function MediaKit() {
 
   const li = view.data.linkedin;
   const ss = view.data.substack;
-  // Deliberately unnumbered. The audience figure here would be the period-end
-  // one, while every other CTA on the site quotes the present-day figure — two
-  // correct numbers that read as a contradiction side by side.
-  const perks = [
-    'A senior, technical audience of AI & data engineers',
-    'Placement across LinkedIn and Substack',
-    'Millions of monthly impressions and views',
-  ];
   const tabs = [
     { key: 'linkedin', name: 'LinkedIn', icon: <LinkedInIcon size={18} className="shrink-0" />, stat: view.hasLinkedIn ? `${compactStat(li.endFollowers)} followers` : 'No data yet' },
     { key: 'substack', name: 'The Decoding AI', icon: <img src={SITE.decodingLogo} alt="" className="w-6 h-6 shrink-0 object-contain" />, stat: view.hasSubstack ? `${compactStat(ss.endSubscribers)} subscribers` : 'No data yet' },
@@ -156,6 +149,8 @@ export default function MediaKit() {
         </div>
       </section>
 
+      <SponsorshipPackages />
+
       {/* Sponsor CTA — matches the site CTA band */}
       <section className="py-16 md:py-24 relative overflow-hidden mt-8">
         <div className="absolute inset-0 bg-brand-black2" />
@@ -165,15 +160,7 @@ export default function MediaKit() {
           <Eyebrow center>Sponsorship</Eyebrow>
           <h2 className="text-4xl md:text-5xl font-extrabold">Reach the People Building AI<span className="text-brand-red">.</span></h2>
           <p className="text-brand-grey text-lg leading-relaxed max-w-xl">Bring your product to a senior, technical audience of AI &amp; data engineers.</p>
-          <ul className="flex flex-col gap-2 text-left max-w-md mx-auto">
-            {perks.map((perk) => (
-              <li key={perk} className="flex items-start gap-3 text-sm text-brand-grey">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full gradient-bg" />
-                {perk}
-              </li>
-            ))}
-          </ul>
-          <Link to="/contact" className="btn btn-primary px-8 py-3.5">
+          <Link to="/contact?interest=Sponsorship" className="btn btn-primary px-8 py-3.5">
             Get in touch<ArrowRight size={16} />
           </Link>
         </ScrollReveal>
